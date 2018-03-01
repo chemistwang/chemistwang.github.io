@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" href="./src/css/swiper-4.1.6.min.css">
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        html,body{
+            width:100%;
+            height:100%;
+        }
+        .swiper-container{
+            width:100%;
+            height:100%;
+        }
+        .swiper-slide{
+            width:100%;
+            height:100%;
+        }
+        .slide-two{
+            background: silver;
+        }
+        .slide-three{
+            background: dodgerblue;
+        }
+        .text{
+            color:#fff;
+            margin-left: 50%;
+            transform: translate(-50%,-50%);
+            margin-top:50%;
+        }
+    </style>
+</head>
+<body>
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide slide-one">
+            <h1 class="text" style="color:#000">
+                welcome come to my ...
+            </h1>
+        </div>
+        <div class="swiper-slide slide-two">
+            <h1 class="text">
+                kekeke...
+            </h1>
+        </div>
+        <div class="swiper-slide slide-three">
+            <h1 class="text">
+                my blog!
+            </h1>
+        </div>
+    </div>
+    <!-- 如果需要分页器 -->
+    <div class="swiper-pagination"></div>
+
+</div>
+
+
+<script src="./src/js/swiper-4.1.6.min.js"></script>
+<script>
+    var mySwiper = new Swiper ('.swiper-container', {
+        direction: 'vertical',
+        mousewheel: true,
+        // 如果需要分页器
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    })
+</script>
+
+</body>
+</html>
