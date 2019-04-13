@@ -7,17 +7,17 @@
   
   <title>Chemist-Wang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="my personal blog">
+  <meta name="description" content="wangyanglong">
 <meta name="keywords" content="this is keyword">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Chemist-Wang">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="https://chemistwang.github.io/index.html">
 <meta property="og:site_name" content="Chemist-Wang">
-<meta property="og:description" content="my personal blog">
+<meta property="og:description" content="wangyanglong">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chemist-Wang">
-<meta name="twitter:description" content="my personal blog">
+<meta name="twitter:description" content="wangyanglong">
   
     <link rel="alternate" href="/atom.xml" title="Chemist-Wang" type="application/atom+xml">
   
@@ -62,13 +62,204 @@
         <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://chemistwang.github.io"></form>
       </div>
     </div>
   </div>
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-访问量统计" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/13/访问量统计/" class="article-date">
+  <time datetime="2019-04-13T06:08:09.000Z" itemprop="datePublished">2019-04-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/13/访问量统计/">【Hexo搭建博客】（二） 添加博客访问量统计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本站总访问量 <span id="busuanzi_value_site_pv"></span> 次<br>访客数 <span id="busuanzi_value_site_uv"></span> 人次<br>本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次</p>
+<p><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></p>
+<p>建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。<br>刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。</p>
+<h2 id="什么是访问量"><a href="#什么是访问量" class="headerlink" title="什么是访问量"></a>什么是访问量</h2><p>UV（Unique visitor）即独立访客<br>UV的度量</p>
+<ul>
+<li>网站服务器分辨<br>网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览器版本、操作系统版本等等。网站服务器对这些请求进行分析，如果这些请求满足某些共同特征，比如来自同一个IP地址，浏览器版本和操作系统版本相同，请求时间又相近等等，就可以认为这些请求是来自于同一个Visitor的，那么这些访问自然是产生1个UV。当然，共同特征的具体定义是由网站服务器的设置决定的。通常来讲，用IP地址+其他特征共同来定义的情况比较多见。</li>
+<li>用cookie分辨<br>当客户端第一次访问某个网站服务器时，网站服务器会给该客户端电脑发出一个Cookie，通常放在C盘中。在这个Cookie中会分配一个独一无二的编号，并记录访问服务器的信息，如访问时间、访问了哪些页面等等。当你下次再访问这个服务器时，服务器就可以直接从你的电脑中找到上一次放进去的Cookie文件，并且对其进行更新，但那个独一无二的编号是不会变的。如果在一定时间内，服务器发现2个Visit所对应的是一个编号，那么我们自然可以认为这个来源于同一个Visitor了，自然也就是1个UV。使用Cookie的方法要比网站服务器更精确些。但也存在一些问题，比如：有些客户端为保证更高级别的安全，关闭了Cookie的功能；或者是有些客户端设置了在退出页面时自动删除Cookie，亦或经常自己去手动删除Cookie，那么这个方法就不那么精确了。由此看来，两个方法都只能得到近似的UV，而不是绝对精确的。</li>
+</ul>
+<p>PV（Page View）即页面浏览量，或点击量<br>其具体的度量方法是从浏览器发出一个对网络服务器的请求（Request）,网络服务器接到该请求后，会将请求对应的网页（Page）发送给浏览器，从而产生一个PV。只要是请求发送给了浏览器，无论页面是否完全打开（下载完成），都记为1个PV。<br>用以衡量网站用户访问的网页数量</p>
+<h2 id="添加博客访问量统计"><a href="#添加博客访问量统计" class="headerlink" title="添加博客访问量统计"></a>添加博客访问量统计</h2><ul>
+<li><a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子</a><br>使用方法</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://chemistwang.github.io/2019/04/13/访问量统计/" data-id="cjuf5tmky0004hcratzzflpxa" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-理解JavsScript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/13/理解JavsScript/" class="article-date">
+  <time datetime="2019-04-13T03:56:45.000Z" itemprop="datePublished">2019-04-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/查询手册/">查询手册</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/13/理解JavsScript/">理解JavsScript eval()函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以下来源自JavaScript权威指南，著名的犀牛书第四章4.1.2 表达式计算<br>和其他很多解释性语言一样，JavaScript同样可以解释运行由JavaScript源代码组成的字符串，并产生一个值。JavaScript通过全局函数eval()来完成这个工作：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="string">"3+2"</span>) <span class="comment">//=&gt;5</span></span><br></pre></td></tr></table></figure></p>
+<p>动态判断源代码中的字符串是一种强大的语言特定，几乎没有必要在实际中应用。如果你使用了eval()，你应当仔细考虑是否真的需要使用它。</p>
+<p>下面讲解eval()的基础用法，并且介绍严格使用它的两种方法，从代码优化的角度讲，这两种方法对于原有代码造成的影响是最小的。</p>
+<h2 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h2><p>eval()只有一个参数。<br>如果传入的参数不是字符串，它直接返回这个参数。<br>如果参数是字符串，它会把字符串当成JavaScript代码进行编译（parse），<br>如果编译失败则抛出一个语法错误（SyntaxError）异常。<br>如果编译成功，则开始执行这段代码，并返回字符串中的最后一个表达式或语句的值，<br>如果字符串抛出一个异常，这个异常将把该调用传递给eval()。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: Start</span><br><span class="line">op=&gt;operation: Your Operation</span><br><span class="line">cond=&gt;condition: Yes or No?</span><br><span class="line">e=&gt;end</span><br><span class="line">st-&gt;op-&gt;cond</span><br><span class="line">cond(yes)-&gt;e</span><br><span class="line">cond(no)-&gt;op</span><br></pre></td></tr></table></figure></p>
+<h2 id="全局eval"><a href="#全局eval" class="headerlink" title="全局eval()"></a>全局eval()</h2><h2 id="严格eval"><a href="#严格eval" class="headerlink" title="严格eval()"></a>严格eval()</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://chemistwang.github.io/2019/04/13/理解JavsScript/" data-id="cjuf5tmlu000fhcrargdssozg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-YAML与JSON的对比" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/11/YAML与JSON的对比/" class="article-date">
+  <time datetime="2019-04-11T15:14:14.000Z" itemprop="datePublished">2019-04-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/查询手册/">查询手册</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/11/YAML与JSON的对比/">YAML与JSON的对比</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用Hexo搭建自己的博客之后，第一次正式接触到YAML，便在网上搜罗了一大批资料，整合以下常见的配置文件语言。<br>我是做前端的，所以从最熟悉的JSON开始说吧。</p>
+<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a><a href="http://www.json.org/json-zh.html" target="_blank" rel="noopener">JSON</a></h2><p>JSON(JavaScript Object Notation, JavaScript对象表示法)是一种由<a href="https://zh.wikipedia.org/wiki/%E9%81%93%E6%A0%BC%E6%8B%89%E6%96%AF%C2%B7%E5%85%8B%E7%BE%85%E5%85%8B%E7%A6%8F%E7%89%B9" target="_blank" rel="noopener">道格拉斯·克罗克福特</a>构想和设计、轻量级的数据交换语言，该语言以易于让人阅读的文字为基础，用来传输由属性值或者序列性的值组成的数据对象。尽管JSON是JavaScript的一个子集，但JSON是独立于语言的文本格式。<br>JSON数据格式与语言无关，脱胎自JavaScipt，但当前很多编程语言都支持JSON格式数据的生成和解析。JSON的官方MIME类型是application/json，文件扩展名是.json。<br>JSON格式是1999年《JavaScript Programming Language, Standard ECMA-262 3rd Edition》的子集合，所以可以在JavaScript以eval()函数读入。<br>JSON结构如下：</p>
+<ul>
+<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"lucus"</span>,</span><br><span class="line">    <span class="string">"class"</span>: <span class="string">"grade"</span>,</span><br><span class="line">    <span class="string">"score"</span>: [<span class="number">100</span>, <span class="number">88</span>, <span class="number">60</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>格式描述参考<a href="https://tools.ietf.org/html/rfc4627" target="_blank" rel="noopener">RFC-4627</a><br>应用领域<br>web开发：JSON最开始被广泛应用于web应用开发，当前JSON的使用在JavaScript、Java、Node.js应用情况比较多，PHP、C#等开发的web应用主要还是使用XML<br>NoSQL数据库：选择用JSON作为其数据的存储格式 MongoDB CouchDB RavenDB<br>安全问题<br>读取JSON<br>由于JSON是JavaScript的子集，所以一般都会使用eval()作为读取数据的方式，如果是</p>
+<h2 id="HOCON"><a href="#HOCON" class="headerlink" title="HOCON"></a><a href="https://github.com/lightbend/config/blob/master/HOCON.md" target="_blank" rel="noopener">HOCON</a></h2><h2 id="MessagePack"><a href="#MessagePack" class="headerlink" title="MessagePack"></a><a href="https://msgpack.org/" target="_blank" rel="noopener">MessagePack</a></h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://chemistwang.github.io/2019/04/11/YAML与JSON的对比/" data-id="cjuf5tmky0005hcra03pkgaro" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSON/">JSON</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/YAML/">YAML</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-博客的玩法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/11/博客的玩法/" class="article-date">
+  <time datetime="2019-04-11T15:06:20.000Z" itemprop="datePublished">2019-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/11/博客的玩法/">博客的玩法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>使用hexo搭建博客<a href="https://hexo.io/zh-cn" target="_blank" rel="noopener">Hexo中文官方网站</a></li>
+<li>待接入<a href="http://changyan.kuaizhan.com/" target="_blank" rel="noopener">畅言评论系统</a></li>
+<li>待接入<a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子网页计数器</a></li>
+<li>待接入<a href="https://www.livere.com/" target="_blank" rel="noopener">来必力评论系统</a></li>
+<li>待使用标签插件<a href="https://hexo.io/zh-cn/docs/tag-plugins#%E5%BC%95%E7%94%A8%E5%9D%97" target="_blank" rel="noopener">Tag Plugins</a></li>
+<li>待用Disqus留言评论系统</li>
+<li>待使用hexo插件绘制流程图</li>
+<li><a href="https://github.blog/2008-12-19-github-ribbons/" target="_blank" rel="noopener">github-ribbons</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://chemistwang.github.io/2019/04/11/博客的玩法/" data-id="cjuf5tmka0000hcrapoinvgs5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-自动化工作流程Workflow" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -98,7 +289,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/11/自动化工作流程Workflow/" data-id="cjucog5ln00015ora3878ytvu" class="article-share-link">Share</a>
+      <a data-url="https://chemistwang.github.io/2019/04/11/自动化工作流程Workflow/" data-id="cjuf5tmlu000ghcram2l97kmm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
@@ -136,7 +327,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/10/算法与数据结构/" data-id="cjucog5ku00005oraubi3huum" class="article-share-link">Share</a>
+      <a data-url="https://chemistwang.github.io/2019/04/10/算法与数据结构/" data-id="cjuf5tmky0007hcra07bthnry" class="article-share-link">Share</a>
       
       
     </footer>
@@ -160,7 +351,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/09/记录第一次使用Hexo搭建博客/">记录第一次使用Hexo搭建博客</a>
+      <a class="article-title" href="/2019/04/09/记录第一次使用Hexo搭建博客/">【Hexo搭建博客】（一） 记录第一次使用Hexo搭建博客</a>
     </h1>
   
 
@@ -182,7 +373,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/09/记录第一次使用Hexo搭建博客/" data-id="cjucog5lt00045orai55brz3c" class="article-share-link">Share</a>
+      <a data-url="https://chemistwang.github.io/2019/04/09/记录第一次使用Hexo搭建博客/" data-id="cjuf5tmlu000ihcraplliux3h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
@@ -200,6 +391,10 @@
   <time datetime="2019-04-09T13:59:52.450Z" itemprop="datePublished">2019-04-09</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/博客/">博客</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -229,7 +424,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/09/hello-world/" data-id="cjucog5lq00025ora7le511he" class="article-share-link">Share</a>
+      <a data-url="https://chemistwang.github.io/2019/04/09/hello-world/" data-id="cjuf5tmka0001hcratmarn4cw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -246,13 +441,20 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/博客/">博客</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/查询手册/">查询手册</a></li></ul>
+    </div>
+  </div>
+
 
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/">JSON</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YAML/">YAML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
     </div>
   </div>
 
@@ -262,7 +464,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a>
+      <a href="/tags/Hexo/" style="font-size: 20px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a>
     </div>
   </div>
 
@@ -284,19 +486,23 @@
       <ul>
         
           <li>
+            <a href="/2019/04/13/访问量统计/">【Hexo搭建博客】（二） 添加博客访问量统计</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/13/理解JavsScript/">理解JavsScript eval()函数</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/11/YAML与JSON的对比/">YAML与JSON的对比</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/11/博客的玩法/">博客的玩法</a>
+          </li>
+        
+          <li>
             <a href="/2019/04/11/自动化工作流程Workflow/">效率神器：自动化工作流程Workflow for iOS</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/10/算法与数据结构/">算法与数据结构</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/09/记录第一次使用Hexo搭建博客/">记录第一次使用Hexo搭建博客</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/09/hello-world/">Hello World</a>
           </li>
         
       </ul>
@@ -316,6 +522,8 @@
     </div>
   </div>
 </footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
     </div>
     <nav id="mobile-nav">
   
