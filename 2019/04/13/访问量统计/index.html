@@ -7,18 +7,18 @@
   
   <title>【Hexo搭建博客】（二） 添加博客访问量统计 | Chemist-Wang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本站总访问量  次访客数  人次本文总阅读量  次 本站总访问量次 建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页">
+  <meta name="description" content="前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览">
 <meta name="keywords" content="Hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Hexo搭建博客】（二） 添加博客访问量统计">
 <meta property="og:url" content="https://chemistwang.github.io/2019/04/13/访问量统计/index.html">
 <meta property="og:site_name" content="Chemist-Wang">
-<meta property="og:description" content="本站总访问量  次访客数  人次本文总阅读量  次 本站总访问量次 建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页">
+<meta property="og:description" content="前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-13T07:07:53.663Z">
+<meta property="og:updated_time" content="2019-04-13T13:04:53.788Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【Hexo搭建博客】（二） 添加博客访问量统计">
-<meta name="twitter:description" content="本站总访问量  次访客数  人次本文总阅读量  次 本站总访问量次 建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页">
+<meta name="twitter:description" content="前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览">
   
     <link rel="alternate" href="/atom.xml" title="Chemist-Wang" type="application/atom+xml">
   
@@ -91,9 +91,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本站总访问量 <span id="busuanzi_value_site_pv"></span> 次<br>访客数 <span id="busuanzi_value_site_uv"></span> 人次<br>本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次</p>
-<p><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></p>
-<p>建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。<br>刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。<br>刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。</p>
 <h2 id="什么是访问量"><a href="#什么是访问量" class="headerlink" title="什么是访问量"></a>什么是访问量</h2><p>UV（Unique visitor）即独立访客<br>UV的度量</p>
 <ul>
 <li>网站服务器分辨<br>网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览器版本、操作系统版本等等。网站服务器对这些请求进行分析，如果这些请求满足某些共同特征，比如来自同一个IP地址，浏览器版本和操作系统版本相同，请求时间又相近等等，就可以认为这些请求是来自于同一个Visitor的，那么这些访问自然是产生1个UV。当然，共同特征的具体定义是由网站服务器的设置决定的。通常来讲，用IP地址+其他特征共同来定义的情况比较多见。</li>
@@ -101,13 +99,14 @@
 </ul>
 <p>PV（Page View）即页面浏览量，或点击量<br>其具体的度量方法是从浏览器发出一个对网络服务器的请求（Request）,网络服务器接到该请求后，会将请求对应的网页（Page）发送给浏览器，从而产生一个PV。只要是请求发送给了浏览器，无论页面是否完全打开（下载完成），都记为1个PV。<br>用以衡量网站用户访问的网页数量</p>
 <h2 id="添加博客访问量统计"><a href="#添加博客访问量统计" class="headerlink" title="添加博客访问量统计"></a>添加博客访问量统计</h2><ul>
-<li><a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子</a><br>使用方法</li>
+<li><a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子</a></li>
+<li><a href="https://github.com/willin/hexo-wordcount" target="_blank" rel="noopener">hexo-wordcount</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://chemistwang.github.io/2019/04/13/访问量统计/" data-id="cjuf5tmky0004hcratzzflpxa" class="article-share-link">Share</a>
+      <a data-url="https://chemistwang.github.io/2019/04/13/访问量统计/" data-id="cjugznpzx000t60ravcxen59l" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
@@ -117,6 +116,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/04/13/更换主题小插曲/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          【Hexo搭建博客】（三）更换主题前的小插曲
+        
+      </div>
+    </a>
   
   
     <a href="/2019/04/13/理解JavsScript/" id="article-nav-older" class="article-nav-link-wrap">
@@ -147,7 +155,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/">JSON</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YAML/">YAML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSON/">JSON</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YAML/">YAML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li></ul>
     </div>
   </div>
 
@@ -157,7 +165,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hexo/" style="font-size: 20px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a>
+      <a href="/tags/Hexo/" style="font-size: 20px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a>
     </div>
   </div>
 
@@ -179,23 +187,23 @@
       <ul>
         
           <li>
+            <a href="/2019/04/14/更换主题/">【Hexo搭建博客】（四）更换主题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/13/start的主题/">start的主题</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/13/更换主题小插曲/">【Hexo搭建博客】（三）更换主题前的小插曲</a>
+          </li>
+        
+          <li>
             <a href="/2019/04/13/访问量统计/">【Hexo搭建博客】（二） 添加博客访问量统计</a>
           </li>
         
           <li>
             <a href="/2019/04/13/理解JavsScript/">理解JavsScript eval()函数</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/11/YAML与JSON的对比/">YAML与JSON的对比</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/11/博客的玩法/">博客的玩法</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/11/自动化工作流程Workflow/">效率神器：自动化工作流程Workflow for iOS</a>
           </li>
         
       </ul>
@@ -215,7 +223,6 @@
     </div>
   </div>
 </footer>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
     </div>
     <nav id="mobile-nav">
