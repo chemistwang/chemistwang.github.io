@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。附上中文官方网站：React中文文档 用脚手架创建React应用 安装环境为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2 用脚手架创建React项目附上git链接create-react-app1npx create-react-app my-app   一开始我真的以为官网">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【React】（一）创建应用和元素渲染">
+<meta property="og:url" content="https://chemistwang.github.io/2019/04/29/react/index.html">
+<meta property="og:site_name" content="Chemist-Wang">
+<meta property="og:description" content="前言一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。附上中文官方网站：React中文文档 用脚手架创建React应用 安装环境为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2 用脚手架创建React项目附上git链接create-react-app1npx create-react-app my-app   一开始我真的以为官网">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-29T16:12:03.551Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【React】（一）创建应用和元素渲染">
+<meta name="twitter:description" content="前言一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。附上中文官方网站：React中文文档 用脚手架创建React应用 安装环境为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2 用脚手架创建React项目附上git链接create-react-app1npx create-react-app my-app   一开始我真的以为官网">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://chemistwang.github.io/2019/04/29/react/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【React】（一）创建应用和元素渲染 | Chemist-Wang</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chemist-Wang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">sub-chemist-wang</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/29/react/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【React】（一）创建应用和元素渲染
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-29 20:57:26" itemprop="dateCreated datePublished" datetime="2019-04-29T20:57:26+08:00">2019-04-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-30 00:12:03" itemprop="dateModified" datetime="2019-04-30T00:12:03+08:00">2019-04-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端框架/" itemprop="url" rel="index"><span itemprop="name">前端框架</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。<br>附上中文官方网站：<a href="https://react.docschina.org/" target="_blank" rel="noopener">React中文文档</a></p>
+<h2 id="用脚手架创建React应用"><a href="#用脚手架创建React应用" class="headerlink" title="用脚手架创建React应用"></a>用脚手架创建React应用</h2><ol>
+<li>安装环境<br>为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2</li>
+<li>用脚手架创建React项目<br>附上git链接<a href="https://github.com/facebook/create-react-app" target="_blank" rel="noopener">create-react-app</a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app my-app</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>一开始我真的以为官网写错了，从来没见过npx，网上查了一下，这玩意老早就有了。。。<br><a href="https://www.npmjs.com/package/npx" target="_blank" rel="noopener">npx</a>描述为执行npm包的二进制文件，x就是execute的意思吧。</p>
+<p>很神奇，自动帮我安装好了node_modules包。</p>
+<ol start="3">
+<li>启动项目<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>启动好了项目并且自动打开了浏览器，端口号是默认的3000，会发现有一个旋转的React图标，项目创建启动成功！</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>什么都应该从Hello World开始学起。<br>在根目录下的index.js文件中，将原先的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, document.getElementById('root'));</span></span><br></pre></td></tr></table></figure></p>
+<p>替换为<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(</span><br><span class="line">    &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>,</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>因为我个人不是很喜欢在dom元素上绑定id，我就尝试把document.getElementById删掉，发现报错。<br>查询文档后发现render函数至少需要两个参数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(element, container[, callback])</span><br></pre></td></tr></table></figure></p>
+<h2 id="与Angular4-x的比较"><a href="#与Angular4-x的比较" class="headerlink" title="与Angular4.x的比较"></a>与Angular4.x的比较</h2><p>在Angular中，用 ng g c 命令创建的组件是一个文件夹，里面存有四个文件，css/html/spec/ts<br>在React中，我没有发现html文件，原来React推荐使用JSX来描述用户界面。</p>
+<h2 id="JSX简介"><a href="#JSX简介" class="headerlink" title="JSX简介"></a>JSX简介</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> element = &lt;h1&gt;Hello, world!&lt;h1&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="1-在JSX中使用表达式"><a href="#1-在JSX中使用表达式" class="headerlink" title="1. 在JSX中使用表达式"></a>1. 在JSX中使用表达式</h3><ul>
+<li>书写JSX的时候推荐外面扩上一个小括号<br>为了增强代码可读性，JSX会有换行和缩进，带上括号，防止分号自动插入的bug</li>
+<li>JSX中的表达式包含在大括号里面<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">    firstName: <span class="string">'lucus'</span>,</span><br><span class="line">    firstName: <span class="string">'mars'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatName</span>(<span class="params">userInfo</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> userInfo.firstName + <span class="string">' '</span> + userInfo.lastName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> element = (</span><br><span class="line">    &lt;h1&gt;</span><br><span class="line">        Hello, &#123;formatName(user)&#125;!</span><br><span class="line">    &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(</span></span><br><span class="line"><span class="regexp">    element,</span></span><br><span class="line"><span class="regexp">    document.getElementById('root')</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-JSX属性"><a href="#2-JSX属性" class="headerlink" title="2. JSX属性"></a>2. JSX属性</h3><p>这里挂载的属性就是一个变量和非变量的问题了，若是一个变量，则拿大括号包裹起来，若是一个确定的值，则用引号包裹。</p>
+<blockquote>
+<p>注意：JSX的特性更接近Js而不是Html，所以ReactDOM用camelCase小驼峰命名定义属性而不是HTML属性<br>eg. class =&gt; className    tabindex =&gt; tabIndex</p>
+</blockquote>
+<h3 id="3-JSX防注入攻击"><a href="#3-JSX防注入攻击" class="headerlink" title="3. JSX防注入攻击"></a>3. JSX防注入攻击</h3><p>所有内容在渲染之前都被转换成了字符串，可以有效防止XSS攻击。</p>
+<h3 id="4-JSX代表Objects"><a href="#4-JSX代表Objects" class="headerlink" title="4. JSX代表Objects"></a>4. JSX代表Objects</h3><p>用JSX语法写的HTML标签，其实最后会被React通过方法转化为一个对象，与此同时，React通过读取这些对象来构建DOM并保持数据内容一致。</p>
+<h2 id="页面元素的渲染"><a href="#页面元素的渲染" class="headerlink" title="页面元素的渲染"></a>页面元素的渲染</h2><h3 id="1-根节点"><a href="#1-根节点" class="headerlink" title="1. 根节点"></a>1. 根节点</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在渲染的html中，在此div中的所有内容都将由React DOM来管理。</p>
+<p>用React开发一般只会定义一个根节点，若是在一个已有项目中引入React，则需要在不同的部分单独定义React根节点。</p>
+<h3 id="2-React元素都是不可变的"><a href="#2-React元素都是不可变的" class="headerlink" title="2. React元素都是不可变的"></a>2. React元素都是不可变的</h3><p>当元素被创建之后，无法改变其内容或属性，现阶段的唯一方法是创建一个新的元素，然后将它传入ReactDOM.render()方法中。</p>
+<h3 id="3-React只会更新必要的部分"><a href="#3-React只会更新必要的部分" class="headerlink" title="3. React只会更新必要的部分"></a>3. React只会更新必要的部分</h3><p>ReactDOM首先会比较元素内容先后的不同，而在渲染过程中只会更新改变了的部分。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/17/Angular/" rel="next" title="【Angular】（一）ngTemplate的用法">
+                <i class="fa fa-chevron-left"></i> 【Angular】（一）ngTemplate的用法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">wang yanglong</p>
+              <div class="site-description motion-element" itemprop="description">wangyanglong</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用脚手架创建React应用"><span class="nav-number">2.</span> <span class="nav-text">用脚手架创建React应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-World"><span class="nav-number">3.</span> <span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与Angular4-x的比较"><span class="nav-number">4.</span> <span class="nav-text">与Angular4.x的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSX简介"><span class="nav-number">5.</span> <span class="nav-text">JSX简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-在JSX中使用表达式"><span class="nav-number">5.1.</span> <span class="nav-text">1. 在JSX中使用表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JSX属性"><span class="nav-number">5.2.</span> <span class="nav-text">2. JSX属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JSX防注入攻击"><span class="nav-number">5.3.</span> <span class="nav-text">3. JSX防注入攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-JSX代表Objects"><span class="nav-number">5.4.</span> <span class="nav-text">4. JSX代表Objects</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面元素的渲染"><span class="nav-number">6.</span> <span class="nav-text">页面元素的渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-根节点"><span class="nav-number">6.1.</span> <span class="nav-text">1. 根节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-React元素都是不可变的"><span class="nav-number">6.2.</span> <span class="nav-text">2. React元素都是不可变的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-React只会更新必要的部分"><span class="nav-number">6.3.</span> <span class="nav-text">3. React只会更新必要的部分</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wang yanglong</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

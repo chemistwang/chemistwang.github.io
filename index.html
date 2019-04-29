@@ -294,6 +294,379 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/29/react/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/29/react/" class="post-title-link" itemprop="url">【React】（一）创建应用和元素渲染</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-29 20:57:26" itemprop="dateCreated datePublished" datetime="2019-04-29T20:57:26+08:00">2019-04-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-30 00:12:03" itemprop="dateModified" datetime="2019-04-30T00:12:03+08:00">2019-04-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端框架/" itemprop="url" rel="index"><span itemprop="name">前端框架</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。<br>附上中文官方网站：<a href="https://react.docschina.org/" target="_blank" rel="noopener">React中文文档</a></p>
+<h2 id="用脚手架创建React应用"><a href="#用脚手架创建React应用" class="headerlink" title="用脚手架创建React应用"></a>用脚手架创建React应用</h2><ol>
+<li>安装环境<br>为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2</li>
+<li>用脚手架创建React项目<br>附上git链接<a href="https://github.com/facebook/create-react-app" target="_blank" rel="noopener">create-react-app</a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app my-app</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>一开始我真的以为官网写错了，从来没见过npx，网上查了一下，这玩意老早就有了。。。<br><a href="https://www.npmjs.com/package/npx" target="_blank" rel="noopener">npx</a>描述为执行npm包的二进制文件，x就是execute的意思吧。</p>
+<p>很神奇，自动帮我安装好了node_modules包。</p>
+<ol start="3">
+<li>启动项目<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>启动好了项目并且自动打开了浏览器，端口号是默认的3000，会发现有一个旋转的React图标，项目创建启动成功！</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>什么都应该从Hello World开始学起。<br>在根目录下的index.js文件中，将原先的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, document.getElementById('root'));</span></span><br></pre></td></tr></table></figure></p>
+<p>替换为<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(</span><br><span class="line">    &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>,</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>因为我个人不是很喜欢在dom元素上绑定id，我就尝试把document.getElementById删掉，发现报错。<br>查询文档后发现render函数至少需要两个参数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(element, container[, callback])</span><br></pre></td></tr></table></figure></p>
+<h2 id="与Angular4-x的比较"><a href="#与Angular4-x的比较" class="headerlink" title="与Angular4.x的比较"></a>与Angular4.x的比较</h2><p>在Angular中，用 ng g c 命令创建的组件是一个文件夹，里面存有四个文件，css/html/spec/ts<br>在React中，我没有发现html文件，原来React推荐使用JSX来描述用户界面。</p>
+<h2 id="JSX简介"><a href="#JSX简介" class="headerlink" title="JSX简介"></a>JSX简介</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> element = &lt;h1&gt;Hello, world!&lt;h1&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="1-在JSX中使用表达式"><a href="#1-在JSX中使用表达式" class="headerlink" title="1. 在JSX中使用表达式"></a>1. 在JSX中使用表达式</h3><ul>
+<li>书写JSX的时候推荐外面扩上一个小括号<br>为了增强代码可读性，JSX会有换行和缩进，带上括号，防止分号自动插入的bug</li>
+<li>JSX中的表达式包含在大括号里面<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">    firstName: <span class="string">'lucus'</span>,</span><br><span class="line">    firstName: <span class="string">'mars'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatName</span>(<span class="params">userInfo</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> userInfo.firstName + <span class="string">' '</span> + userInfo.lastName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> element = (</span><br><span class="line">    &lt;h1&gt;</span><br><span class="line">        Hello, &#123;formatName(user)&#125;!</span><br><span class="line">    &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(</span></span><br><span class="line"><span class="regexp">    element,</span></span><br><span class="line"><span class="regexp">    document.getElementById('root')</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-JSX属性"><a href="#2-JSX属性" class="headerlink" title="2. JSX属性"></a>2. JSX属性</h3><p>这里挂载的属性就是一个变量和非变量的问题了，若是一个变量，则拿大括号包裹起来，若是一个确定的值，则用引号包裹。</p>
+<blockquote>
+<p>注意：JSX的特性更接近Js而不是Html，所以ReactDOM用camelCase小驼峰命名定义属性而不是HTML属性<br>eg. class =&gt; className    tabindex =&gt; tabIndex</p>
+</blockquote>
+<h3 id="3-JSX防注入攻击"><a href="#3-JSX防注入攻击" class="headerlink" title="3. JSX防注入攻击"></a>3. JSX防注入攻击</h3><p>所有内容在渲染之前都被转换成了字符串，可以有效防止XSS攻击。</p>
+<h3 id="4-JSX代表Objects"><a href="#4-JSX代表Objects" class="headerlink" title="4. JSX代表Objects"></a>4. JSX代表Objects</h3><p>用JSX语法写的HTML标签，其实最后会被React通过方法转化为一个对象，与此同时，React通过读取这些对象来构建DOM并保持数据内容一致。</p>
+<h2 id="页面元素的渲染"><a href="#页面元素的渲染" class="headerlink" title="页面元素的渲染"></a>页面元素的渲染</h2><h3 id="1-根节点"><a href="#1-根节点" class="headerlink" title="1. 根节点"></a>1. 根节点</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在渲染的html中，在此div中的所有内容都将由React DOM来管理。</p>
+<p>用React开发一般只会定义一个根节点，若是在一个已有项目中引入React，则需要在不同的部分单独定义React根节点。</p>
+<h3 id="2-React元素都是不可变的"><a href="#2-React元素都是不可变的" class="headerlink" title="2. React元素都是不可变的"></a>2. React元素都是不可变的</h3><p>当元素被创建之后，无法改变其内容或属性，现阶段的唯一方法是创建一个新的元素，然后将它传入ReactDOM.render()方法中。</p>
+<h3 id="3-React只会更新必要的部分"><a href="#3-React只会更新必要的部分" class="headerlink" title="3. React只会更新必要的部分"></a>3. React只会更新必要的部分</h3><p>ReactDOM首先会比较元素内容先后的不同，而在渲染过程中只会更新改变了的部分。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/17/Angular/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/17/Angular/" class="post-title-link" itemprop="url">【Angular】（一）ngTemplate的用法</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-17 22:11:31 / 修改时间：22:24:15" itemprop="dateCreated datePublished" datetime="2019-04-17T22:11:31+08:00">2019-04-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端框架/" itemprop="url" rel="index"><span itemprop="name">前端框架</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。<br>附上中文官方网站：<a href="https://angular.cn/" target="_blank" rel="noopener">Angular</a></p>
+<h2 id="NgTemplateOutlet"><a href="#NgTemplateOutlet" class="headerlink" title="NgTemplateOutlet"></a>NgTemplateOutlet</h2><p>这个指令有两个Input输入属性</p>
+<ul>
+<li>ngTemplateOutletContext</li>
+<li>ngTemplateOutlet</li>
+</ul>
+<h2 id="具体的用法"><a href="#具体的用法" class="headerlink" title="具体的用法"></a>具体的用法</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line"><span class="tag">&lt;<span class="name">ng-template</span> [<span class="attr">ngTemplateOutlet</span>]=<span class="string">"#name"</span>&gt;</span><span class="tag">&lt;/<span class="name">ng-template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> clock = <span class="built_in">any</span>;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/14/更换主题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -339,12 +712,24 @@
                 
               
 
-              <time title="创建时间：2019-04-14 09:10:02 / 修改时间：12:44:54" itemprop="dateCreated datePublished" datetime="2019-04-14T09:10:02+08:00">2019-04-14</time>
+              <time title="创建时间：2019-04-14 09:10:02" itemprop="dateCreated datePublished" datetime="2019-04-14T09:10:02+08:00">2019-04-14</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-15 22:49:47" itemprop="dateModified" datetime="2019-04-15T22:49:47+08:00">2019-04-15</time>
               
             
           </span>
@@ -380,7 +765,12 @@
       
         
           
-            
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>准备换高分的next主题</p>
+<h2 id="Next主题安装"><a href="#Next主题安装" class="headerlink" title="Next主题安装"></a>Next主题安装</h2><ol>
+<li>下载</li>
+<li>修改站点配置文件</li>
+</ol>
+
           
         
       
@@ -1555,324 +1945,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/10/算法与数据结构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/10/算法与数据结构/" class="post-title-link" itemprop="url">算法与数据结构</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-10 22:07:41" itemprop="dateCreated datePublished" datetime="2019-04-10T22:07:41+08:00">2019-04-10</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-11 21:26:31" itemprop="dateModified" datetime="2019-04-11T21:26:31+08:00">2019-04-11</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/09/记录第一次使用Hexo搭建博客/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/09/记录第一次使用Hexo搭建博客/" class="post-title-link" itemprop="url">【Hexo搭建博客】（一） 记录第一次使用Hexo搭建博客</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-09 22:33:03" itemprop="dateCreated datePublished" datetime="2019-04-09T22:33:03+08:00">2019-04-09</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-13 21:05:03" itemprop="dateModified" datetime="2019-04-13T21:05:03+08:00">2019-04-13</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>转行以来，一直想搭建一个自己的网站，2018年的2月份还申请了网站备案，买了一台云服务器，弄了一个域名，结果因为技术原因不了了之。也看过用github page搭建，却没有时间（啊，呸）。。。<br>终于静下心在网上找了教程，用Hexo搭建了一个自己的博客。</p>
-<h2 id="什么是Hexo"><a href="#什么是Hexo" class="headerlink" title="什么是Hexo?"></a>什么是Hexo?</h2><p>Hexo是一个快速、简洁且高效的博客框架。Hexo使用Markdown（或其他渲染引擎）解析文章，生成静态网页。</p>
-<p>附上官网的中文链接： <a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">Hexo中文网站</a></p>
-<h2 id="建站的一些思路，大家可以参考"><a href="#建站的一些思路，大家可以参考" class="headerlink" title="建站的一些思路，大家可以参考"></a>建站的一些思路，大家可以参考</h2><h3 id="1-先搭建"><a href="#1-先搭建" class="headerlink" title="1. 先搭建"></a>1. 先搭建</h3><p>官网讲的特别详细，但我喜欢直截了当，不管别的，先按步骤把博客搭建起来。网上都能查到，详细步骤后续再更。</p>
-<h3 id="2-记住命令"><a href="#2-记住命令" class="headerlink" title="2. 记住命令"></a>2. 记住命令</h3><p>一开始记住五条命令就够了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new</span><br><span class="line">$ hexo clean</span><br><span class="line">$ hexo generate</span><br><span class="line">$ hexo server</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-开始写"><a href="#3-开始写" class="headerlink" title="3. 开始写"></a>3. 开始写</h3><p>博客最主要的就是自己的内容，先去写，在写的过程中积累和学习Markdown语法。先这样喽。</p>
-<blockquote>
-<p><em>We believe that writing is about content, about what you want to say – not about fancy formatting.</em></p>
-</blockquote>
-<p>Markdown参考资料: <a href="https://coding.net/help/doc/project/markdown.html" target="_blank" rel="noopener">Coding-Markdown</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1919,7 +1991,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1936,7 +2008,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">分类</span>
                   
                 </div>
@@ -1961,7 +2035,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
