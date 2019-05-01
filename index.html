@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/29/react/">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/01/【React】（二）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wang yanglong">
@@ -314,7 +314,182 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/04/29/react/" class="post-title-link" itemprop="url">【React】（一）创建应用和元素渲染</a>
+                <a href="/2019/05/01/【React】（二）/" class="post-title-link" itemprop="url">【React】（二）Props & State</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-01 11:28:57 / 修改时间：13:31:41" itemprop="dateCreated datePublished" datetime="2019-05-01T11:28:57+08:00">2019-05-01</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端框架/" itemprop="url" rel="index"><span itemprop="name">前端框架</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>据说在React中最常用的是这两个概念， Props和State，掌握这两个就可以愉快的开发了。</p>
+<h2 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h3><p>当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。</p>
+<h3 id="2-组件定义的两种方法"><a href="#2-组件定义的两种方法" class="headerlink" title="2.组件定义的两种方法"></a>2.组件定义的两种方法</h3><ol>
+<li><p>使用函数定义组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ES6 class定义组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Welcome</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;this.props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>注意： 组件名称必须以大写字母开头</p>
+</blockquote>
+<h3 id="3-多个组件"><a href="#3-多个组件" class="headerlink" title="3.多个组件"></a>3.多个组件</h3><p>组件的返回值只能有一个根元素，需要组件外部需要一个完整的闭合标签包裹住，例如下面的div<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-Props的只读性"><a href="#4-Props的只读性" class="headerlink" title="4.Props的只读性"></a>4.Props的只读性</h3><p>用两种任意方法声明的组件，它决不能修改自己的props。<br>即：所有的React组件必须像纯函数那样使用它们的props。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/29/【React】（一）创建应用和元素渲染/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/29/【React】（一）创建应用和元素渲染/" class="post-title-link" itemprop="url">【React】（一）创建应用和元素渲染</a>
               
             
           </h1>
@@ -356,7 +531,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-30 00:12:03" itemprop="dateModified" datetime="2019-04-30T00:12:03+08:00">2019-04-30</time>
+                <time title="修改时间：2019-05-01 11:29:19" itemprop="dateModified" datetime="2019-05-01T11:29:19+08:00">2019-05-01</time>
               
             
           </span>
@@ -443,7 +618,7 @@
 <p>在渲染的html中，在此div中的所有内容都将由React DOM来管理。</p>
 <p>用React开发一般只会定义一个根节点，若是在一个已有项目中引入React，则需要在不同的部分单独定义React根节点。</p>
 <h3 id="2-React元素都是不可变的"><a href="#2-React元素都是不可变的" class="headerlink" title="2. React元素都是不可变的"></a>2. React元素都是不可变的</h3><p>当元素被创建之后，无法改变其内容或属性，现阶段的唯一方法是创建一个新的元素，然后将它传入ReactDOM.render()方法中。</p>
-<h3 id="3-React只会更新必要的部分"><a href="#3-React只会更新必要的部分" class="headerlink" title="3. React只会更新必要的部分"></a>3. React只会更新必要的部分</h3><p>ReactDOM首先会比较元素内容先后的不同，而在渲染过程中只会更新改变了的部分。</p>
+<h3 id="3-React只会更新必要的部分"><a href="#3-React只会更新必要的部分" class="headerlink" title="3. React只会更新必要的部分"></a>3. React只会更新必要的部分</h3><p>ReactDOM首先会比较元素内容先后的不同，而在渲染过程中只会更新改变了的部分。[]</p>
 
           
         
@@ -1801,150 +1976,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/11/自动化工作流程Workflow/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/11/自动化工作流程Workflow/" class="post-title-link" itemprop="url">效率神器：自动化工作流程Workflow for iOS</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-11 19:54:26 / 修改时间：21:16:56" itemprop="dateCreated datePublished" datetime="2019-04-11T19:54:26+08:00">2019-04-11</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>2015年大学快毕业的时候我拥有了自己第一部iPhone手机，当时特别迷恋在App Store上找高分软件，Workflow是当时口碑极佳的一款，只不过当时对软件的了解不深，没有感受它的强大，现在重新拿起来，觉得这么久了，失去了好多。</p>
-<h2 id="什么是Workflow"><a href="#什么是Workflow" class="headerlink" title="什么是Workflow"></a>什么是Workflow</h2><p>快捷指令（英语：Shortcuts），2.0版前名为Workflow，2.1.3版前名为捷径，是iOS上的工作流应用，起初由阿里·温斯坦（Ari Weinstein）、Conrad Kramer、Veeral Patel和Nick Frey开发，并于2014年12月11日上架，2015年6月9日获苹果年度设计奖，2017年3月23日被苹果公司收购，变为免费应用。2018年9月18日更名为捷径，2019年2月改名为快捷指令。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1991,7 +2022,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
