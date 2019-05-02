@@ -96,18 +96,20 @@
 
 
 
-  <meta name="description" content="以下来源自JavaScript权威指南，著名的犀牛书第四章4.1.2 表达式计算和其他很多解释性语言一样，JavaScript同样可以解释运行由JavaScript源代码组成的字符串，并产生一个值。JavaScript通过全局函数eval()来完成这个工作：1eval(&quot;3+2&quot;) //=&amp;gt;5 动态判断源代码中的字符串是一种强大的语言特定，几乎没有必要在实际中应用。如果你使用了eval()，">
-<meta name="keywords" content="javascript">
+  <meta name="description" content="前言据说在React中最常用的是这两个概念， Props和State，分别是属性和状态，掌握这两个就可以愉快的开发了。 Props1.概念当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。 2.组件定义的两种方法 使用函数定义组件 123function Welcome(props) &amp;#123;    return &amp;lt;h1&amp;gt;">
+<meta name="keywords" content="React">
 <meta property="og:type" content="article">
-<meta property="og:title" content="理解JavsScript eval()函数">
-<meta property="og:url" content="https://chemistwang.github.io/2019/04/13/理解JavsScript/index.html">
+<meta property="og:title" content="【React】（二）Props &amp; State">
+<meta property="og:url" content="https://chemistwang.github.io/2019/05/01/【React】（二）Props & State/index.html">
 <meta property="og:site_name" content="Chemist-Wang">
-<meta property="og:description" content="以下来源自JavaScript权威指南，著名的犀牛书第四章4.1.2 表达式计算和其他很多解释性语言一样，JavaScript同样可以解释运行由JavaScript源代码组成的字符串，并产生一个值。JavaScript通过全局函数eval()来完成这个工作：1eval(&quot;3+2&quot;) //=&amp;gt;5 动态判断源代码中的字符串是一种强大的语言特定，几乎没有必要在实际中应用。如果你使用了eval()，">
+<meta property="og:description" content="前言据说在React中最常用的是这两个概念， Props和State，分别是属性和状态，掌握这两个就可以愉快的开发了。 Props1.概念当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。 2.组件定义的两种方法 使用函数定义组件 123function Welcome(props) &amp;#123;    return &amp;lt;h1&amp;gt;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-13T13:21:38.948Z">
+<meta property="og:image" content="https://chemistwang.github.io/img/react_life_cycle.webp">
+<meta property="og:updated_time" content="2019-05-02T05:17:51.388Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="理解JavsScript eval()函数">
-<meta name="twitter:description" content="以下来源自JavaScript权威指南，著名的犀牛书第四章4.1.2 表达式计算和其他很多解释性语言一样，JavaScript同样可以解释运行由JavaScript源代码组成的字符串，并产生一个值。JavaScript通过全局函数eval()来完成这个工作：1eval(&quot;3+2&quot;) //=&amp;gt;5 动态判断源代码中的字符串是一种强大的语言特定，几乎没有必要在实际中应用。如果你使用了eval()，">
+<meta name="twitter:title" content="【React】（二）Props &amp; State">
+<meta name="twitter:description" content="前言据说在React中最常用的是这两个概念， Props和State，分别是属性和状态，掌握这两个就可以愉快的开发了。 Props1.概念当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。 2.组件定义的两种方法 使用函数定义组件 123function Welcome(props) &amp;#123;    return &amp;lt;h1&amp;gt;">
+<meta name="twitter:image" content="https://chemistwang.github.io/img/react_life_cycle.webp">
 
 
 
@@ -115,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="https://chemistwang.github.io/2019/04/13/理解JavsScript/">
+  <link rel="canonical" href="https://chemistwang.github.io/2019/05/01/【React】（二）Props & State/">
 
 
 
@@ -125,7 +127,7 @@
   };
 </script>
 
-  <title>理解JavsScript eval()函数 | Chemist-Wang</title>
+  <title>【React】（二）Props & State | Chemist-Wang</title>
   
 
 
@@ -294,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/13/理解JavsScript/">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/01/【React】（二）Props & State/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wang yanglong">
@@ -311,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">理解JavsScript eval()函数
+          <h1 class="post-title" itemprop="name headline">【React】（二）Props & State
 
               
             
@@ -337,12 +339,24 @@
                 
               
 
-              <time title="创建时间：2019-04-13 11:56:45 / 修改时间：21:21:38" itemprop="dateCreated datePublished" datetime="2019-04-13T11:56:45+08:00">2019-04-13</time>
+              <time title="创建时间：2019-05-01 11:28:57" itemprop="dateCreated datePublished" datetime="2019-05-01T11:28:57+08:00">2019-05-01</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-02 13:17:51" itemprop="dateModified" datetime="2019-05-02T13:17:51+08:00">2019-05-02</time>
               
             
           </span>
@@ -359,7 +373,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/查询手册/" itemprop="url" rel="index"><span itemprop="name">查询手册</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端框架/" itemprop="url" rel="index"><span itemprop="name">前端框架</span></a></span>
 
                 
                 
@@ -394,11 +408,35 @@
       
 
       
-        <p>以下来源自JavaScript权威指南，著名的犀牛书第四章4.1.2 表达式计算<br>和其他很多解释性语言一样，JavaScript同样可以解释运行由JavaScript源代码组成的字符串，并产生一个值。JavaScript通过全局函数eval()来完成这个工作：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="string">"3+2"</span>) <span class="comment">//=&gt;5</span></span><br></pre></td></tr></table></figure></p>
-<p>动态判断源代码中的字符串是一种强大的语言特定，几乎没有必要在实际中应用。如果你使用了eval()，你应当仔细考虑是否真的需要使用它。</p>
-<p>下面讲解eval()的基础用法，并且介绍严格使用它的两种方法，从代码优化的角度讲，这两种方法对于原有代码造成的影响是最小的。</p>
-<h2 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h2><p>eval()只有一个参数。<br>如果传入的参数不是字符串，它直接返回这个参数。<br>如果参数是字符串，它会把字符串当成JavaScript代码进行编译（parse），<br>如果编译失败则抛出一个语法错误（SyntaxError）异常。<br>如果编译成功，则开始执行这段代码，并返回字符串中的最后一个表达式或语句的值，<br>如果字符串抛出一个异常，这个异常将把该调用传递给eval()。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: Start</span><br><span class="line">op=&gt;operation: Your Operation</span><br><span class="line">cond=&gt;condition: Yes or No?</span><br><span class="line">e=&gt;end</span><br><span class="line">st-&gt;op-&gt;cond</span><br><span class="line">cond(yes)-&gt;e</span><br><span class="line">cond(no)-&gt;op</span><br></pre></td></tr></table></figure></p>
-<h2 id="全局eval"><a href="#全局eval" class="headerlink" title="全局eval()"></a>全局eval()</h2><h2 id="严格eval"><a href="#严格eval" class="headerlink" title="严格eval()"></a>严格eval()</h2>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>据说在React中最常用的是这两个概念， Props和State，分别是属性和状态，掌握这两个就可以愉快的开发了。</p>
+<h2 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h3><p>当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。</p>
+<h3 id="2-组件定义的两种方法"><a href="#2-组件定义的两种方法" class="headerlink" title="2.组件定义的两种方法"></a>2.组件定义的两种方法</h3><ol>
+<li><p>使用函数定义组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &lt;h1&gt;Hello, &#123;props.name&#125;&lt;/h1&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ES6 class定义组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Welcome</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> &lt;h1&gt;Hello, &#123;this.props.name&#125;&lt;/h1&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>注意： 组件名称必须以大写字母开头</p>
+</blockquote>
+<h3 id="3-多个组件"><a href="#3-多个组件" class="headerlink" title="3.多个组件"></a>3.多个组件</h3><p>组件的返回值只能有一个根元素，需要组件外部需要一个完整的闭合标签包裹住，例如下面的div<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-Props的只读性"><a href="#4-Props的只读性" class="headerlink" title="4.Props的只读性"></a>4.Props的只读性</h3><p>用两种任意方法声明的组件，它决不能修改自己的props。<br>即：所有的React组件必须像纯函数那样使用它们的props。</p>
+<h2 id="State"><a href="#State" class="headerlink" title="State"></a>State</h2><h3 id="1-生命周期"><a href="#1-生命周期" class="headerlink" title="1.生命周期"></a>1.生命周期</h3><p>直接上图<br><img src="/img/react_life_cycle.webp" alt="image"></p>
+<h3 id="2-使用类"><a href="#2-使用类" class="headerlink" title="2.使用类"></a>2.使用类</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>这样写就可以使用其他特性，例如局部状态、生命周期钩子。</p>
+<h3 id="3-三种形式的setState-方法"><a href="#3-三种形式的setState-方法" class="headerlink" title="3.三种形式的setState()方法"></a>3.三种形式的setState()方法</h3><ol>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+<h2 id="state和props的区别"><a href="#state和props的区别" class="headerlink" title="state和props的区别"></a>state和props的区别</h2><p>props传递到组件（类似于函数的参数）；<br>state是在组件内部管理（类似于函数中声明的变量）</p>
+<ul>
+<li><a href="https://github.com/uberVU/react-guide/blob/master/props-vs-state.md" target="_blank" rel="noopener">Props vs State</a></li>
+<li><a href="https://lucybain.com/blog/2016/react-state-vs-pros/" target="_blank" rel="noopener">ReactJS: Props vs. State</a></li>
+</ul>
+
       
     </div>
 
@@ -421,7 +459,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/javascript/" rel="tag"># javascript</a>
+            <a href="/tags/React/" rel="tag"># React</a>
           
         </div>
       
@@ -434,8 +472,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/11/YAML与JSON的对比/" rel="next" title="YAML与JSON的对比">
-                <i class="fa fa-chevron-left"></i> YAML与JSON的对比
+              <a href="/2019/04/29/【React】（一）创建应用和元素渲染/" rel="next" title="【React】（一）创建应用和元素渲染">
+                <i class="fa fa-chevron-left"></i> 【React】（一）创建应用和元素渲染
               </a>
             
           </div>
@@ -444,8 +482,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/13/访问量统计/" rel="prev" title="【Hexo搭建博客】（二） 添加博客访问量统计">
-                【Hexo搭建博客】（二） 添加博客访问量统计 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/01/【React】（三）事件/" rel="prev" title="【React】（三）事件">
+                【React】（三）事件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -601,7 +639,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#eval"><span class="nav-number">1.</span> <span class="nav-text">eval()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全局eval"><span class="nav-number">2.</span> <span class="nav-text">全局eval()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#严格eval"><span class="nav-number">3.</span> <span class="nav-text">严格eval()</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Props"><span class="nav-number">2.</span> <span class="nav-text">Props</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概念"><span class="nav-number">2.1.</span> <span class="nav-text">1.概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-组件定义的两种方法"><span class="nav-number">2.2.</span> <span class="nav-text">2.组件定义的两种方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-多个组件"><span class="nav-number">2.3.</span> <span class="nav-text">3.多个组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Props的只读性"><span class="nav-number">2.4.</span> <span class="nav-text">4.Props的只读性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#State"><span class="nav-number">3.</span> <span class="nav-text">State</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-生命周期"><span class="nav-number">3.1.</span> <span class="nav-text">1.生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用类"><span class="nav-number">3.2.</span> <span class="nav-text">2.使用类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-三种形式的setState-方法"><span class="nav-number">3.3.</span> <span class="nav-text">3.三种形式的setState()方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#state和props的区别"><span class="nav-number">4.</span> <span class="nav-text">state和props的区别</span></a></li></ol></div>
             
 
           </div>
