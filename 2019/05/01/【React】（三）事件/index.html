@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Chemist-Wang">
 <meta property="og:description" content="前言语法 React事件绑定属性的命名采用驼峰式写法，不是小写 JSX语法传一个函数作为事件处理函数1&amp;lt;button onClick=&amp;#123;this.btnFunc&amp;#125;&amp;gt;Click me!&amp;lt;/button&amp;gt;   注意点1. 用bind使用ES6 class语法定义的时候，发现与Angular不同的一点是1234constructor(props)&amp;#123;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-02T05:36:45.909Z">
+<meta property="og:updated_time" content="2019-05-08T16:09:53.974Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【React】（三）事件">
 <meta name="twitter:description" content="前言语法 React事件绑定属性的命名采用驼峰式写法，不是小写 JSX语法传一个函数作为事件处理函数1&amp;lt;button onClick=&amp;#123;this.btnFunc&amp;#125;&amp;gt;Click me!&amp;lt;/button&amp;gt;   注意点1. 用bind使用ES6 class语法定义的时候，发现与Angular不同的一点是1234constructor(props)&amp;#123;">
@@ -354,7 +354,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-02 13:36:45" itemprop="dateModified" datetime="2019-05-02T13:36:45+08:00">2019-05-02</time>
+                <time title="修改时间：2019-05-09 00:09:53" itemprop="dateModified" datetime="2019-05-09T00:09:53+08:00">2019-05-09</time>
               
             
           </span>
@@ -423,7 +423,8 @@
 <blockquote>
 <p>注意：不推荐使用最后一种方法。因为每次渲染的时候都会创建一个不同的回调函数，在这个回调函数作为一个属性值传入低阶组件的时候，可能会进行额外的重新渲染，为了性能，不建议。</p>
 </blockquote>
-<h2 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h2><h3 id="1-使用箭头函数"><a href="#1-使用箭头函数" class="headerlink" title="1. 使用箭头函数"></a>1. 使用箭头函数</h3><h3 id="2-使用bind"><a href="#2-使用bind" class="headerlink" title="2. 使用bind"></a>2. 使用bind</h3>
+<h2 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h2><h3 id="1-使用箭头函数"><a href="#1-使用箭头函数" class="headerlink" title="1. 使用箭头函数"></a>1. 使用箭头函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;button onClick=&#123;(e) =&gt; <span class="keyword">this</span>.btnFunc(e, param1, param2, ...)&#125;&gt;Click me!&lt;/button&gt;</span><br><span class="line">        &lt;button onClick=&#123;(e) =&gt; <span class="keyword">this</span>.btnFunc(param1, param2, ...)&#125;&gt;Click me!&lt;/button&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-使用bind"><a href="#2-使用bind" class="headerlink" title="2. 使用bind"></a>2. 使用bind</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">btnFunc(param1, param2, ..., event) &#123; <span class="comment">//通过bind方式监听函数传参，事件对象event要放在所传递参数后面</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;button onClick=&#123;<span class="keyword">this</span>.btnFunc.bind(<span class="keyword">this</span>, param1, param2, ...)&#125;&gt;Click me!&lt;/button&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
