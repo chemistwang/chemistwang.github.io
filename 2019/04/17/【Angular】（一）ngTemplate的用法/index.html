@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-CN">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,7 +55,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/antelope-favicon-16x16.png?v=7.1.0">
 
 
   <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Mist',
     version: '7.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="前言据说在React中最常用的是这两个概念， Props和State，掌握这两个就可以愉快的开发了。 Props1.概念当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。 2.组件定义的两种方法 使用函数定义组件 123function Welcome(props) &amp;#123;    return &amp;lt;h1&amp;gt;Hello, &amp;#">
-<meta name="keywords" content="React">
+  <meta name="description" content="前言使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。附上中文官方网站：Angular NgTemplateOutlet这个指令有两个Input输入属性  ngTemplateOutletContext ngTemplateOutlet  具体的用法12html&amp;lt;ng-template [ngTemplateOutlet]">
+<meta name="keywords" content="angular">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【React】（二）Props &amp; State">
-<meta property="og:url" content="https://chemistwang.github.io/2019/05/01/【React】（二）/index.html">
+<meta property="og:title" content="【Angular】（一）ngTemplate的用法">
+<meta property="og:url" content="https://chemistwang.github.io/2019/04/17/【Angular】（一）ngTemplate的用法/index.html">
 <meta property="og:site_name" content="Chemist-Wang">
-<meta property="og:description" content="前言据说在React中最常用的是这两个概念， Props和State，掌握这两个就可以愉快的开发了。 Props1.概念当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。 2.组件定义的两种方法 使用函数定义组件 123function Welcome(props) &amp;#123;    return &amp;lt;h1&amp;gt;Hello, &amp;#">
+<meta property="og:description" content="前言使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。附上中文官方网站：Angular NgTemplateOutlet这个指令有两个Input输入属性  ngTemplateOutletContext ngTemplateOutlet  具体的用法12html&amp;lt;ng-template [ngTemplateOutlet]">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-01T05:31:41.122Z">
+<meta property="og:updated_time" content="2019-05-11T01:26:44.361Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【React】（二）Props &amp; State">
-<meta name="twitter:description" content="前言据说在React中最常用的是这两个概念， Props和State，掌握这两个就可以愉快的开发了。 Props1.概念当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。 2.组件定义的两种方法 使用函数定义组件 123function Welcome(props) &amp;#123;    return &amp;lt;h1&amp;gt;Hello, &amp;#">
+<meta name="twitter:title" content="【Angular】（一）ngTemplate的用法">
+<meta name="twitter:description" content="前言使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。附上中文官方网站：Angular NgTemplateOutlet这个指令有两个Input输入属性  ngTemplateOutletContext ngTemplateOutlet  具体的用法12html&amp;lt;ng-template [ngTemplateOutlet]">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="https://chemistwang.github.io/2019/05/01/【React】（二）/">
+  <link rel="canonical" href="https://chemistwang.github.io/2019/04/17/【Angular】（一）ngTemplate的用法/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>【React】（二）Props & State | Chemist-Wang</title>
+  <title>【Angular】（一）ngTemplate的用法 | Chemist-Wang</title>
   
 
 
@@ -232,6 +232,57 @@
         
         
           
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-archives">
 
     
@@ -294,7 +345,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/01/【React】（二）/">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/17/【Angular】（一）ngTemplate的用法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wang yanglong">
@@ -311,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【React】（二）Props & State
+          <h1 class="post-title" itemprop="name headline">【Angular】（一）ngTemplate的用法
 
               
             
@@ -337,12 +388,24 @@
                 
               
 
-              <time title="创建时间：2019-05-01 11:28:57 / 修改时间：13:31:41" itemprop="dateCreated datePublished" datetime="2019-05-01T11:28:57+08:00">2019-05-01</time>
+              <time title="创建时间：2019-04-17 22:11:31" itemprop="dateCreated datePublished" datetime="2019-04-17T22:11:31+08:00">2019-04-17</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-11 09:26:44" itemprop="dateModified" datetime="2019-05-11T09:26:44+08:00">2019-05-11</time>
               
             
           </span>
@@ -394,22 +457,14 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>据说在React中最常用的是这两个概念， Props和State，掌握这两个就可以愉快的开发了。</p>
-<h2 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h3><p>当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。</p>
-<h3 id="2-组件定义的两种方法"><a href="#2-组件定义的两种方法" class="headerlink" title="2.组件定义的两种方法"></a>2.组件定义的两种方法</h3><ol>
-<li><p>使用函数定义组件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>ES6 class定义组件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Welcome</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello, &#123;this.props.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p>注意： 组件名称必须以大写字母开头</p>
-</blockquote>
-<h3 id="3-多个组件"><a href="#3-多个组件" class="headerlink" title="3.多个组件"></a>3.多个组件</h3><p>组件的返回值只能有一个根元素，需要组件外部需要一个完整的闭合标签包裹住，例如下面的div<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="4-Props的只读性"><a href="#4-Props的只读性" class="headerlink" title="4.Props的只读性"></a>4.Props的只读性</h3><p>用两种任意方法声明的组件，它决不能修改自己的props。<br>即：所有的React组件必须像纯函数那样使用它们的props。</p>
-
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。<br>附上中文官方网站：<a href="https://angular.cn/" target="_blank" rel="noopener">Angular</a></p>
+<h2 id="NgTemplateOutlet"><a href="#NgTemplateOutlet" class="headerlink" title="NgTemplateOutlet"></a>NgTemplateOutlet</h2><p>这个指令有两个Input输入属性</p>
+<ul>
+<li>ngTemplateOutletContext</li>
+<li>ngTemplateOutlet</li>
+</ul>
+<h2 id="具体的用法"><a href="#具体的用法" class="headerlink" title="具体的用法"></a>具体的用法</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line"><span class="tag">&lt;<span class="name">ng-template</span> [<span class="attr">ngTemplateOutlet</span>]=<span class="string">"#name"</span>&gt;</span><span class="tag">&lt;/<span class="name">ng-template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> clock = <span class="built_in">any</span>;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -432,7 +487,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/React/" rel="tag"># React</a>
+            <a href="/tags/angular/" rel="tag"># angular</a>
           
         </div>
       
@@ -445,8 +500,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/29/【React】（一）创建应用和元素渲染/" rel="next" title="【React】（一）创建应用和元素渲染">
-                <i class="fa fa-chevron-left"></i> 【React】（一）创建应用和元素渲染
+              <a href="/2019/04/14/【Hexo搭建博客】（四）更换主题Next/" rel="next" title="【Hexo搭建博客】（四）更换主题Next">
+                <i class="fa fa-chevron-left"></i> 【Hexo搭建博客】（四）更换主题Next
               </a>
             
           </div>
@@ -454,6 +509,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/29/【React】（一）创建应用和元素渲染/" rel="prev" title="【React】（一）创建应用和元素渲染">
+                【React】（一）创建应用和元素渲染 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -522,7 +581,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -570,7 +629,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
@@ -608,7 +669,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Props"><span class="nav-number">2.</span> <span class="nav-text">Props</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概念"><span class="nav-number">2.1.</span> <span class="nav-text">1.概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-组件定义的两种方法"><span class="nav-number">2.2.</span> <span class="nav-text">2.组件定义的两种方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-多个组件"><span class="nav-number">2.3.</span> <span class="nav-text">3.多个组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Props的只读性"><span class="nav-number">2.4.</span> <span class="nav-text">4.Props的只读性</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NgTemplateOutlet"><span class="nav-number">2.</span> <span class="nav-text">NgTemplateOutlet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体的用法"><span class="nav-number">3.</span> <span class="nav-text">具体的用法</span></a></li></ol></div>
             
 
           </div>
@@ -649,7 +710,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.1.0</div>
 
 
 
@@ -738,6 +799,7 @@
 
 
   <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
 
 
 

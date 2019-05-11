@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-CN">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,7 +55,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/antelope-favicon-16x16.png?v=7.1.0">
 
 
   <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Mist',
     version: '7.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="前言在准备更换hexo主题之前，我是在官网主题上找的，200多个，一个一个翻，后来看到有拿爬虫去github爬star的，我心有躁动了，为啥不自己弄一个玩玩呢，于是就开始了。 什么是爬虫网络爬虫（英语：web crawler），也叫网络蜘蛛（spider），是一种用来自动浏览万维网的网络机器人。 用Python写脚本 安装python网上教程很多，下安装好之后在cmd中查看python版本，检查是">
-<meta name="keywords" content="Hexo,python">
+  <meta name="description" content="前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览">
+<meta name="keywords" content="Hexo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Hexo搭建博客】（三）更换主题前的小插曲">
-<meta property="og:url" content="https://chemistwang.github.io/2019/04/13/更换主题小插曲/index.html">
+<meta property="og:title" content="【Hexo搭建博客】（二） 添加博客访问量统计">
+<meta property="og:url" content="https://chemistwang.github.io/2019/04/13/【Hexo搭建博客】（二） 添加博客访问量统计/index.html">
 <meta property="og:site_name" content="Chemist-Wang">
-<meta property="og:description" content="前言在准备更换hexo主题之前，我是在官网主题上找的，200多个，一个一个翻，后来看到有拿爬虫去github爬star的，我心有躁动了，为啥不自己弄一个玩玩呢，于是就开始了。 什么是爬虫网络爬虫（英语：web crawler），也叫网络蜘蛛（spider），是一种用来自动浏览万维网的网络机器人。 用Python写脚本 安装python网上教程很多，下安装好之后在cmd中查看python版本，检查是">
+<meta property="og:description" content="前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-14T14:11:19.979Z">
+<meta property="og:updated_time" content="2019-05-11T01:25:40.623Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【Hexo搭建博客】（三）更换主题前的小插曲">
-<meta name="twitter:description" content="前言在准备更换hexo主题之前，我是在官网主题上找的，200多个，一个一个翻，后来看到有拿爬虫去github爬star的，我心有躁动了，为啥不自己弄一个玩玩呢，于是就开始了。 什么是爬虫网络爬虫（英语：web crawler），也叫网络蜘蛛（spider），是一种用来自动浏览万维网的网络机器人。 用Python写脚本 安装python网上教程很多，下安装好之后在cmd中查看python版本，检查是">
+<meta name="twitter:title" content="【Hexo搭建博客】（二） 添加博客访问量统计">
+<meta name="twitter:description" content="前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="https://chemistwang.github.io/2019/04/13/更换主题小插曲/">
+  <link rel="canonical" href="https://chemistwang.github.io/2019/04/13/【Hexo搭建博客】（二） 添加博客访问量统计/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>【Hexo搭建博客】（三）更换主题前的小插曲 | Chemist-Wang</title>
+  <title>【Hexo搭建博客】（二） 添加博客访问量统计 | Chemist-Wang</title>
   
 
 
@@ -232,6 +232,57 @@
         
         
           
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-archives">
 
     
@@ -294,7 +345,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/13/更换主题小插曲/">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/13/【Hexo搭建博客】（二） 添加博客访问量统计/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wang yanglong">
@@ -311,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【Hexo搭建博客】（三）更换主题前的小插曲
+          <h1 class="post-title" itemprop="name headline">【Hexo搭建博客】（二） 添加博客访问量统计
 
               
             
@@ -337,7 +388,7 @@
                 
               
 
-              <time title="创建时间：2019-04-13 21:30:40" itemprop="dateCreated datePublished" datetime="2019-04-13T21:30:40+08:00">2019-04-13</time>
+              <time title="创建时间：2019-04-13 14:08:09" itemprop="dateCreated datePublished" datetime="2019-04-13T14:08:09+08:00">2019-04-13</time>
             
 
             
@@ -354,7 +405,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-14 22:11:19" itemprop="dateModified" datetime="2019-04-14T22:11:19+08:00">2019-04-14</time>
+                <time title="修改时间：2019-05-11 09:25:40" itemprop="dateModified" datetime="2019-05-11T09:25:40+08:00">2019-05-11</time>
               
             
           </span>
@@ -388,35 +439,14 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在准备更换hexo主题之前，我是在<a href="https://hexo.io/themes/" target="_blank" rel="noopener">官网主题</a>上找的，200多个，一个一个翻，后来看到有拿爬虫去github爬star的，我心有躁动了，为啥不自己弄一个玩玩呢，于是就开始了。</p>
-<h2 id="什么是爬虫"><a href="#什么是爬虫" class="headerlink" title="什么是爬虫"></a>什么是爬虫</h2><p>网络爬虫（英语：web crawler），也叫网络蜘蛛（spider），是一种用来自动浏览万维网的网络机器人。</p>
-<h2 id="用Python写脚本"><a href="#用Python写脚本" class="headerlink" title="用Python写脚本"></a>用Python写脚本</h2><ol>
-<li>安装python<br>网上教程很多，下安装好之后在cmd中查看python版本，检查是否安装完毕。我下载的是最新的Windows版本3.7.3。<br>注意：Python有两个版本，2.x版和3.x版，两个版本不兼容。</li>
-<li>安装requests库和lxml库<br>抓取网页的时候，需要导入requests模块<br>lxml是一个用来快速解析xml和html文档且具有良好扩展性的库<br>方法：</li>
-</ol>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。<br>刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。</p>
+<h2 id="什么是访问量"><a href="#什么是访问量" class="headerlink" title="什么是访问量"></a>什么是访问量</h2><p>UV（Unique visitor）即独立访客<br>UV的度量</p>
 <ul>
-<li>找到自己python安装目录下的pip</li>
-<li><p>打开cmd窗口输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br><span class="line">pip install lxml</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看是否安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip list</span><br></pre></td></tr></table></figure>
-</li>
+<li>网站服务器分辨<br>网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览器版本、操作系统版本等等。网站服务器对这些请求进行分析，如果这些请求满足某些共同特征，比如来自同一个IP地址，浏览器版本和操作系统版本相同，请求时间又相近等等，就可以认为这些请求是来自于同一个Visitor的，那么这些访问自然是产生1个UV。当然，共同特征的具体定义是由网站服务器的设置决定的。通常来讲，用IP地址+其他特征共同来定义的情况比较多见。</li>
+<li>用cookie分辨<br>当客户端第一次访问某个网站服务器时，网站服务器会给该客户端电脑发出一个Cookie，通常放在C盘中。在这个Cookie中会分配一个独一无二的编号，并记录访问服务器的信息，如访问时间、访问了哪些页面等等。当你下次再访问这个服务器时，服务器就可以直接从你的电脑中找到上一次放进去的Cookie文件，并且对其进行更新，但那个独一无二的编号是不会变的。如果在一定时间内，服务器发现2个Visit所对应的是一个编号，那么我们自然可以认为这个来源于同一个Visitor了，自然也就是1个UV。使用Cookie的方法要比网站服务器更精确些。但也存在一些问题，比如：有些客户端为保证更高级别的安全，关闭了Cookie的功能；或者是有些客户端设置了在退出页面时自动删除Cookie，亦或经常自己去手动删除Cookie，那么这个方法就不那么精确了。由此看来，两个方法都只能得到近似的UV，而不是绝对精确的。</li>
 </ul>
-<p>我的版本号是request 2.21.0 和 lxml 4.3.3</p>
-<ol start="3">
-<li>爬虫过程<br>我预先看了爬虫的基本原理，大概有了思路：hexo主题页每个主题的标题部分都有一个超链接，点击进去跳转到相关的github页面，再从它的github页面抓取star数。</li>
-</ol>
-<ul>
-<li>先爬取页面的超链接<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> html</span><br><span class="line">url=<span class="string">'https://hexo.io/themes/'</span> <span class="comment">#需要爬数据的网址</span></span><br><span class="line">page=requests.Session().get(url) </span><br><span class="line">tree=html.fromstring(page.text) </span><br><span class="line">result=tree.xpath(<span class="string">'//li[@class="plugin on"]//a[@class="plugin-name"]/@href'</span>) <span class="comment">#获取需要的数据</span></span><br><span class="line"><span class="comment">#print(result)</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>用cmd输出之后发现用户体验不好（前端的梗。。。），所以准备把结果输出到txt文件中。</p>
-<ul>
-<li>输出结果至txt文件中<br>其实这一步可以忽略，我只是想到既然可以实现，那就去做。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输出结果至txt文件中</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./result.txt'</span>, <span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> item <span class="keyword">in</span> result:</span><br><span class="line">		f.write(item + <span class="string">';\n'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>如果没有result.txt文件，程序会新建该文本。</p>
+<p>PV（Page View）即页面浏览量，或点击量<br>其具体的度量方法是从浏览器发出一个对网络服务器的请求（Request）,网络服务器接到该请求后，会将请求对应的网页（Page）发送给浏览器，从而产生一个PV。只要是请求发送给了浏览器，无论页面是否完全打开（下载完成），都记为1个PV。<br>用以衡量网站用户访问的网页数量</p>
+<h2 id="添加博客访问量统计"><a href="#添加博客访问量统计" class="headerlink" title="添加博客访问量统计"></a>添加博客访问量统计</h2><p><a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子</a></p>
 
       
     </div>
@@ -442,8 +472,6 @@
           
             <a href="/tags/Hexo/" rel="tag"># Hexo</a>
           
-            <a href="/tags/python/" rel="tag"># python</a>
-          
         </div>
       
 
@@ -455,8 +483,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/13/访问量统计/" rel="next" title="【Hexo搭建博客】（二） 添加博客访问量统计">
-                <i class="fa fa-chevron-left"></i> 【Hexo搭建博客】（二） 添加博客访问量统计
+              <a href="/2019/04/13/理解JavsScript/" rel="next" title="理解JavsScript eval()函数">
+                <i class="fa fa-chevron-left"></i> 理解JavsScript eval()函数
               </a>
             
           </div>
@@ -465,8 +493,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/13/start的主题/" rel="prev" title="start的主题">
-                start的主题 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/04/13/【Hexo搭建博客】（三）更换主题前的小插曲/" rel="prev" title="【Hexo搭建博客】（三）更换主题前的小插曲">
+                【Hexo搭建博客】（三）更换主题前的小插曲 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -584,7 +612,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
@@ -622,7 +652,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是爬虫"><span class="nav-number">2.</span> <span class="nav-text">什么是爬虫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用Python写脚本"><span class="nav-number">3.</span> <span class="nav-text">用Python写脚本</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是访问量"><span class="nav-number">2.</span> <span class="nav-text">什么是访问量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加博客访问量统计"><span class="nav-number">3.</span> <span class="nav-text">添加博客访问量统计</span></a></li></ol></div>
             
 
           </div>
@@ -663,7 +693,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.1.0</div>
 
 
 
@@ -752,6 +782,7 @@
 
 
   <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
 
 
 

@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-CN">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,7 +55,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/antelope-favicon-16x16.png?v=7.1.0">
 
 
   <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Mist',
     version: '7.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="前言使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。附上中文官方网站：Angular NgTemplateOutlet这个指令有两个Input输入属性  ngTemplateOutletContext ngTemplateOutlet  具体的用法12html&amp;lt;ng-template [ngTemplateOutlet]">
-<meta name="keywords" content="angular">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【Angular】（一）ngTemplate的用法">
-<meta property="og:url" content="https://chemistwang.github.io/2019/04/17/Angular/index.html">
+  <meta name="description" content="wangyanglong">
+<meta name="keywords" content="this is keyword">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="https://chemistwang.github.io/about/index.html">
 <meta property="og:site_name" content="Chemist-Wang">
-<meta property="og:description" content="前言使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。附上中文官方网站：Angular NgTemplateOutlet这个指令有两个Input输入属性  ngTemplateOutletContext ngTemplateOutlet  具体的用法12html&amp;lt;ng-template [ngTemplateOutlet]">
+<meta property="og:description" content="wangyanglong">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-17T14:24:15.446Z">
+<meta property="og:updated_time" content="2019-05-11T02:50:54.494Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【Angular】（一）ngTemplate的用法">
-<meta name="twitter:description" content="前言使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。附上中文官方网站：Angular NgTemplateOutlet这个指令有两个Input输入属性  ngTemplateOutletContext ngTemplateOutlet  具体的用法12html&amp;lt;ng-template [ngTemplateOutlet]">
+<meta name="twitter:title" content="about">
+<meta name="twitter:description" content="wangyanglong">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="https://chemistwang.github.io/2019/04/17/Angular/">
+  <link rel="canonical" href="https://chemistwang.github.io/about/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>【Angular】（一）ngTemplate的用法 | Chemist-Wang</title>
+  <title>about | Chemist-Wang</title>
   
 
 
@@ -232,6 +232,57 @@
         
         
           
+          <li class="menu-item menu-item-about menu-item-active">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-archives">
 
     
@@ -253,6 +304,28 @@
 
   
     
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
 
   
 
@@ -280,191 +353,45 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/17/Angular/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">【Angular】（一）ngTemplate的用法
+<h1 class="post-title" itemprop="name headline">about
 
-              
-            
-          </h1>
-        
+</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
+<div class="post-meta">
+  
+  
 
-            
-            
-            
 
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
 
-              
-                
-              
+</div>
 
-              <time title="创建时间：2019-04-17 22:11:31 / 修改时间：22:24:15" itemprop="dateCreated datePublished" datetime="2019-04-17T22:11:31+08:00">2019-04-17</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端框架/" itemprop="url" rel="index"><span itemprop="name">前端框架</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。<br>附上中文官方网站：<a href="https://angular.cn/" target="_blank" rel="noopener">Angular</a></p>
-<h2 id="NgTemplateOutlet"><a href="#NgTemplateOutlet" class="headerlink" title="NgTemplateOutlet"></a>NgTemplateOutlet</h2><p>这个指令有两个Input输入属性</p>
-<ul>
-<li>ngTemplateOutletContext</li>
-<li>ngTemplateOutlet</li>
-</ul>
-<h2 id="具体的用法"><a href="#具体的用法" class="headerlink" title="具体的用法"></a>具体的用法</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line"><span class="tag">&lt;<span class="name">ng-template</span> [<span class="attr">ngTemplateOutlet</span>]=<span class="string">"#name"</span>&gt;</span><span class="tag">&lt;/<span class="name">ng-template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> clock = <span class="built_in">any</span>;</span><br></pre></td></tr></table></figure>
+      <div class="post-body">
+        
+        
+          
+        
+      </div>
+      
+      
       
     </div>
-
     
 
+
+
     
     
     
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/angular/" rel="tag"># angular</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/04/14/更换主题/" rel="next" title="【Hexo搭建博客】（四）更换主题">
-                <i class="fa fa-chevron-left"></i> 【Hexo搭建博客】（四）更换主题
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/29/【React】（一）创建应用和元素渲染/" rel="prev" title="【React】（一）创建应用和元素渲染">
-                【React】（一）创建应用和元素渲染 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
   </div>
 
 
@@ -493,17 +420,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -566,7 +484,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
@@ -593,23 +513,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NgTemplateOutlet"><span class="nav-number">2.</span> <span class="nav-text">NgTemplateOutlet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体的用法"><span class="nav-number">3.</span> <span class="nav-text">具体的用法</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
@@ -645,7 +548,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.1.0</div>
 
 
 
@@ -734,6 +637,7 @@
 
 
   <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
 
 
 

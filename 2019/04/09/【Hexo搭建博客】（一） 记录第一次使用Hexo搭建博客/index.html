@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-CN">
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -55,7 +55,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/antelope-favicon-16x16.png?v=7.1.0">
 
 
   <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Mist',
     version: '7.1.0',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览">
+  <meta name="description" content="前言转行以来，一直想搭建一个自己的网站，2018年的2月份还申请了网站备案，买了一台云服务器，弄了一个域名，结果因为技术原因不了了之。也看过用github page搭建，却没有时间（啊，呸）。。。终于静下心在网上找了教程，用Hexo搭建了一个自己的博客。 什么是Hexo?Hexo是一个快速、简洁且高效的博客框架。Hexo使用Markdown（或其他渲染引擎）解析文章，生成静态网页。 附上官网的中文">
 <meta name="keywords" content="Hexo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Hexo搭建博客】（二） 添加博客访问量统计">
-<meta property="og:url" content="https://chemistwang.github.io/2019/04/13/访问量统计/index.html">
+<meta property="og:title" content="【Hexo搭建博客】（一） 记录第一次使用Hexo搭建博客">
+<meta property="og:url" content="https://chemistwang.github.io/2019/04/09/【Hexo搭建博客】（一） 记录第一次使用Hexo搭建博客/index.html">
 <meta property="og:site_name" content="Chemist-Wang">
-<meta property="og:description" content="前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览">
+<meta property="og:description" content="前言转行以来，一直想搭建一个自己的网站，2018年的2月份还申请了网站备案，买了一台云服务器，弄了一个域名，结果因为技术原因不了了之。也看过用github page搭建，却没有时间（啊，呸）。。。终于静下心在网上找了教程，用Hexo搭建了一个自己的博客。 什么是Hexo?Hexo是一个快速、简洁且高效的博客框架。Hexo使用Markdown（或其他渲染引擎）解析文章，生成静态网页。 附上官网的中文">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-15T14:12:45.380Z">
+<meta property="og:updated_time" content="2019-05-11T01:25:57.124Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【Hexo搭建博客】（二） 添加博客访问量统计">
-<meta name="twitter:description" content="前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。 什么是访问量UV（Unique visitor）即独立访客UV的度量  网站服务器分辨网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览">
+<meta name="twitter:title" content="【Hexo搭建博客】（一） 记录第一次使用Hexo搭建博客">
+<meta name="twitter:description" content="前言转行以来，一直想搭建一个自己的网站，2018年的2月份还申请了网站备案，买了一台云服务器，弄了一个域名，结果因为技术原因不了了之。也看过用github page搭建，却没有时间（啊，呸）。。。终于静下心在网上找了教程，用Hexo搭建了一个自己的博客。 什么是Hexo?Hexo是一个快速、简洁且高效的博客框架。Hexo使用Markdown（或其他渲染引擎）解析文章，生成静态网页。 附上官网的中文">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="https://chemistwang.github.io/2019/04/13/访问量统计/">
+  <link rel="canonical" href="https://chemistwang.github.io/2019/04/09/【Hexo搭建博客】（一） 记录第一次使用Hexo搭建博客/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>【Hexo搭建博客】（二） 添加博客访问量统计 | Chemist-Wang</title>
+  <title>【Hexo搭建博客】（一） 记录第一次使用Hexo搭建博客 | Chemist-Wang</title>
   
 
 
@@ -232,6 +232,57 @@
         
         
           
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-archives">
 
     
@@ -294,7 +345,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/13/访问量统计/">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/09/【Hexo搭建博客】（一） 记录第一次使用Hexo搭建博客/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wang yanglong">
@@ -311,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【Hexo搭建博客】（二） 添加博客访问量统计
+          <h1 class="post-title" itemprop="name headline">【Hexo搭建博客】（一） 记录第一次使用Hexo搭建博客
 
               
             
@@ -337,7 +388,7 @@
                 
               
 
-              <time title="创建时间：2019-04-13 14:08:09" itemprop="dateCreated datePublished" datetime="2019-04-13T14:08:09+08:00">2019-04-13</time>
+              <time title="创建时间：2019-04-09 22:33:03" itemprop="dateCreated datePublished" datetime="2019-04-09T22:33:03+08:00">2019-04-09</time>
             
 
             
@@ -354,7 +405,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-15 22:12:45" itemprop="dateModified" datetime="2019-04-15T22:12:45+08:00">2019-04-15</time>
+                <time title="修改时间：2019-05-11 09:25:57" itemprop="dateModified" datetime="2019-05-11T09:25:57+08:00">2019-05-11</time>
               
             
           </span>
@@ -388,14 +439,16 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。<br>刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。</p>
-<h2 id="什么是访问量"><a href="#什么是访问量" class="headerlink" title="什么是访问量"></a>什么是访问量</h2><p>UV（Unique visitor）即独立访客<br>UV的度量</p>
-<ul>
-<li>网站服务器分辨<br>网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览器版本、操作系统版本等等。网站服务器对这些请求进行分析，如果这些请求满足某些共同特征，比如来自同一个IP地址，浏览器版本和操作系统版本相同，请求时间又相近等等，就可以认为这些请求是来自于同一个Visitor的，那么这些访问自然是产生1个UV。当然，共同特征的具体定义是由网站服务器的设置决定的。通常来讲，用IP地址+其他特征共同来定义的情况比较多见。</li>
-<li>用cookie分辨<br>当客户端第一次访问某个网站服务器时，网站服务器会给该客户端电脑发出一个Cookie，通常放在C盘中。在这个Cookie中会分配一个独一无二的编号，并记录访问服务器的信息，如访问时间、访问了哪些页面等等。当你下次再访问这个服务器时，服务器就可以直接从你的电脑中找到上一次放进去的Cookie文件，并且对其进行更新，但那个独一无二的编号是不会变的。如果在一定时间内，服务器发现2个Visit所对应的是一个编号，那么我们自然可以认为这个来源于同一个Visitor了，自然也就是1个UV。使用Cookie的方法要比网站服务器更精确些。但也存在一些问题，比如：有些客户端为保证更高级别的安全，关闭了Cookie的功能；或者是有些客户端设置了在退出页面时自动删除Cookie，亦或经常自己去手动删除Cookie，那么这个方法就不那么精确了。由此看来，两个方法都只能得到近似的UV，而不是绝对精确的。</li>
-</ul>
-<p>PV（Page View）即页面浏览量，或点击量<br>其具体的度量方法是从浏览器发出一个对网络服务器的请求（Request）,网络服务器接到该请求后，会将请求对应的网页（Page）发送给浏览器，从而产生一个PV。只要是请求发送给了浏览器，无论页面是否完全打开（下载完成），都记为1个PV。<br>用以衡量网站用户访问的网页数量</p>
-<h2 id="添加博客访问量统计"><a href="#添加博客访问量统计" class="headerlink" title="添加博客访问量统计"></a>添加博客访问量统计</h2><p><a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子</a></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>转行以来，一直想搭建一个自己的网站，2018年的2月份还申请了网站备案，买了一台云服务器，弄了一个域名，结果因为技术原因不了了之。也看过用github page搭建，却没有时间（啊，呸）。。。<br>终于静下心在网上找了教程，用Hexo搭建了一个自己的博客。</p>
+<h2 id="什么是Hexo"><a href="#什么是Hexo" class="headerlink" title="什么是Hexo?"></a>什么是Hexo?</h2><p>Hexo是一个快速、简洁且高效的博客框架。Hexo使用Markdown（或其他渲染引擎）解析文章，生成静态网页。</p>
+<p>附上官网的中文链接： <a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">Hexo中文网站</a></p>
+<h2 id="建站的一些思路，大家可以参考"><a href="#建站的一些思路，大家可以参考" class="headerlink" title="建站的一些思路，大家可以参考"></a>建站的一些思路，大家可以参考</h2><h3 id="1-先搭建"><a href="#1-先搭建" class="headerlink" title="1. 先搭建"></a>1. 先搭建</h3><p>官网讲的特别详细，但我喜欢直截了当，不管别的，先按步骤把博客搭建起来。网上都能查到，详细步骤后续再更。</p>
+<h3 id="2-记住命令"><a href="#2-记住命令" class="headerlink" title="2. 记住命令"></a>2. 记住命令</h3><p>一开始记住五条命令就够了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new</span><br><span class="line">$ hexo clean</span><br><span class="line">$ hexo generate</span><br><span class="line">$ hexo server</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-开始写"><a href="#3-开始写" class="headerlink" title="3. 开始写"></a>3. 开始写</h3><p>博客最主要的就是自己的内容，先去写，在写的过程中积累和学习Markdown语法。先这样喽。</p>
+<blockquote>
+<p><em>We believe that writing is about content, about what you want to say – not about fancy formatting.</em></p>
+</blockquote>
+<p>Markdown参考资料: <a href="https://coding.net/help/doc/project/markdown.html" target="_blank" rel="noopener">Coding-Markdown</a></p>
 
       
     </div>
@@ -432,8 +485,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/13/理解JavsScript/" rel="next" title="理解JavsScript eval()函数">
-                <i class="fa fa-chevron-left"></i> 理解JavsScript eval()函数
+              <a href="/2019/04/09/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
               </a>
             
           </div>
@@ -442,8 +495,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/13/更换主题小插曲/" rel="prev" title="【Hexo搭建博客】（三）更换主题前的小插曲">
-                【Hexo搭建博客】（三）更换主题前的小插曲 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/04/10/算法与数据结构/" rel="prev" title="算法与数据结构">
+                算法与数据结构 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -561,7 +614,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
@@ -599,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是访问量"><span class="nav-number">2.</span> <span class="nav-text">什么是访问量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加博客访问量统计"><span class="nav-number">3.</span> <span class="nav-text">添加博客访问量统计</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Hexo"><span class="nav-number">2.</span> <span class="nav-text">什么是Hexo?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建站的一些思路，大家可以参考"><span class="nav-number">3.</span> <span class="nav-text">建站的一些思路，大家可以参考</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-先搭建"><span class="nav-number">3.1.</span> <span class="nav-text">1. 先搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-记住命令"><span class="nav-number">3.2.</span> <span class="nav-text">2. 记住命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-开始写"><span class="nav-number">3.3.</span> <span class="nav-text">3. 开始写</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -640,7 +695,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.1.0</div>
 
 
 
@@ -729,6 +784,7 @@
 
 
   <script src="/js/schemes/muse.js?v=7.1.0"></script>
+
 
 
 
