@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="前言一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。附上中文官方网站：React中文文档 用脚手架创建React应用 安装环境为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2 用脚手架创建React项目附上git链接create-react-app1npx create-react-app my-app   一开始我真的以为官网">
-<meta name="keywords" content="React">
+  <meta name="description" content="前言在开发的路上换了不少编辑器，都没有我想要的操作感，直到我看到了vim。 想法我认为工具的学习曲线是通过使用逐步扩展的，根本没有必要一开始就记忆一些繁琐的命令，以自己的编码风格去学习和拓展是最平滑，也是最有效的。 下载去Vim官方网站下载，点击左侧栏的Download进入下载页面，选择合适的版本下载安装，默认选项下一步就可以了。我下载的是gvim8.1版本，可以通过:version查看当前正在运">
+<meta name="keywords" content="vim">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【React】（一）创建应用和元素渲染">
-<meta property="og:url" content="https://chemistwang.github.io/2019/04/29/【React】（一）创建应用和元素渲染/index.html">
+<meta property="og:title" content="【Vim】（一）基本操作">
+<meta property="og:url" content="https://chemistwang.github.io/2019/05/14/【Vim】（一）基本操作/index.html">
 <meta property="og:site_name" content="Chemist-Wang">
-<meta property="og:description" content="前言一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。附上中文官方网站：React中文文档 用脚手架创建React应用 安装环境为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2 用脚手架创建React项目附上git链接create-react-app1npx create-react-app my-app   一开始我真的以为官网">
+<meta property="og:description" content="前言在开发的路上换了不少编辑器，都没有我想要的操作感，直到我看到了vim。 想法我认为工具的学习曲线是通过使用逐步扩展的，根本没有必要一开始就记忆一些繁琐的命令，以自己的编码风格去学习和拓展是最平滑，也是最有效的。 下载去Vim官方网站下载，点击左侧栏的Download进入下载页面，选择合适的版本下载安装，默认选项下一步就可以了。我下载的是gvim8.1版本，可以通过:version查看当前正在运">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-14T01:46:56.017Z">
+<meta property="og:updated_time" content="2019-05-14T14:03:47.124Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【React】（一）创建应用和元素渲染">
-<meta name="twitter:description" content="前言一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。附上中文官方网站：React中文文档 用脚手架创建React应用 安装环境为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2 用脚手架创建React项目附上git链接create-react-app1npx create-react-app my-app   一开始我真的以为官网">
+<meta name="twitter:title" content="【Vim】（一）基本操作">
+<meta name="twitter:description" content="前言在开发的路上换了不少编辑器，都没有我想要的操作感，直到我看到了vim。 想法我认为工具的学习曲线是通过使用逐步扩展的，根本没有必要一开始就记忆一些繁琐的命令，以自己的编码风格去学习和拓展是最平滑，也是最有效的。 下载去Vim官方网站下载，点击左侧栏的Download进入下载页面，选择合适的版本下载安装，默认选项下一步就可以了。我下载的是gvim8.1版本，可以通过:version查看当前正在运">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="https://chemistwang.github.io/2019/04/29/【React】（一）创建应用和元素渲染/">
+  <link rel="canonical" href="https://chemistwang.github.io/2019/05/14/【Vim】（一）基本操作/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>【React】（一）创建应用和元素渲染 | Chemist-Wang</title>
+  <title>【Vim】（一）基本操作 | Chemist-Wang</title>
   
 
 
@@ -352,7 +352,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/29/【React】（一）创建应用和元素渲染/">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/14/【Vim】（一）基本操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wang yanglong">
@@ -369,7 +369,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【React】（一）创建应用和元素渲染
+          <h1 class="post-title" itemprop="name headline">【Vim】（一）基本操作
 
               
             
@@ -395,24 +395,12 @@
                 
               
 
-              <time title="创建时间：2019-04-29 20:57:26" itemprop="dateCreated datePublished" datetime="2019-04-29T20:57:26+08:00">2019-04-29</time>
+              <time title="创建时间：2019-05-14 10:02:32 / 修改时间：22:03:47" itemprop="dateCreated datePublished" datetime="2019-05-14T10:02:32+08:00">2019-05-14</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-14 09:46:56" itemprop="dateModified" datetime="2019-05-14T09:46:56+08:00">2019-05-14</time>
               
             
           </span>
@@ -429,7 +417,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Vim学习笔记/" itemprop="url" rel="index"><span itemprop="name">Vim学习笔记</span></a></span>
 
                 
                 
@@ -471,40 +459,87 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。<br>附上中文官方网站：<a href="https://react.docschina.org/" target="_blank" rel="noopener">React中文文档</a></p>
-<h2 id="用脚手架创建React应用"><a href="#用脚手架创建React应用" class="headerlink" title="用脚手架创建React应用"></a>用脚手架创建React应用</h2><ol>
-<li>安装环境<br>为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2</li>
-<li>用脚手架创建React项目<br>附上git链接<a href="https://github.com/facebook/create-react-app" target="_blank" rel="noopener">create-react-app</a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app my-app</span><br></pre></td></tr></table></figure>
-</li>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开发的路上换了不少编辑器，都没有我想要的操作感，直到我看到了vim。</p>
+<h2 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h2><p>我认为工具的学习曲线是通过使用逐步扩展的，根本没有必要一开始就记忆一些繁琐的命令，以自己的编码风格去学习和拓展是最平滑，也是最有效的。</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>去<a href="https://www.vim.org/" target="_blank" rel="noopener">Vim官方网站</a>下载，点击左侧栏的Download进入下载页面，选择合适的版本下载安装，默认选项下一步就可以了。<br>我下载的是gvim8.1版本，可以通过<code>:version</code>查看当前正在运行的vim的所有信息。</p>
+<h2 id="Vim的三种模式"><a href="#Vim的三种模式" class="headerlink" title="Vim的三种模式"></a>Vim的三种模式</h2><p>首先要知道vim的三种模式，通过练习体会，这样会理解得更深。</p>
+<ol>
+<li>命令模式（Command mode）<br>此状态下敲击键盘动作会被vim识别为命令，而非输入字符，可以进行快捷的操作。</li>
+<li>输入模式（Insert mode）<br>有很多方式可以进入输入模式，这样我们就可以编辑代码了。</li>
+<li>底线命令模式（Last line mode）<br>通过:（英文冒号）进入底线命令模式，可以进行编辑之外的事情，例如保存文件，修改编辑器的设定等。</li>
 </ol>
-<p>一开始我真的以为官网写错了，从来没见过npx，网上查了一下，这玩意老早就有了。。。<br><a href="https://www.npmjs.com/package/npx" target="_blank" rel="noopener">npx</a>描述为执行npm包的二进制文件，x就是execute的意思吧。</p>
-<p>很神奇，自动帮我安装好了node_modules包。</p>
-<ol start="3">
-<li>启动项目<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Vim三种模式</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">命令模式</td>
+<td style="text-align:center">快捷键的操作</td>
+</tr>
+<tr>
+<td style="text-align:center">输入模式</td>
+<td style="text-align:center">输入文本</td>
+</tr>
+<tr>
+<td style="text-align:center">底线命令模式</td>
+<td style="text-align:center">编辑之外的设定</td>
+</tr>
+</tbody>
+</table>
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><h3 id="1-打开工作区"><a href="#1-打开工作区" class="headerlink" title="1. 打开工作区"></a>1. 打开工作区</h3><p>日常不就是先打开编辑器，并且打开所在的工作区吗，同理，打开vim，通过<code>:e</code></p>
+<h3 id="2-编辑"><a href="#2-编辑" class="headerlink" title="2. 编辑"></a>2. 编辑</h3><ul>
+<li><p>光标的移动<br>通过<code>h</code> <code>j</code> <code>k</code> <code>l</code>。移动光标是最常用的编辑器命令，这些键位在你右手本位。<br>h代表向左，j代表向下，k代表向上，l代表向右。</p>
+<blockquote>
+<p>简单的记忆方法：j向下伸的长，所以向下；k向上冒的长，所以向上</p>
+</blockquote>
 </li>
-</ol>
-<p>启动好了项目并且自动打开了浏览器，端口号是默认的3000，会发现有一个旋转的React图标，项目创建启动成功！</p>
-<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>什么都应该从Hello World开始学起。<br>在根目录下的index.js文件中，将原先的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, document.getElementById('root'));</span></span><br></pre></td></tr></table></figure></p>
-<p>替换为<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(</span><br><span class="line">    &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>,</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>因为我个人不是很喜欢在dom元素上绑定id，我就尝试把document.getElementById删掉，发现报错。<br>查询文档后发现render函数至少需要两个参数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(element, container[, callback])</span><br></pre></td></tr></table></figure></p>
-<h2 id="与Angular4-x的比较"><a href="#与Angular4-x的比较" class="headerlink" title="与Angular4.x的比较"></a>与Angular4.x的比较</h2><p>在Angular中，用 ng g c 命令创建的组件是一个文件夹，里面存有四个文件，css/html/spec/ts<br>在React中，我没有发现html文件，原来React推荐使用JSX来描述用户界面。</p>
-<h2 id="JSX简介"><a href="#JSX简介" class="headerlink" title="JSX简介"></a>JSX简介</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> element = &lt;h1&gt;Hello, world!&lt;h1&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="1-在JSX中使用表达式"><a href="#1-在JSX中使用表达式" class="headerlink" title="1. 在JSX中使用表达式"></a>1. 在JSX中使用表达式</h3><ul>
-<li>书写JSX的时候推荐外面扩上一个小括号<br>为了增强代码可读性，JSX会有换行和缩进，带上括号，防止分号自动插入的bug</li>
-<li>JSX中的表达式包含在大括号里面<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">    firstName: <span class="string">'lucus'</span>,</span><br><span class="line">    firstName: <span class="string">'mars'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatName</span>(<span class="params">userInfo</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> userInfo.firstName + <span class="string">' '</span> + userInfo.lastName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> element = (</span><br><span class="line">    &lt;h1&gt;</span><br><span class="line">        Hello, &#123;formatName(user)&#125;!</span><br><span class="line">    &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(</span></span><br><span class="line"><span class="regexp">    element,</span></span><br><span class="line"><span class="regexp">    document.getElementById('root')</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure>
+<li><p>输入</p>
 </li>
 </ul>
-<h3 id="2-JSX属性"><a href="#2-JSX属性" class="headerlink" title="2. JSX属性"></a>2. JSX属性</h3><p>这里挂载的属性就是一个变量和非变量的问题了，若是一个变量，则拿大括号包裹起来，若是一个确定的值，则用引号包裹。</p>
-<blockquote>
-<p>注意：JSX的特性更接近Js而不是Html，所以ReactDOM用camelCase小驼峰命名定义属性而不是HTML属性<br>eg. class =&gt; className    tabindex =&gt; tabIndex</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">进入输入模式的方法</th>
+<th style="text-align:center">效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>i</code></td>
+<td style="text-align:center">在光标所在的字符前插入 (insert)</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>I</code></td>
+<td style="text-align:center">在光标所在那一行开头插入 </td>
+</tr>
+<tr>
+<td style="text-align:center"><code>a</code></td>
+<td style="text-align:center">在光标所在的字符后插入 (append)</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>A</code></td>
+<td style="text-align:center">在光标所在那一行最后插入</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>o</code></td>
+<td style="text-align:center">在光标所在的字符下方建立新空行</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>O</code></td>
+<td style="text-align:center">在光标所在的字符上方建立新空行</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>修改<br>删除一个字符，把光标移动到其上面输入<code>x</code><br>删除一整行，输入<code>dd</code><br>经常用的<code>ctrl+C</code>撤销变成了<code>u</code><br>经常用的<code>ctrl+Y</code>回退变成了<code>ctrl+r</code><blockquote>
+<p><code>U</code>大写的U是特殊版本的撤销命令，称为行撤销，即撤销所有在最近编辑的行上的操作。</p>
 </blockquote>
-<h3 id="3-JSX防注入攻击"><a href="#3-JSX防注入攻击" class="headerlink" title="3. JSX防注入攻击"></a>3. JSX防注入攻击</h3><p>所有内容在渲染之前都被转换成了字符串，可以有效防止XSS攻击。</p>
-<h3 id="4-JSX代表Objects"><a href="#4-JSX代表Objects" class="headerlink" title="4. JSX代表Objects"></a>4. JSX代表Objects</h3><p>用JSX语法写的HTML标签，其实最后会被React通过方法转化为一个对象，与此同时，React通过读取这些对象来构建DOM并保持数据内容一致。</p>
-<h2 id="页面元素的渲染"><a href="#页面元素的渲染" class="headerlink" title="页面元素的渲染"></a>页面元素的渲染</h2><h3 id="1-根节点"><a href="#1-根节点" class="headerlink" title="1. 根节点"></a>1. 根节点</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在渲染的html中，在此div中的所有内容都将由React DOM来管理。</p>
-<p>用React开发一般只会定义一个根节点，若是在一个已有项目中引入React，则需要在不同的部分单独定义React根节点。</p>
-<h3 id="2-React元素都是不可变的"><a href="#2-React元素都是不可变的" class="headerlink" title="2. React元素都是不可变的"></a>2. React元素都是不可变的</h3><p>当元素被创建之后，无法改变其内容或属性，现阶段的唯一方法是创建一个新的元素，然后将它传入ReactDOM.render()方法中。</p>
-<h3 id="3-React只会更新必要的部分"><a href="#3-React只会更新必要的部分" class="headerlink" title="3. React只会更新必要的部分"></a>3. React只会更新必要的部分</h3><p>ReactDOM首先会比较元素内容先后的不同，而在渲染过程中只会更新改变了的部分。[]</p>
+</li>
+</ul>
 
       
     </div>
@@ -528,7 +563,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/React/" rel="tag"># React</a>
+            <a href="/tags/vim/" rel="tag"># vim</a>
           
         </div>
       
@@ -541,8 +576,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/17/【Angular】（一）ngTemplate的用法/" rel="next" title="【Angular】（一）ngTemplate的用法">
-                <i class="fa fa-chevron-left"></i> 【Angular】（一）ngTemplate的用法
+              <a href="/2019/05/13/【React】（四）循环/" rel="next" title="【React】（四）循环">
+                <i class="fa fa-chevron-left"></i> 【React】（四）循环
               </a>
             
           </div>
@@ -551,8 +586,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/01/【React】（二）Props & State/" rel="prev" title="【React】（二）Props & State">
-                【React】（二）Props & State <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/14/Java学习笔记/" rel="prev" title="Java学习笔记">
+                Java学习笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -736,7 +771,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用脚手架创建React应用"><span class="nav-number">2.</span> <span class="nav-text">用脚手架创建React应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-World"><span class="nav-number">3.</span> <span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与Angular4-x的比较"><span class="nav-number">4.</span> <span class="nav-text">与Angular4.x的比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSX简介"><span class="nav-number">5.</span> <span class="nav-text">JSX简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-在JSX中使用表达式"><span class="nav-number">5.1.</span> <span class="nav-text">1. 在JSX中使用表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JSX属性"><span class="nav-number">5.2.</span> <span class="nav-text">2. JSX属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JSX防注入攻击"><span class="nav-number">5.3.</span> <span class="nav-text">3. JSX防注入攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-JSX代表Objects"><span class="nav-number">5.4.</span> <span class="nav-text">4. JSX代表Objects</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面元素的渲染"><span class="nav-number">6.</span> <span class="nav-text">页面元素的渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-根节点"><span class="nav-number">6.1.</span> <span class="nav-text">1. 根节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-React元素都是不可变的"><span class="nav-number">6.2.</span> <span class="nav-text">2. React元素都是不可变的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-React只会更新必要的部分"><span class="nav-number">6.3.</span> <span class="nav-text">3. React只会更新必要的部分</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#想法"><span class="nav-number">2.</span> <span class="nav-text">想法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-number">3.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vim的三种模式"><span class="nav-number">4.</span> <span class="nav-text">Vim的三种模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本操作"><span class="nav-number">5.</span> <span class="nav-text">基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-打开工作区"><span class="nav-number">5.1.</span> <span class="nav-text">1. 打开工作区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-编辑"><span class="nav-number">5.2.</span> <span class="nav-text">2. 编辑</span></a></li></ol></li></ol></div>
             
 
           </div>
