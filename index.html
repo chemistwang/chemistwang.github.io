@@ -352,6 +352,783 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/16/【Vue】（三）值的传入与抛出/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/16/【Vue】（三）值的传入与抛出/" class="post-title-link" itemprop="url">【Vue】（三）值的传入与抛出</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-16 18:37:38 / 修改时间：20:52:47" itemprop="dateCreated datePublished" datetime="2019-05-16T18:37:38+08:00">2019-05-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Vue学习笔记/" itemprop="url" rel="index"><span itemprop="name">Vue学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>组件之间的交互最基础的就是父组件的值传入和子组件的值传出了。</p>
+<h2 id="Prop"><a href="#Prop" class="headerlink" title="Prop"></a>Prop</h2><p>通过Prop向子组件传递数据，官方提供数组和对象的传递方式，大概长这样，我偏向于使用对象。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    props: &#123; <span class="comment">//使用对象</span></span><br><span class="line">        variable1: <span class="built_in">String</span>,</span><br><span class="line">        variable2: <span class="built_in">Number</span>,</span><br><span class="line">        variable3: <span class="built_in">Boolean</span>,</span><br><span class="line">        variable4: <span class="built_in">Array</span>,</span><br><span class="line">        variable5: <span class="built_in">Object</span>,</span><br><span class="line">        variable6: <span class="built_in">Function</span>,</span><br><span class="line">        variable7: <span class="built_in">Promise</span>,</span><br><span class="line">        ...</span><br><span class="line">    &#125;,</span><br><span class="line">    props: [<span class="string">'data1'</span>, <span class="string">'data1'</span>, ...]  <span class="comment">//使用数组  </span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/16/【Javascript学习手册】数组篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/16/【Javascript学习手册】数组篇/" class="post-title-link" itemprop="url">【Javascript学习手册】数组篇</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-16 12:43:05 / 修改时间：14:23:01" itemprop="dateCreated datePublished" datetime="2019-05-16T12:43:05+08:00">2019-05-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Javascript学习手册/" itemprop="url" rel="index"><span itemprop="name">Javascript学习手册</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对数组有着莫名的好感，在数据处理方面有着强大的可用性。</p>
+<h2 id="创建一个数组"><a href="#创建一个数组" class="headerlink" title="创建一个数组"></a>创建一个数组</h2><h2 id="常见的方法"><a href="#常见的方法" class="headerlink" title="常见的方法"></a>常见的方法</h2><ol>
+<li>明确返回值<br>在说方法之前，一定要明确每个方法的返回值，这点非常非常重要。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/15/【Vue】（二）创建组件以及常见语法糖/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/15/【Vue】（二）创建组件以及常见语法糖/" class="post-title-link" itemprop="url">【Vue】（二）创建组件，组件生命周期以及常见语法糖</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-15 12:04:16" itemprop="dateCreated datePublished" datetime="2019-05-15T12:04:16+08:00">2019-05-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-16 18:36:34" itemprop="dateModified" datetime="2019-05-16T18:36:34+08:00">2019-05-16</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Vue学习笔记/" itemprop="url" rel="index"><span itemprop="name">Vue学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Vue脚手架并不支持命令生成组件，就只能手动创建。</p>
+<h2 id="创建组件"><a href="#创建组件" class="headerlink" title="创建组件"></a>创建组件</h2><p>在src/components下创建一个Demo.vue的组件，习惯了ES6创建Class的语法，在Vue中一个组件的脚本差不多长这样。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">'YourComponentName'</span>, </span><br><span class="line">  data: <span class="string">'YourData'</span>,</span><br><span class="line">  props: &#123;</span><br><span class="line">    msg: <span class="built_in">String</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>每一个框架都有它的生命周期，通过生命周期了解框架会更加直观。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">钩子方法</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">beforeCreate</td>
+<td style="text-align:center">beforeCreate</td>
+</tr>
+<tr>
+<td style="text-align:center">created</td>
+<td style="text-align:center">created</td>
+</tr>
+<tr>
+<td style="text-align:center">beforeMount</td>
+<td style="text-align:center">beforeMount</td>
+</tr>
+<tr>
+<td style="text-align:center">mounted</td>
+<td style="text-align:center">mounted</td>
+</tr>
+<tr>
+<td style="text-align:center">beforeUpdate</td>
+<td style="text-align:center">beforeUpdate</td>
+</tr>
+<tr>
+<td style="text-align:center">updated</td>
+<td style="text-align:center">updated</td>
+</tr>
+<tr>
+<td style="text-align:center">beforeDestroy</td>
+<td style="text-align:center">beforeDestroy</td>
+</tr>
+<tr>
+<td style="text-align:center">destroyed</td>
+<td style="text-align:center">destroyed</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Vue模板"><a href="#Vue模板" class="headerlink" title="Vue模板"></a>Vue模板</h2><p>大概长这样吧，都是套路。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- html模板 --&gt;</span><br><span class="line">&lt;template&gt; //必须有template标签，并且template包裹的只能是一个闭合标签</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;span v-on:click=&quot;yourFunc&quot;&gt;&#123;&#123;yourVariable&#125;&#125;&lt;/span&gt;</span><br><span class="line">        &lt;span&gt;&#123;&#123;yourFuncVariable&#125;&#125;&lt;/span&gt;</span><br><span class="line">        &lt;span @click=&quot;yourSetGetMethods&quot;&gt;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- js逻辑 --&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import YourWhatever from &apos;your/path&apos;;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">    name: &apos;YourComponentName&apos; //大驼峰，你的组件名字</span><br><span class="line">    props: &#123; //从外部接受到的属性值</span><br><span class="line">        yourProps1: String, </span><br><span class="line">        yourProps1: Number,</span><br><span class="line">        ...</span><br><span class="line">    &#125;,</span><br><span class="line">    data() &#123; //在html挂载的变量值，该方法用脚手架必须return</span><br><span class="line">        return &#123; </span><br><span class="line">            yourVariable: &apos;&apos;,</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    computed: &#123; //在html挂载的计算函数值</span><br><span class="line">        yourFuncVariable () &#123;</span><br><span class="line">            return ...</span><br><span class="line">        &#125;,</span><br><span class="line">        yourSetGetFunc: &#123;</span><br><span class="line">            set: function(yourValue) &#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;,</span><br><span class="line">            get: function() &#123;</span><br><span class="line">                return yourVariable;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    beforeCreate() &#123; ... &#125;,</span><br><span class="line">    created() &#123; ... &#125;,</span><br><span class="line">    beforeMount() &#123; ... &#125;,</span><br><span class="line">    mounted() &#123; ... &#125;,</span><br><span class="line">    beforeUpdate() &#123; ... &#125;,</span><br><span class="line">    updated() &#123; ... &#125;,</span><br><span class="line">    beforeDestroy() &#123; ... &#125;,</span><br><span class="line">    destroyed() &#123; ... &#125;,</span><br><span class="line">    methods: &#123; //绑定事件的方法</span><br><span class="line">        yourFunc() &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        yourSetGetMethods() &#123;</span><br><span class="line">            this.yourSetGetFunc...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    render() &#123; //可以通过这个函数返回视图，同React的书写方式，JSX语法，不写template标签</span><br><span class="line">        return (</span><br><span class="line">            ...</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- css样式 --&gt;</span><br><span class="line">&lt;style scoped&gt; //使用scoped为当前样式圈定在当前组件内生效</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="常见语法糖"><a href="#常见语法糖" class="headerlink" title="常见语法糖"></a>常见语法糖</h2><ol>
+<li><p>差值表达式<br>“Mustache”语法（双大括号）的文本差值</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; YourVariable &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; Boolean ? 'true' : 'false' &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; YourVariable + 1 &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>v-on<br>事件绑定语法</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-on:click</span>=<span class="string">"yourFunc"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 简写 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> @<span class="attr">click</span>=<span class="string">"yourFunc"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>文档中提出vue中有事件修饰符，个人觉的很鸡肋，具体参见文档吧。</p>
+<ol start="3">
+<li>computed计算属性<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">computed: &#123;</span><br><span class="line">    yourFunc() &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    yourExtraFunc: &#123;</span><br><span class="line">        <span class="keyword">set</span>: function(value) &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="keyword">get</span>: function() &#123;</span><br><span class="line">            <span class="keyword">return</span> ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">methods: &#123;</span><br><span class="line">    yourMethods() &#123;</span><br><span class="line">        <span class="keyword">this</span>.yourExtraFunc...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>个人觉得computed计算属性更像是一个表达式，没有入参的概念，需要手动赋予它一个值；而methods是真正的方法。</p>
+<ol start="4">
+<li><p>v-bind<br>属性绑定</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-bind:class</span>=<span class="string">"yourHref"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 简写 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">:class</span>=<span class="string">"yourHref"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>class与style的绑定<br>它俩的绑定的语法糖基本一直，都有两种方法。</p>
+</li>
+</ol>
+<ul>
+<li><p>对象</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-bind:class</span>=<span class="string">"&#123;className1: Boolean, className2: Boolean, ...&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-bind:class</span>=<span class="string">"classObj"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">...</span></span><br><span class="line"><span class="javascript">data() &#123; <span class="comment">//可以绑定变量</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="undefined">        classObj: &#123; ... &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">&#125;,</span></span><br><span class="line"><span class="javascript">computed: &#123; <span class="comment">//可以绑定计算属性</span></span></span><br><span class="line"><span class="undefined">    classObj() &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> &#123; ... &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">...</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数组</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">:class</span>=<span class="string">"[className1, className2, ...]"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>注意:<br>因为这样绑定的语法实际上是一个Javascript对象，而不是原生的CSS属性，所以CSS属性名一般用驼峰式（CamelCase），若用或短横线分隔（kebab-case），需要用引号扩起来。</p>
+</blockquote>
+<ol start="6">
+<li>v-if/v-show<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-if</span>=<span class="string">"yourVariable"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-show</span>=<span class="string">"yourVariable"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>v-if 与 v-show</p>
+<ul>
+<li>v-if移除DOM节点</li>
+<li>v-showDOM节点存在，只是改变元素的display属性</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>key值管理可复用元素<br>给复用的元素赋予唯一的key值，可以将元素重新渲染</p>
+</blockquote>
+<ol start="7">
+<li>v-for<br>需要循环的时候使用,既可以遍历数组，也可以遍历对象<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 遍历数组 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in/of arr"</span>&gt;</span>&#123;&#123;item&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span> </span><br><span class="line">    <span class="comment">&lt;!-- 遍历数组，第二个可选参数为当前项的索引 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(item, index) in/of arr"</span>&gt;</span>&#123;&#123;item&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 遍历对象 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(value, key, index) in/of object"</span>&gt;</span>&#123;&#123;item&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这样写会会有一个提示<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Elements in iteration expect to have 'v-bind:key' directives.</span><br></pre></td></tr></table></figure></p>
+<p>即迭代遍历元素时需要绑定一个key值，通常情况下<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-for</span>=<span class="string">"item in items"</span> <span class="attr">v-bind:key</span>=<span class="string">"item.id"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：<br>不推荐v-for与v-if用在同一个元素上</p>
+</blockquote>
+<ol start="8">
+<li>v-model<br>项目中常见的双向绑定表单就用它了。<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">v-model</span>=<span class="string">"inputValue"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>文档里面关于v-model还有一些便捷常用的修饰符。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/15/【Vue】（一）用脚手架创建项目并启动/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/15/【Vue】（一）用脚手架创建项目并启动/" class="post-title-link" itemprop="url">【Vue】（一）用脚手架创建项目并启动</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-15 11:33:00 / 修改时间：11:59:46" itemprop="dateCreated datePublished" datetime="2019-05-15T11:33:00+08:00">2019-05-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Vue学习笔记/" itemprop="url" rel="index"><span itemprop="name">Vue学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>梳理vue框架</p>
+<h2 id="安装脚手架"><a href="#安装脚手架" class="headerlink" title="安装脚手架"></a>安装脚手架</h2><ol>
+<li><p>安装一个全局的cli<br>打开cmd命令框，输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g @vue/cli</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue -version</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>我目前的版本是 3.7.0</p>
+<h2 id="创建一个项目"><a href="#创建一个项目" class="headerlink" title="创建一个项目"></a>创建一个项目</h2><p>找一个需要创建的文件夹下，打开cmd，运行下面的命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue create hello-world</span><br></pre></td></tr></table></figure></p>
+<h2 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a>启动项目</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
+<p>在8080端口，一个vue项目就启动好了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/14/Java学习笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1508,719 +2285,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/17/【Angular】（一）ngTemplate的用法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/17/【Angular】（一）ngTemplate的用法/" class="post-title-link" itemprop="url">【Angular】（一）ngTemplate的用法</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-17 22:11:31" itemprop="dateCreated datePublished" datetime="2019-04-17T22:11:31+08:00">2019-04-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-14 09:44:28" itemprop="dateModified" datetime="2019-05-14T09:44:28+08:00">2019-05-14</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Angular2/" itemprop="url" rel="index"><span itemprop="name">Angular2</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。<br>附上中文官方网站：<a href="https://angular.cn/" target="_blank" rel="noopener">Angular</a></p>
-<h2 id="NgTemplateOutlet"><a href="#NgTemplateOutlet" class="headerlink" title="NgTemplateOutlet"></a>NgTemplateOutlet</h2><p>这个指令有两个Input输入属性</p>
-<ul>
-<li>ngTemplateOutletContext</li>
-<li>ngTemplateOutlet</li>
-</ul>
-<h2 id="具体的用法"><a href="#具体的用法" class="headerlink" title="具体的用法"></a>具体的用法</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line"><span class="tag">&lt;<span class="name">ng-template</span> [<span class="attr">ngTemplateOutlet</span>]=<span class="string">"#name"</span>&gt;</span><span class="tag">&lt;/<span class="name">ng-template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> clock = <span class="built_in">any</span>;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/14/【Hexo搭建博客】（四）更换主题Next/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/14/【Hexo搭建博客】（四）更换主题Next/" class="post-title-link" itemprop="url">【Hexo搭建博客】（四）更换主题Next</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-14 09:10:02" itemprop="dateCreated datePublished" datetime="2019-04-14T09:10:02+08:00">2019-04-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-14 09:48:11" itemprop="dateModified" datetime="2019-05-14T09:48:11+08:00">2019-05-14</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>准备换高分的Next主题，附上<a href="https://theme-next.org/docs/getting-started/" target="_blank" rel="noopener">Next官方文档</a></p>
-<p>官网还是蛮简单易懂的，本篇说明下主要关注的点</p>
-<blockquote>
-<p>注意：<br>在使用Hexo的时候有两个主要的配置文件，它们都叫_config.yml</p>
-<ul>
-<li>在站点根目录下的是Hexo的配置文件</li>
-<li>在主题目录下的是各个主题的配置文件</li>
-</ul>
-</blockquote>
-<h2 id="Next主题安装"><a href="#Next主题安装" class="headerlink" title="Next主题安装"></a>Next主题安装</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> hexo</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/nex</span><br></pre></td></tr></table></figure>
-<h3 id="Next配置"><a href="#Next配置" class="headerlink" title="Next配置"></a>Next配置</h3><h4 id="选择主题方案"><a href="#选择主题方案" class="headerlink" title="选择主题方案"></a>选择主题方案</h4><p>在next/_config.yml文件下有四种主题方案，<code>Muse</code>，<code>Mist</code>，<code>Pisces</code>，<code>Gemini</code></p>
-<h4 id="选择语言"><a href="#选择语言" class="headerlink" title="选择语言"></a>选择语言</h4><h4 id="配置菜单项"><a href="#配置菜单项" class="headerlink" title="配置菜单项"></a>配置菜单项</h4><p>配置菜单需要三个参数值，格式<code>Key: /link/ || icon</code></p>
-<h4 id="配置图标"><a href="#配置图标" class="headerlink" title="配置图标"></a>配置图标</h4><p>Hexo默认在<code>hexo-site/themes/next/source/images/</code>目录下为适配不同设备使用不同尺寸NexT网站图标。你可以用你自己的网站图标来代替它们。</p>
-<p>举个例子，你可以把图标放在<code>hexo-site/source/images</code>目录下。然后你需要将它们重命名，在主题配置文件的图标部分修改设置，否则在Hexo中Next的图标会覆盖你的自定义图标。</p>
-<p>你也可以将自定义的图标放在<code>hexo-site/source/</code>目录下。这时候，你必须移除路径的<code>/images</code>前缀。</p>
-<p>生成自定义图标，你可以访问<a href="https://realfavicongenerator.net/" target="_blank" rel="noopener">Favicon Generator</a>。</p>
-<p><code>hexo/_config.yml</code><br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">favicon:</span></span><br><span class="line"><span class="attr">  small:</span> <span class="string">/images/favicon-16x16-next.png</span></span><br><span class="line"><span class="attr">  medium:</span> <span class="string">/images/favicon-32x32-next.png</span></span><br><span class="line"><span class="attr">  apple_touch_icon:</span> <span class="string">/images/apple-touch-icon-next.png</span></span><br><span class="line"><span class="attr">  safari_pinned_tab:</span> <span class="string">/images/logo.svg</span></span><br><span class="line"><span class="attr">  android_manifest:</span> <span class="string">/images/manifest.json</span></span><br><span class="line"><span class="attr">  ms_browserconfig:</span> <span class="string">/images/browserconfig.xml</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="配置头像"><a href="#配置头像" class="headerlink" title="配置头像"></a>配置头像</h4><p>默认情况下，Next在侧边栏不展示头像。你可以在主题配置文件中的头像设置项中设置编辑。</p>
-<h4 id="配置作者"><a href="#配置作者" class="headerlink" title="配置作者"></a>配置作者</h4><h4 id="配置描述"><a href="#配置描述" class="headerlink" title="配置描述"></a>配置描述</h4>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/13/start的主题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/13/start的主题/" class="post-title-link" itemprop="url">start的主题</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-13 21:31:21" itemprop="dateCreated datePublished" datetime="2019-04-13T21:31:21+08:00">2019-04-13</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/13/【Hexo搭建博客】（三）更换主题前的小插曲/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/13/【Hexo搭建博客】（三）更换主题前的小插曲/" class="post-title-link" itemprop="url">【Hexo搭建博客】（三）更换主题前的小插曲</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-13 21:30:40" itemprop="dateCreated datePublished" datetime="2019-04-13T21:30:40+08:00">2019-04-13</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-14 09:48:02" itemprop="dateModified" datetime="2019-05-14T09:48:02+08:00">2019-05-14</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在准备更换hexo主题之前，我是在<a href="https://hexo.io/themes/" target="_blank" rel="noopener">官网主题</a>上找的，200多个，一个一个翻，后来看到有拿爬虫去github爬star的，我心有躁动了，为啥不自己弄一个玩玩呢，于是就开始了。</p>
-<h2 id="什么是爬虫"><a href="#什么是爬虫" class="headerlink" title="什么是爬虫"></a>什么是爬虫</h2><p>网络爬虫（英语：web crawler），也叫网络蜘蛛（spider），是一种用来自动浏览万维网的网络机器人。</p>
-<h2 id="用Python写脚本"><a href="#用Python写脚本" class="headerlink" title="用Python写脚本"></a>用Python写脚本</h2><ol>
-<li>安装python<br>网上教程很多，下安装好之后在cmd中查看python版本，检查是否安装完毕。我下载的是最新的Windows版本3.7.3。<br>注意：Python有两个版本，2.x版和3.x版，两个版本不兼容。</li>
-<li>安装requests库和lxml库<br>抓取网页的时候，需要导入requests模块<br>lxml是一个用来快速解析xml和html文档且具有良好扩展性的库<br>方法：</li>
-</ol>
-<ul>
-<li>找到自己python安装目录下的pip</li>
-<li><p>打开cmd窗口输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br><span class="line">pip install lxml</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看是否安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip list</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>我的版本号是request 2.21.0 和 lxml 4.3.3</p>
-<ol start="3">
-<li>爬虫过程<br>我预先看了爬虫的基本原理，大概有了思路：hexo主题页每个主题的标题部分都有一个超链接，点击进去跳转到相关的github页面，再从它的github页面抓取star数。</li>
-</ol>
-<ul>
-<li>先爬取页面的超链接<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> html</span><br><span class="line">url=<span class="string">'https://hexo.io/themes/'</span> <span class="comment">#需要爬数据的网址</span></span><br><span class="line">page=requests.Session().get(url) </span><br><span class="line">tree=html.fromstring(page.text) </span><br><span class="line">result=tree.xpath(<span class="string">'//li[@class="plugin on"]//a[@class="plugin-name"]/@href'</span>) <span class="comment">#获取需要的数据</span></span><br><span class="line"><span class="comment">#print(result)</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>用cmd输出之后发现用户体验不好（前端的梗。。。），所以准备把结果输出到txt文件中。</p>
-<ul>
-<li>输出结果至txt文件中<br>其实这一步可以忽略，我只是想到既然可以实现，那就去做。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输出结果至txt文件中</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./result.txt'</span>, <span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> item <span class="keyword">in</span> result:</span><br><span class="line">		f.write(item + <span class="string">';\n'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>如果没有result.txt文件，程序会新建该文本。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2264,7 +2333,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2299,7 +2368,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2338,7 +2409,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
