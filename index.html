@@ -352,6 +352,178 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/22/【Javascript学习手册】JSON.parse()和JSON.stringify()/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/22/【Javascript学习手册】JSON.parse()和JSON.stringify()/" class="post-title-link" itemprop="url">【Javascript学习手册】JSON.parse()和JSON.stringify()</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-22 09:54:00 / 修改时间：11:13:41" itemprop="dateCreated datePublished" datetime="2019-05-22T09:54:00+08:00">2019-05-22</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Javascript学习手册/" itemprop="url" rel="index"><span itemprop="name">Javascript学习手册</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              JSON.parse()将JSON字符串解析为对象，这个是最基本的用法。JSON.parse('&#123;"name": "chemist"&#125;');
+它还可以传入第二个参数JSON.parse('&#123;"1": 1, "2": 2,"3": &#123;"4": 4, "5": &
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/22/【Javascript学习手册】JSON.parse()和JSON.stringify()/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/05/16/【Vue】（三）值的传入与抛出/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -468,14 +640,20 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>组件之间的交互最基础的就是父组件的值传入和子组件的值传出了。</p>
-<h2 id="Prop"><a href="#Prop" class="headerlink" title="Prop"></a>Prop</h2><p>通过Prop向子组件传递数据，官方提供数组和对象的传递方式，父组件大概长这样，我偏向于使用对象。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    props: &#123; <span class="comment">//使用对象</span></span><br><span class="line">        variable1: <span class="built_in">String</span>,</span><br><span class="line">        variable2: <span class="built_in">Number</span>,</span><br><span class="line">        variable3: <span class="built_in">Boolean</span>,</span><br><span class="line">        variable4: <span class="built_in">Array</span>,</span><br><span class="line">        variable5: <span class="built_in">Object</span>,</span><br><span class="line">        variable6: <span class="built_in">Function</span>,</span><br><span class="line">        variable7: <span class="built_in">Promise</span>,</span><br><span class="line">        ...</span><br><span class="line">    &#125;,</span><br><span class="line">    props: [<span class="string">'data1'</span>, <span class="string">'data1'</span>, ...]  <span class="comment">//使用数组  </span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
-<p>父组件用的时候分两种情况，绑定静态值还是绑定变量：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">//绑定静态值</span></span><br><span class="line">&lt;YourChild variable1=<span class="string">"your parent static value"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">YourChild</span>&gt;</span></span></span><br><span class="line"><span class="comment">//绑定变量</span></span><br><span class="line">&lt;YourChild v-bind:variable1=<span class="string">"parentVariable"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">YourChild</span>&gt;</span></span></span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
-<h2 id="emit"><a href="#emit" class="headerlink" title="$emit"></a>$emit</h2><p>子组件向父组件传值的常用方法是事件驱动，通过事件将数据抛出。<br>子组件长这个样子<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> @<span class="attr">click</span>=<span class="string">"childFunc"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> @<span class="attr">click</span>=<span class="string">"childFuncParams(param1, param2, ...)"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    methods: &#123;</span><br><span class="line">        childFunc() &#123;</span><br><span class="line">            <span class="keyword">this</span>.$emit(<span class="string">'yourChildEmitName'</span>, ...)</span><br><span class="line">        &#125;,</span><br><span class="line">        childFuncParams(param1, param2, ...) &#123;</span><br><span class="line">            <span class="keyword">this</span>.$emit(<span class="string">'yourChildEmitParamName'</span>, param1, param2, ...)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>父组件长这个样子<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Child</span> @<span class="attr">yourChildEmitName</span>=<span class="string">"parentFunc"</span>&gt;</span><span class="tag">&lt;/<span class="name">Child</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Child</span> @<span class="attr">yourChildEmitParamName</span>=<span class="string">"parentParamFunc"</span>&gt;</span><span class="tag">&lt;/<span class="name">Child</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    methods: &#123;</span><br><span class="line">        parentFunc() &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        parentFunc(param1, param2, ...) &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p>
+              前言组件之间的交互最基础的就是父组件的值传入和子组件的值传出了。
+Prop通过Prop向子组件传递数据，官方提供数组和对象的传递方式，父组件大概长这样，我偏向于使用对象。...export default &#123;    props: &#123; //使用对象        variable1
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/16/【Vue】（三）值的传入与抛出/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -634,12 +812,23 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对数组有着莫名的好感，在数据处理方面有着强大的可用性。</p>
-<h2 id="创建一个数组"><a href="#创建一个数组" class="headerlink" title="创建一个数组"></a>创建一个数组</h2><h2 id="常见的方法"><a href="#常见的方法" class="headerlink" title="常见的方法"></a>常见的方法</h2><ol>
-<li>明确返回值<br>在说方法之前，一定要明确每个方法的返回值，这点非常非常重要。</li>
-</ol>
+            <p>
+              前言对数组有着莫名的好感，在数据处理方面有着强大的可用性。
+创建一个数组常见的方法
+明确返回值在说方法之前，一定要明确每个方法的返回值，这点非常非常重要。
 
+
+              
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/16/【Javascript学习手册】数组篇/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -810,114 +999,20 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Vue脚手架并不支持命令生成组件，就只能手动创建。</p>
-<h2 id="创建组件"><a href="#创建组件" class="headerlink" title="创建组件"></a>创建组件</h2><p>在src/components下创建一个Demo.vue的组件，习惯了ES6创建Class的语法，在Vue中一个组件的脚本差不多长这样。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">'YourComponentName'</span>, </span><br><span class="line">  data: <span class="string">'YourData'</span>,</span><br><span class="line">  props: &#123;</span><br><span class="line">    msg: <span class="built_in">String</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>每一个框架都有它的生命周期，通过生命周期了解框架会更加直观。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">钩子方法</th>
-<th style="text-align:center">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">beforeCreate</td>
-<td style="text-align:center">beforeCreate</td>
-</tr>
-<tr>
-<td style="text-align:center">created</td>
-<td style="text-align:center">created</td>
-</tr>
-<tr>
-<td style="text-align:center">beforeMount</td>
-<td style="text-align:center">beforeMount</td>
-</tr>
-<tr>
-<td style="text-align:center">mounted</td>
-<td style="text-align:center">mounted</td>
-</tr>
-<tr>
-<td style="text-align:center">beforeUpdate</td>
-<td style="text-align:center">beforeUpdate</td>
-</tr>
-<tr>
-<td style="text-align:center">updated</td>
-<td style="text-align:center">updated</td>
-</tr>
-<tr>
-<td style="text-align:center">beforeDestroy</td>
-<td style="text-align:center">beforeDestroy</td>
-</tr>
-<tr>
-<td style="text-align:center">destroyed</td>
-<td style="text-align:center">destroyed</td>
-</tr>
-</tbody>
-</table>
-<h2 id="Vue模板"><a href="#Vue模板" class="headerlink" title="Vue模板"></a>Vue模板</h2><p>大概长这样吧，都是套路。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- html模板 --&gt;</span><br><span class="line">&lt;template&gt; //必须有template标签，并且template包裹的只能是一个闭合标签</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;span v-on:click=&quot;yourFunc&quot;&gt;&#123;&#123;yourVariable&#125;&#125;&lt;/span&gt;</span><br><span class="line">        &lt;span&gt;&#123;&#123;yourFuncVariable&#125;&#125;&lt;/span&gt;</span><br><span class="line">        &lt;span @click=&quot;yourSetGetMethods&quot;&gt;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- js逻辑 --&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import YourWhatever from &apos;your/path&apos;;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">    name: &apos;YourComponentName&apos; //大驼峰，你的组件名字</span><br><span class="line">    props: &#123; //从外部接受到的属性值</span><br><span class="line">        yourProps1: String, </span><br><span class="line">        yourProps1: Number,</span><br><span class="line">        ...</span><br><span class="line">    &#125;,</span><br><span class="line">    data() &#123; //在html挂载的变量值，该方法用脚手架必须return</span><br><span class="line">        return &#123; </span><br><span class="line">            yourVariable: &apos;&apos;,</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    computed: &#123; //在html挂载的计算函数值</span><br><span class="line">        yourFuncVariable () &#123;</span><br><span class="line">            return ...</span><br><span class="line">        &#125;,</span><br><span class="line">        yourSetGetFunc: &#123;</span><br><span class="line">            set: function(yourValue) &#123;</span><br><span class="line">                ...</span><br><span class="line">            &#125;,</span><br><span class="line">            get: function() &#123;</span><br><span class="line">                return yourVariable;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    beforeCreate() &#123; ... &#125;,</span><br><span class="line">    created() &#123; ... &#125;,</span><br><span class="line">    beforeMount() &#123; ... &#125;,</span><br><span class="line">    mounted() &#123; ... &#125;,</span><br><span class="line">    beforeUpdate() &#123; ... &#125;,</span><br><span class="line">    updated() &#123; ... &#125;,</span><br><span class="line">    beforeDestroy() &#123; ... &#125;,</span><br><span class="line">    destroyed() &#123; ... &#125;,</span><br><span class="line">    methods: &#123; //绑定事件的方法</span><br><span class="line">        yourFunc() &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        yourSetGetMethods() &#123;</span><br><span class="line">            this.yourSetGetFunc...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    render() &#123; //可以通过这个函数返回视图，同React的书写方式，JSX语法，不写template标签</span><br><span class="line">        return (</span><br><span class="line">            ...</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- css样式 --&gt;</span><br><span class="line">&lt;style scoped&gt; //使用scoped为当前样式圈定在当前组件内生效</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
-<h2 id="常见语法糖"><a href="#常见语法糖" class="headerlink" title="常见语法糖"></a>常见语法糖</h2><ol>
-<li><p>差值表达式<br>“Mustache”语法（双大括号）的文本差值</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; YourVariable &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; Boolean ? 'true' : 'false' &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; YourVariable + 1 &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>v-on<br>事件绑定语法</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-on:click</span>=<span class="string">"yourFunc"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 简写 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> @<span class="attr">click</span>=<span class="string">"yourFunc"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>文档中提出vue中有事件修饰符，个人觉的很鸡肋，具体参见文档吧。</p>
-<ol start="3">
-<li>computed计算属性<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">computed: &#123;</span><br><span class="line">    yourFunc() &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    yourExtraFunc: &#123;</span><br><span class="line">        <span class="keyword">set</span>: function(value) &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="keyword">get</span>: function() &#123;</span><br><span class="line">            <span class="keyword">return</span> ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">methods: &#123;</span><br><span class="line">    yourMethods() &#123;</span><br><span class="line">        <span class="keyword">this</span>.yourExtraFunc...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>个人觉得computed计算属性更像是一个表达式，没有入参的概念，需要手动赋予它一个值；而methods是真正的方法。</p>
-<ol start="4">
-<li><p>v-bind<br>属性绑定</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-bind:class</span>=<span class="string">"yourHref"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 简写 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">:class</span>=<span class="string">"yourHref"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>class与style的绑定<br>它俩的绑定的语法糖基本一直，都有两种方法。</p>
-</li>
-</ol>
-<ul>
-<li><p>对象</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-bind:class</span>=<span class="string">"&#123;className1: Boolean, className2: Boolean, ...&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-bind:class</span>=<span class="string">"classObj"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">...</span></span><br><span class="line"><span class="javascript">data() &#123; <span class="comment">//可以绑定变量</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="undefined">        classObj: &#123; ... &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">&#125;,</span></span><br><span class="line"><span class="javascript">computed: &#123; <span class="comment">//可以绑定计算属性</span></span></span><br><span class="line"><span class="undefined">    classObj() &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> &#123; ... &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">&#125;</span></span><br><span class="line"><span class="undefined">...</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>数组</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">:class</span>=<span class="string">"[className1, className2, ...]"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<blockquote>
-<p>注意:<br>因为这样绑定的语法实际上是一个Javascript对象，而不是原生的CSS属性，所以CSS属性名一般用驼峰式（CamelCase），若用或短横线分隔（kebab-case），需要用引号扩起来。</p>
-</blockquote>
-<ol start="6">
-<li>v-if/v-show<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-if</span>=<span class="string">"yourVariable"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-show</span>=<span class="string">"yourVariable"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p>v-if 与 v-show</p>
-<ul>
-<li>v-if移除DOM节点</li>
-<li>v-showDOM节点存在，只是改变元素的display属性</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>key值管理可复用元素<br>给复用的元素赋予唯一的key值，可以将元素重新渲染</p>
-</blockquote>
-<ol start="7">
-<li>v-for<br>需要循环的时候使用,既可以遍历数组，也可以遍历对象<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 遍历数组 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in/of arr"</span>&gt;</span>&#123;&#123;item&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span> </span><br><span class="line">    <span class="comment">&lt;!-- 遍历数组，第二个可选参数为当前项的索引 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(item, index) in/of arr"</span>&gt;</span>&#123;&#123;item&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 遍历对象 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(value, key, index) in/of object"</span>&gt;</span>&#123;&#123;item&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>这样写会会有一个提示<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Elements in iteration expect to have 'v-bind:key' directives.</span><br></pre></td></tr></table></figure></p>
-<p>即迭代遍历元素时需要绑定一个key值，通常情况下<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">v-for</span>=<span class="string">"item in items"</span> <span class="attr">v-bind:key</span>=<span class="string">"item.id"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>注意：<br>不推荐v-for与v-if用在同一个元素上</p>
-</blockquote>
-<ol start="8">
-<li>v-model<br>项目中常见的双向绑定表单就用它了。<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">v-model</span>=<span class="string">"inputValue"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>文档里面关于v-model还有一些便捷常用的修饰符。</p>
-
+            <p>
+              前言Vue脚手架并不支持命令生成组件，就只能手动创建。
+创建组件在src/components下创建一个Demo.vue的组件，习惯了ES6创建Class的语法，在Vue中一个组件的脚本差不多长这样。&lt;script&gt;export default &#123;  name: 'YourCo
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/15/【Vue】（二）创建组件以及常见语法糖/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1076,21 +1171,29 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>梳理vue框架</p>
-<h2 id="安装脚手架"><a href="#安装脚手架" class="headerlink" title="安装脚手架"></a>安装脚手架</h2><ol>
-<li><p>安装一个全局的cli<br>打开cmd命令框，输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g @vue/cli</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>检查版本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue -version</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>我目前的版本是 3.7.0</p>
-<h2 id="创建一个项目"><a href="#创建一个项目" class="headerlink" title="创建一个项目"></a>创建一个项目</h2><p>找一个需要创建的文件夹下，打开cmd，运行下面的命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue create hello-world</span><br></pre></td></tr></table></figure></p>
-<h2 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a>启动项目</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
-<p>在8080端口，一个vue项目就启动好了。</p>
+            <p>
+              前言梳理vue框架
+安装脚手架
+安装一个全局的cli打开cmd命令框，输入
+npm install -g @vue/cli
 
+检查版本
+vue -version
+
+
+我目前的版本是 3.7.0
+创建一个项目找一个需要创建的文件夹下，打开cmd，运行下面的命令vue create hello-worl
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/15/【Vue】（一）用脚手架创建项目并启动/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1249,8 +1352,19 @@
       
         
           
-            
+            <p>
+              
+              
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/14/Java学习笔记/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1409,89 +1523,21 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开发的路上换了不少编辑器，都没有我想要的操作感，直到我看到了vim。</p>
-<h2 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h2><p>我认为工具的学习曲线是通过使用逐步扩展的，根本没有必要一开始就记忆一些繁琐的命令，以自己的编码风格去学习和拓展是最平滑，也是最有效的。</p>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>去<a href="https://www.vim.org/" target="_blank" rel="noopener">Vim官方网站</a>下载，点击左侧栏的Download进入下载页面，选择合适的版本下载安装，默认选项下一步就可以了。<br>我下载的是gvim8.1版本，可以通过<code>:version</code>查看当前正在运行的vim的所有信息。</p>
-<h2 id="Vim的三种模式"><a href="#Vim的三种模式" class="headerlink" title="Vim的三种模式"></a>Vim的三种模式</h2><p>首先要知道vim的三种模式，通过练习体会，这样会理解得更深。</p>
-<ol>
-<li>命令模式（Command mode）<br>此状态下敲击键盘动作会被vim识别为命令，而非输入字符，可以进行快捷的操作。</li>
-<li>输入模式（Insert mode）<br>有很多方式可以进入输入模式，这样我们就可以编辑代码了。</li>
-<li>底线命令模式（Last line mode）<br>通过:（英文冒号）进入底线命令模式，可以进行编辑之外的事情，例如保存文件，修改编辑器的设定等。</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Vim三种模式</th>
-<th style="text-align:center">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">命令模式</td>
-<td style="text-align:center">快捷键的操作</td>
-</tr>
-<tr>
-<td style="text-align:center">输入模式</td>
-<td style="text-align:center">输入文本</td>
-</tr>
-<tr>
-<td style="text-align:center">底线命令模式</td>
-<td style="text-align:center">编辑之外的设定</td>
-</tr>
-</tbody>
-</table>
-<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><h3 id="1-打开工作区"><a href="#1-打开工作区" class="headerlink" title="1. 打开工作区"></a>1. 打开工作区</h3><p>日常不就是先打开编辑器，并且打开所在的工作区吗，同理，打开vim，通过<code>:e</code></p>
-<h3 id="2-编辑"><a href="#2-编辑" class="headerlink" title="2. 编辑"></a>2. 编辑</h3><ul>
-<li><p>光标的移动<br>通过<code>h</code> <code>j</code> <code>k</code> <code>l</code>。移动光标是最常用的编辑器命令，这些键位在你右手本位。<br>h代表向左，j代表向下，k代表向上，l代表向右。</p>
-<blockquote>
-<p>简单的记忆方法：j向下伸的长，所以向下；k向上冒的长，所以向上</p>
-</blockquote>
-</li>
-<li><p>输入</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">进入输入模式的方法</th>
-<th style="text-align:center">效果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><code>i</code></td>
-<td style="text-align:center">在光标所在的字符前插入 (insert)</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>I</code></td>
-<td style="text-align:center">在光标所在那一行开头插入 </td>
-</tr>
-<tr>
-<td style="text-align:center"><code>a</code></td>
-<td style="text-align:center">在光标所在的字符后插入 (append)</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>A</code></td>
-<td style="text-align:center">在光标所在那一行最后插入</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>o</code></td>
-<td style="text-align:center">在光标所在的字符下方建立新空行</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>O</code></td>
-<td style="text-align:center">在光标所在的字符上方建立新空行</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>修改<br>删除一个字符，把光标移动到其上面输入<code>x</code><br>删除一整行，输入<code>dd</code><br>经常用的<code>ctrl+C</code>撤销变成了<code>u</code><br>经常用的<code>ctrl+Y</code>回退变成了<code>ctrl+r</code><blockquote>
-<p><code>U</code>大写的U是特殊版本的撤销命令，称为行撤销，即撤销所有在最近编辑的行上的操作。</p>
-</blockquote>
-</li>
-</ul>
-
+            <p>
+              前言在开发的路上换了不少编辑器，都没有我想要的操作感，直到我看到了vim。
+想法我认为工具的学习曲线是通过使用逐步扩展的，根本没有必要一开始就记忆一些繁琐的命令，以自己的编码风格去学习和拓展是最平滑，也是最有效的。
+下载去Vim官方网站下载，点击左侧栏的Download进入下载页面，选择合适的版本下
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/14/【Vim】（一）基本操作/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1662,10 +1708,21 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>没看到有关for循环的语法糖</p>
-<p>## </p>
+            <p>
+              前言没看到有关for循环的语法糖
+## 
 
+              
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/13/【React】（四）循环/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1836,26 +1893,24 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><ul>
-<li>React事件绑定属性的命名采用驼峰式写法，不是小写</li>
-<li>JSX语法传一个函数作为事件处理函数<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick=&#123;<span class="keyword">this</span>.btnFunc&#125;&gt;Click me!<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><h3 id="1-用bind"><a href="#1-用bind" class="headerlink" title="1. 用bind"></a>1. 用bind</h3><p>使用ES6 class语法定义的时候，发现与Angular不同的一点是<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.btnFunc = <span class="keyword">this</span>.btnFunc.bind(<span class="keyword">this</span>); <span class="comment">//需要在构造方法中使用bind绑定</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-不用bind"><a href="#2-不用bind" class="headerlink" title="2. 不用bind"></a>2. 不用bind</h3><ul>
-<li><p>使用属性初始化器正确绑定回调函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">btnFunc = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在回调函数中使用箭头函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;button onClick=&#123;(e) =&gt; <span class="keyword">this</span>.btnFunc(e)&#125;&gt;Click me!<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<blockquote>
-<p>注意：不推荐使用最后一种方法。因为每次渲染的时候都会创建一个不同的回调函数，在这个回调函数作为一个属性值传入低阶组件的时候，可能会进行额外的重新渲染，为了性能，不建议。</p>
-</blockquote>
-<h2 id="传参"><a href="#传参" class="headerlink" title="传参"></a>传参</h2><h3 id="1-使用箭头函数"><a href="#1-使用箭头函数" class="headerlink" title="1. 使用箭头函数"></a>1. 使用箭头函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;button onClick=&#123;(e) =&gt; <span class="keyword">this</span>.btnFunc(e, param1, param2, ...)&#125;&gt;Click me!<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">        &lt;button onClick=&#123;(e) =&gt; <span class="keyword">this</span>.btnFunc(param1, param2, ...)&#125;&gt;Click me!<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-使用bind"><a href="#2-使用bind" class="headerlink" title="2. 使用bind"></a>2. 使用bind</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">btnFunc(param1, param2, ..., event) &#123; <span class="comment">//通过bind方式监听函数传参，事件对象event要放在所传递参数后面</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;button onClick=&#123;<span class="keyword">this</span>.btnFunc.bind(<span class="keyword">this</span>, param1, param2, ...)&#125;&gt;Click me!<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p>
+              前言语法
+React事件绑定属性的命名采用驼峰式写法，不是小写
+JSX语法传一个函数作为事件处理函数&lt;button onClick=&#123;this.btnFunc&#125;&gt;Click me!&lt;/button&gt;
+
+
+注意点1. 用bind使用ES6 class语法定义
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/01/【React】（三）事件/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -2026,242 +2081,23 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>据说在React中最常用的是这两个概念， Props和State，分别是属性和状态，掌握这两个就可以愉快的开发了。</p>
-<h2 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h3><p>当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。</p>
-<h3 id="2-组件定义的两种方法"><a href="#2-组件定义的两种方法" class="headerlink" title="2.组件定义的两种方法"></a>2.组件定义的两种方法</h3><ol>
-<li><p>使用函数定义组件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Welcome</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &lt;h1&gt;Hello, &#123;props.name&#125;&lt;/h1&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>ES6 class定义组件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Welcome</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> &lt;h1&gt;Hello, &#123;this.props.name&#125;&lt;/h1&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p>注意： 组件名称必须以大写字母开头</p>
-</blockquote>
-<h3 id="3-多个组件"><a href="#3-多个组件" class="headerlink" title="3.多个组件"></a>3.多个组件</h3><p>组件的返回值只能有一个根元素，需要组件外部需要一个完整的闭合标签包裹住，例如下面的div<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">            &lt;Welcome name=<span class="string">"param"</span>/&gt;</span><br><span class="line">        &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="4-Props的只读性"><a href="#4-Props的只读性" class="headerlink" title="4.Props的只读性"></a>4.Props的只读性</h3><p>用两种任意方法声明的组件，它决不能修改自己的props。<br>即：所有的React组件必须像纯函数那样使用它们的props。</p>
-<h2 id="State"><a href="#State" class="headerlink" title="State"></a>State</h2><h3 id="1-生命周期"><a href="#1-生命周期" class="headerlink" title="1.生命周期"></a>1.生命周期</h3><p>直接上图<br><img src="/img/react_life_cycle.webp" alt="image"></p>
-<h3 id="2-使用类"><a href="#2-使用类" class="headerlink" title="2.使用类"></a>2.使用类</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>这样写就可以使用其他特性，例如局部状态、生命周期钩子。</p>
-<h3 id="3-三种形式的setState-方法"><a href="#3-三种形式的setState-方法" class="headerlink" title="3.三种形式的setState()方法"></a>3.三种形式的setState()方法</h3><ol>
-<li></li>
-<li></li>
-<li></li>
-</ol>
-<h2 id="state和props的区别"><a href="#state和props的区别" class="headerlink" title="state和props的区别"></a>state和props的区别</h2><p>props传递到组件（类似于函数的参数）；<br>state是在组件内部管理（类似于函数中声明的变量）</p>
-<ul>
-<li><a href="https://github.com/uberVU/react-guide/blob/master/props-vs-state.md" target="_blank" rel="noopener">Props vs State</a></li>
-<li><a href="https://lucybain.com/blog/2016/react-state-vs-pros/" target="_blank" rel="noopener">ReactJS: Props vs. State</a></li>
-</ul>
-
+            <p>
+              前言据说在React中最常用的是这两个概念， Props和State，分别是属性和状态，掌握这两个就可以愉快的开发了。
+Props1.概念当React遇到的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为props。
+2.组件定义的两种方法
+使用函数定义组件
+func
+              ...
+            </p>
+          <!--noindex-->
           
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/29/【React】（一）创建应用和元素渲染/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/29/【React】（一）创建应用和元素渲染/" class="post-title-link" itemprop="url">【React】（一）创建应用和元素渲染</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-29 20:57:26" itemprop="dateCreated datePublished" datetime="2019-04-29T20:57:26+08:00">2019-04-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-14 09:46:56" itemprop="dateModified" datetime="2019-05-14T09:46:56+08:00">2019-05-14</time>
-              
-            
-          </span>
-
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/05/01/【React】（二）Props & State/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。<br>附上中文官方网站：<a href="https://react.docschina.org/" target="_blank" rel="noopener">React中文文档</a></p>
-<h2 id="用脚手架创建React应用"><a href="#用脚手架创建React应用" class="headerlink" title="用脚手架创建React应用"></a>用脚手架创建React应用</h2><ol>
-<li>安装环境<br>为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2</li>
-<li>用脚手架创建React项目<br>附上git链接<a href="https://github.com/facebook/create-react-app" target="_blank" rel="noopener">create-react-app</a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app my-app</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>一开始我真的以为官网写错了，从来没见过npx，网上查了一下，这玩意老早就有了。。。<br><a href="https://www.npmjs.com/package/npx" target="_blank" rel="noopener">npx</a>描述为执行npm包的二进制文件，x就是execute的意思吧。</p>
-<p>很神奇，自动帮我安装好了node_modules包。</p>
-<ol start="3">
-<li>启动项目<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>启动好了项目并且自动打开了浏览器，端口号是默认的3000，会发现有一个旋转的React图标，项目创建启动成功！</p>
-<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>什么都应该从Hello World开始学起。<br>在根目录下的index.js文件中，将原先的<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, document.getElementById('root'));</span></span><br></pre></td></tr></table></figure></p>
-<p>替换为<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(</span><br><span class="line">    &lt;h1&gt;Hello, world!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>,</span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>因为我个人不是很喜欢在dom元素上绑定id，我就尝试把document.getElementById删掉，发现报错。<br>查询文档后发现render函数至少需要两个参数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ReactDOM.render(element, container[, callback])</span><br></pre></td></tr></table></figure></p>
-<h2 id="与Angular4-x的比较"><a href="#与Angular4-x的比较" class="headerlink" title="与Angular4.x的比较"></a>与Angular4.x的比较</h2><p>在Angular中，用 ng g c 命令创建的组件是一个文件夹，里面存有四个文件，css/html/spec/ts<br>在React中，我没有发现html文件，原来React推荐使用JSX来描述用户界面。</p>
-<h2 id="JSX简介"><a href="#JSX简介" class="headerlink" title="JSX简介"></a>JSX简介</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> element = &lt;h1&gt;Hello, world!&lt;h1&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="1-在JSX中使用表达式"><a href="#1-在JSX中使用表达式" class="headerlink" title="1. 在JSX中使用表达式"></a>1. 在JSX中使用表达式</h3><ul>
-<li>书写JSX的时候推荐外面扩上一个小括号<br>为了增强代码可读性，JSX会有换行和缩进，带上括号，防止分号自动插入的bug</li>
-<li>JSX中的表达式包含在大括号里面<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">    firstName: <span class="string">'lucus'</span>,</span><br><span class="line">    firstName: <span class="string">'mars'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatName</span>(<span class="params">userInfo</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> userInfo.firstName + <span class="string">' '</span> + userInfo.lastName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> element = (</span><br><span class="line">    &lt;h1&gt;</span><br><span class="line">        Hello, &#123;formatName(user)&#125;!</span><br><span class="line">    &lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">ReactDOM.render(</span></span><br><span class="line"><span class="regexp">    element,</span></span><br><span class="line"><span class="regexp">    document.getElementById('root')</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="2-JSX属性"><a href="#2-JSX属性" class="headerlink" title="2. JSX属性"></a>2. JSX属性</h3><p>这里挂载的属性就是一个变量和非变量的问题了，若是一个变量，则拿大括号包裹起来，若是一个确定的值，则用引号包裹。</p>
-<blockquote>
-<p>注意：JSX的特性更接近Js而不是Html，所以ReactDOM用camelCase小驼峰命名定义属性而不是HTML属性<br>eg. class =&gt; className    tabindex =&gt; tabIndex</p>
-</blockquote>
-<h3 id="3-JSX防注入攻击"><a href="#3-JSX防注入攻击" class="headerlink" title="3. JSX防注入攻击"></a>3. JSX防注入攻击</h3><p>所有内容在渲染之前都被转换成了字符串，可以有效防止XSS攻击。</p>
-<h3 id="4-JSX代表Objects"><a href="#4-JSX代表Objects" class="headerlink" title="4. JSX代表Objects"></a>4. JSX代表Objects</h3><p>用JSX语法写的HTML标签，其实最后会被React通过方法转化为一个对象，与此同时，React通过读取这些对象来构建DOM并保持数据内容一致。</p>
-<h2 id="页面元素的渲染"><a href="#页面元素的渲染" class="headerlink" title="页面元素的渲染"></a>页面元素的渲染</h2><h3 id="1-根节点"><a href="#1-根节点" class="headerlink" title="1. 根节点"></a>1. 根节点</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在渲染的html中，在此div中的所有内容都将由React DOM来管理。</p>
-<p>用React开发一般只会定义一个根节点，若是在一个已有项目中引入React，则需要在不同的部分单独定义React根节点。</p>
-<h3 id="2-React元素都是不可变的"><a href="#2-React元素都是不可变的" class="headerlink" title="2. React元素都是不可变的"></a>2. React元素都是不可变的</h3><p>当元素被创建之后，无法改变其内容或属性，现阶段的唯一方法是创建一个新的元素，然后将它传入ReactDOM.render()方法中。</p>
-<h3 id="3-React只会更新必要的部分"><a href="#3-React只会更新必要的部分" class="headerlink" title="3. React只会更新必要的部分"></a>3. React只会更新必要的部分</h3><p>ReactDOM首先会比较元素内容先后的不同，而在渲染过程中只会更新改变了的部分。[]</p>
-
-          
+          <!--/noindex-->
         
       
     </div>
@@ -2349,7 +2185,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

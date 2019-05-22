@@ -352,6 +352,192 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/29/【React】（一）创建应用和元素渲染/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wang yanglong">
+      <meta itemprop="description" content="wangyanglong">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chemist-Wang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/29/【React】（一）创建应用和元素渲染/" class="post-title-link" itemprop="url">【React】（一）创建应用和元素渲染</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-29 20:57:26" itemprop="dateCreated datePublished" datetime="2019-04-29T20:57:26+08:00">2019-04-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-14 09:46:56" itemprop="dateModified" datetime="2019-05-14T09:46:56+08:00">2019-05-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              前言一直想学React，公司入职了一个新员工，给我讲了讲，一下就来了兴趣，说来就来。附上中文官方网站：React中文文档
+用脚手架创建React应用
+安装环境为了有更好的开发体验环境，官方推荐Node的版本大于等于6，npm的版本大于等于5.2
+用脚手架创建React项目附上git链接create-
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/29/【React】（一）创建应用和元素渲染/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/17/【Angular】（一）ngTemplate的用法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -468,15 +654,23 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。<br>附上中文官方网站：<a href="https://angular.cn/" target="_blank" rel="noopener">Angular</a></p>
-<h2 id="NgTemplateOutlet"><a href="#NgTemplateOutlet" class="headerlink" title="NgTemplateOutlet"></a>NgTemplateOutlet</h2><p>这个指令有两个Input输入属性</p>
-<ul>
-<li>ngTemplateOutletContext</li>
-<li>ngTemplateOutlet</li>
-</ul>
-<h2 id="具体的用法"><a href="#具体的用法" class="headerlink" title="具体的用法"></a>具体的用法</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">html</span><br><span class="line"><span class="tag">&lt;<span class="name">ng-template</span> [<span class="attr">ngTemplateOutlet</span>]=<span class="string">"#name"</span>&gt;</span><span class="tag">&lt;/<span class="name">ng-template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> clock = <span class="built_in">any</span>;</span><br></pre></td></tr></table></figure>
+            <p>
+              前言使用Angular框架一年多了，从最初的ngIf和ngFor开始用起，特别想深入研究下它的api，并总结一些常见的用法。附上中文官方网站：Angular
+NgTemplateOutlet这个指令有两个Input输入属性
+
+ngTemplateOutletContext
+ngTemplateOut
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/17/【Angular】（一）ngTemplate的用法/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -647,26 +841,28 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>准备换高分的Next主题，附上<a href="https://theme-next.org/docs/getting-started/" target="_blank" rel="noopener">Next官方文档</a></p>
-<p>官网还是蛮简单易懂的，本篇说明下主要关注的点</p>
-<blockquote>
-<p>注意：<br>在使用Hexo的时候有两个主要的配置文件，它们都叫_config.yml</p>
-<ul>
-<li>在站点根目录下的是Hexo的配置文件</li>
-<li>在主题目录下的是各个主题的配置文件</li>
-</ul>
-</blockquote>
-<h2 id="Next主题安装"><a href="#Next主题安装" class="headerlink" title="Next主题安装"></a>Next主题安装</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> hexo</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/nex</span><br></pre></td></tr></table></figure>
-<h3 id="Next配置"><a href="#Next配置" class="headerlink" title="Next配置"></a>Next配置</h3><h4 id="选择主题方案"><a href="#选择主题方案" class="headerlink" title="选择主题方案"></a>选择主题方案</h4><p>在next/_config.yml文件下有四种主题方案，<code>Muse</code>，<code>Mist</code>，<code>Pisces</code>，<code>Gemini</code></p>
-<h4 id="选择语言"><a href="#选择语言" class="headerlink" title="选择语言"></a>选择语言</h4><h4 id="配置菜单项"><a href="#配置菜单项" class="headerlink" title="配置菜单项"></a>配置菜单项</h4><p>配置菜单需要三个参数值，格式<code>Key: /link/ || icon</code></p>
-<h4 id="配置图标"><a href="#配置图标" class="headerlink" title="配置图标"></a>配置图标</h4><p>Hexo默认在<code>hexo-site/themes/next/source/images/</code>目录下为适配不同设备使用不同尺寸NexT网站图标。你可以用你自己的网站图标来代替它们。</p>
-<p>举个例子，你可以把图标放在<code>hexo-site/source/images</code>目录下。然后你需要将它们重命名，在主题配置文件的图标部分修改设置，否则在Hexo中Next的图标会覆盖你的自定义图标。</p>
-<p>你也可以将自定义的图标放在<code>hexo-site/source/</code>目录下。这时候，你必须移除路径的<code>/images</code>前缀。</p>
-<p>生成自定义图标，你可以访问<a href="https://realfavicongenerator.net/" target="_blank" rel="noopener">Favicon Generator</a>。</p>
-<p><code>hexo/_config.yml</code><br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">favicon:</span></span><br><span class="line"><span class="attr">  small:</span> <span class="string">/images/favicon-16x16-next.png</span></span><br><span class="line"><span class="attr">  medium:</span> <span class="string">/images/favicon-32x32-next.png</span></span><br><span class="line"><span class="attr">  apple_touch_icon:</span> <span class="string">/images/apple-touch-icon-next.png</span></span><br><span class="line"><span class="attr">  safari_pinned_tab:</span> <span class="string">/images/logo.svg</span></span><br><span class="line"><span class="attr">  android_manifest:</span> <span class="string">/images/manifest.json</span></span><br><span class="line"><span class="attr">  ms_browserconfig:</span> <span class="string">/images/browserconfig.xml</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="配置头像"><a href="#配置头像" class="headerlink" title="配置头像"></a>配置头像</h4><p>默认情况下，Next在侧边栏不展示头像。你可以在主题配置文件中的头像设置项中设置编辑。</p>
-<h4 id="配置作者"><a href="#配置作者" class="headerlink" title="配置作者"></a>配置作者</h4><h4 id="配置描述"><a href="#配置描述" class="headerlink" title="配置描述"></a>配置描述</h4>
+            <p>
+              前言准备换高分的Next主题，附上Next官方文档
+官网还是蛮简单易懂的，本篇说明下主要关注的点
+
+注意：在使用Hexo的时候有两个主要的配置文件，它们都叫_config.yml
+
+在站点根目录下的是Hexo的配置文件
+在主题目录下的是各个主题的配置文件
+
+
+Next主题安装下载cd hexogit
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/14/【Hexo搭建博客】（四）更换主题Next/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -803,8 +999,19 @@
       
         
           
-            
+            <p>
+              
+              
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/13/start的主题/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -975,37 +1182,21 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在准备更换hexo主题之前，我是在<a href="https://hexo.io/themes/" target="_blank" rel="noopener">官网主题</a>上找的，200多个，一个一个翻，后来看到有拿爬虫去github爬star的，我心有躁动了，为啥不自己弄一个玩玩呢，于是就开始了。</p>
-<h2 id="什么是爬虫"><a href="#什么是爬虫" class="headerlink" title="什么是爬虫"></a>什么是爬虫</h2><p>网络爬虫（英语：web crawler），也叫网络蜘蛛（spider），是一种用来自动浏览万维网的网络机器人。</p>
-<h2 id="用Python写脚本"><a href="#用Python写脚本" class="headerlink" title="用Python写脚本"></a>用Python写脚本</h2><ol>
-<li>安装python<br>网上教程很多，下安装好之后在cmd中查看python版本，检查是否安装完毕。我下载的是最新的Windows版本3.7.3。<br>注意：Python有两个版本，2.x版和3.x版，两个版本不兼容。</li>
-<li>安装requests库和lxml库<br>抓取网页的时候，需要导入requests模块<br>lxml是一个用来快速解析xml和html文档且具有良好扩展性的库<br>方法：</li>
-</ol>
-<ul>
-<li>找到自己python安装目录下的pip</li>
-<li><p>打开cmd窗口输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br><span class="line">pip install lxml</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看是否安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip list</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>我的版本号是request 2.21.0 和 lxml 4.3.3</p>
-<ol start="3">
-<li>爬虫过程<br>我预先看了爬虫的基本原理，大概有了思路：hexo主题页每个主题的标题部分都有一个超链接，点击进去跳转到相关的github页面，再从它的github页面抓取star数。</li>
-</ol>
-<ul>
-<li>先爬取页面的超链接<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> html</span><br><span class="line">url=<span class="string">'https://hexo.io/themes/'</span> <span class="comment">#需要爬数据的网址</span></span><br><span class="line">page=requests.Session().get(url) </span><br><span class="line">tree=html.fromstring(page.text) </span><br><span class="line">result=tree.xpath(<span class="string">'//li[@class="plugin on"]//a[@class="plugin-name"]/@href'</span>) <span class="comment">#获取需要的数据</span></span><br><span class="line"><span class="comment">#print(result)</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>用cmd输出之后发现用户体验不好（前端的梗。。。），所以准备把结果输出到txt文件中。</p>
-<ul>
-<li>输出结果至txt文件中<br>其实这一步可以忽略，我只是想到既然可以实现，那就去做。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输出结果至txt文件中</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./result.txt'</span>, <span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> item <span class="keyword">in</span> result:</span><br><span class="line">		f.write(item + <span class="string">';\n'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>如果没有result.txt文件，程序会新建该文本。</p>
-
+            <p>
+              前言在准备更换hexo主题之前，我是在官网主题上找的，200多个，一个一个翻，后来看到有拿爬虫去github爬star的，我心有躁动了，为啥不自己弄一个玩玩呢，于是就开始了。
+什么是爬虫网络爬虫（英语：web crawler），也叫网络蜘蛛（spider），是一种用来自动浏览万维网的网络机器人。
+用
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/13/【Hexo搭建博客】（三）更换主题前的小插曲/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1176,16 +1367,22 @@
       
         
           
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。<br>刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。</p>
-<h2 id="什么是访问量"><a href="#什么是访问量" class="headerlink" title="什么是访问量"></a>什么是访问量</h2><p>UV（Unique visitor）即独立访客<br>UV的度量</p>
-<ul>
-<li>网站服务器分辨<br>网站服务器会接收到很多页面请求，每次请求的信息内部都包含：IP地址、请求发出的时间、浏览器版本、操作系统版本等等。网站服务器对这些请求进行分析，如果这些请求满足某些共同特征，比如来自同一个IP地址，浏览器版本和操作系统版本相同，请求时间又相近等等，就可以认为这些请求是来自于同一个Visitor的，那么这些访问自然是产生1个UV。当然，共同特征的具体定义是由网站服务器的设置决定的。通常来讲，用IP地址+其他特征共同来定义的情况比较多见。</li>
-<li>用cookie分辨<br>当客户端第一次访问某个网站服务器时，网站服务器会给该客户端电脑发出一个Cookie，通常放在C盘中。在这个Cookie中会分配一个独一无二的编号，并记录访问服务器的信息，如访问时间、访问了哪些页面等等。当你下次再访问这个服务器时，服务器就可以直接从你的电脑中找到上一次放进去的Cookie文件，并且对其进行更新，但那个独一无二的编号是不会变的。如果在一定时间内，服务器发现2个Visit所对应的是一个编号，那么我们自然可以认为这个来源于同一个Visitor了，自然也就是1个UV。使用Cookie的方法要比网站服务器更精确些。但也存在一些问题，比如：有些客户端为保证更高级别的安全，关闭了Cookie的功能；或者是有些客户端设置了在退出页面时自动删除Cookie，亦或经常自己去手动删除Cookie，那么这个方法就不那么精确了。由此看来，两个方法都只能得到近似的UV，而不是绝对精确的。</li>
-</ul>
-<p>PV（Page View）即页面浏览量，或点击量<br>其具体的度量方法是从浏览器发出一个对网络服务器的请求（Request）,网络服务器接到该请求后，会将请求对应的网页（Page）发送给浏览器，从而产生一个PV。只要是请求发送给了浏览器，无论页面是否完全打开（下载完成），都记为1个PV。<br>用以衡量网站用户访问的网页数量</p>
-<h2 id="添加博客访问量统计"><a href="#添加博客访问量统计" class="headerlink" title="添加博客访问量统计"></a>添加博客访问量统计</h2><p><a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子</a></p>
+            <p>
+              前言建站了快一周，觉得需要学习的东西好多，不善于写内容的我这几天疯狂蹦出好多想法，恨不得一天之内全部写完，而我又有重度强迫症，好蓝瘦。刚好周末，赶紧把需要写的东西都梳理下，就自然的想到给博客添加访问量的统计，于是开始找资料。
+什么是访问量UV（Unique visitor）即独立访客UV的度量
 
+网
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/13/【Hexo搭建博客】（二） 添加博客访问量统计/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1356,12 +1553,20 @@
       
         
           
-            <p>以下来源自JavaScript权威指南，著名的犀牛书第四章4.1.2 表达式计算<br>和其他很多解释性语言一样，JavaScript同样可以解释运行由JavaScript源代码组成的字符串，并产生一个值。JavaScript通过全局函数eval()来完成这个工作：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="string">"3+2"</span>) <span class="comment">//=&gt;5</span></span><br></pre></td></tr></table></figure></p>
-<p>动态判断源代码中的字符串是一种强大的语言特定，几乎没有必要在实际中应用。如果你使用了eval()，你应当仔细考虑是否真的需要使用它。</p>
-<p>下面讲解eval()的基础用法，并且介绍严格使用它的两种方法，从代码优化的角度讲，这两种方法对于原有代码造成的影响是最小的。</p>
-<h2 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h2><p>eval()只有一个参数。<br>如果传入的参数不是字符串，它直接返回这个参数。<br>如果参数是字符串，它会把字符串当成JavaScript代码进行编译（parse），<br>如果编译失败则抛出一个语法错误（SyntaxError）异常。<br>如果编译成功，则开始执行这段代码，并返回字符串中的最后一个表达式或语句的值，<br>如果字符串抛出一个异常，这个异常将把该调用传递给eval()。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: Start</span><br><span class="line">op=&gt;operation: Your Operation</span><br><span class="line">cond=&gt;condition: Yes or No?</span><br><span class="line">e=&gt;end</span><br><span class="line">st-&gt;op-&gt;cond</span><br><span class="line">cond(yes)-&gt;e</span><br><span class="line">cond(no)-&gt;op</span><br></pre></td></tr></table></figure></p>
-<h2 id="全局eval"><a href="#全局eval" class="headerlink" title="全局eval()"></a>全局eval()</h2><h2 id="严格eval"><a href="#严格eval" class="headerlink" title="严格eval()"></a>严格eval()</h2>
+            <p>
+              以下来源自JavaScript权威指南，著名的犀牛书第四章4.1.2 表达式计算和其他很多解释性语言一样，JavaScript同样可以解释运行由JavaScript源代码组成的字符串，并产生一个值。JavaScript通过全局函数eval()来完成这个工作：eval("3+2") //=&gt;5
+
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/13/理解JavsScript/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1532,15 +1737,20 @@
       
         
           
-            <p>用Hexo搭建自己的博客之后，第一次正式接触到YAML，便在网上搜罗了一大批资料，整合以下常见的配置文件语言。<br>我是做前端的，所以从最熟悉的JSON开始说吧。</p>
-<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a><a href="http://www.json.org/json-zh.html" target="_blank" rel="noopener">JSON</a></h2><p>JSON(JavaScript Object Notation, JavaScript对象表示法)是一种由<a href="https://zh.wikipedia.org/wiki/%E9%81%93%E6%A0%BC%E6%8B%89%E6%96%AF%C2%B7%E5%85%8B%E7%BE%85%E5%85%8B%E7%A6%8F%E7%89%B9" target="_blank" rel="noopener">道格拉斯·克罗克福特</a>构想和设计、轻量级的数据交换语言，该语言以易于让人阅读的文字为基础，用来传输由属性值或者序列性的值组成的数据对象。尽管JSON是JavaScript的一个子集，但JSON是独立于语言的文本格式。<br>JSON数据格式与语言无关，脱胎自JavaScipt，但当前很多编程语言都支持JSON格式数据的生成和解析。JSON的官方MIME类型是application/json，文件扩展名是.json。<br>JSON格式是1999年《JavaScript Programming Language, Standard ECMA-262 3rd Edition》的子集合，所以可以在JavaScript以eval()函数读入。<br>JSON结构如下：</p>
-<ul>
-<li><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"lucus"</span>,</span><br><span class="line">    <span class="string">"class"</span>: <span class="string">"grade"</span>,</span><br><span class="line">    <span class="string">"score"</span>: [<span class="number">100</span>, <span class="number">88</span>, <span class="number">60</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>格式描述参考<a href="https://tools.ietf.org/html/rfc4627" target="_blank" rel="noopener">RFC-4627</a><br>应用领域<br>web开发：JSON最开始被广泛应用于web应用开发，当前JSON的使用在JavaScript、Java、Node.js应用情况比较多，PHP、C#等开发的web应用主要还是使用XML<br>NoSQL数据库：选择用JSON作为其数据的存储格式 MongoDB CouchDB RavenDB<br>安全问题<br>读取JSON<br>由于JSON是JavaScript的子集，所以一般都会使用eval()作为读取数据的方式，如果是</p>
-<h2 id="HOCON"><a href="#HOCON" class="headerlink" title="HOCON"></a><a href="https://github.com/lightbend/config/blob/master/HOCON.md" target="_blank" rel="noopener">HOCON</a></h2><h2 id="MessagePack"><a href="#MessagePack" class="headerlink" title="MessagePack"></a><a href="https://msgpack.org/" target="_blank" rel="noopener">MessagePack</a></h2>
+            <p>
+              用Hexo搭建自己的博客之后，第一次正式接触到YAML，便在网上搜罗了一大批资料，整合以下常见的配置文件语言。我是做前端的，所以从最熟悉的JSON开始说吧。
+JSONJSON(JavaScript Object Notation, JavaScript对象表示法)是一种由道格拉斯·克罗克福特构想和设
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/11/YAML与JSON的对比/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1711,18 +1921,29 @@
       
         
           
-            <ol>
-<li>使用hexo搭建博客<a href="https://hexo.io/zh-cn" target="_blank" rel="noopener">Hexo中文官方网站</a></li>
-<li>待接入<a href="http://changyan.kuaizhan.com/" target="_blank" rel="noopener">畅言评论系统</a></li>
-<li>待接入<a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener">不蒜子网页计数器</a></li>
-<li>待接入<a href="https://www.livere.com/" target="_blank" rel="noopener">来必力评论系统</a></li>
-<li>待使用标签插件<a href="https://hexo.io/zh-cn/docs/tag-plugins#%E5%BC%95%E7%94%A8%E5%9D%97" target="_blank" rel="noopener">Tag Plugins</a></li>
-<li>待用Disqus留言评论系统</li>
-<li>待使用hexo插件绘制流程图</li>
-<li><a href="https://github.blog/2008-12-19-github-ribbons/" target="_blank" rel="noopener">github-ribbons</a></li>
-</ol>
+            <p>
+              
+使用hexo搭建博客Hexo中文官方网站
+待接入畅言评论系统
+待接入不蒜子网页计数器
+待接入来必力评论系统
+待使用标签插件Tag Plugins
+待用Disqus留言评论系统
+待使用hexo插件绘制流程图
+github-ribbons
 
+
+              
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/11/博客的玩法/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1893,268 +2114,20 @@
       
         
           
-            <p>2015年大学快毕业的时候我拥有了自己第一部iPhone手机，当时特别迷恋在App Store上找高分软件，Workflow是当时口碑极佳的一款，只不过当时对软件的了解不深，没有感受它的强大，现在重新拿起来，觉得这么久了，失去了好多。</p>
-<h2 id="什么是Workflow"><a href="#什么是Workflow" class="headerlink" title="什么是Workflow"></a>什么是Workflow</h2><p>快捷指令（英语：Shortcuts），2.0版前名为Workflow，2.1.3版前名为捷径，是iOS上的工作流应用，起初由阿里·温斯坦（Ari Weinstein）、Conrad Kramer、Veeral Patel和Nick Frey开发，并于2014年12月11日上架，2015年6月9日获苹果年度设计奖，2017年3月23日被苹果公司收购，变为免费应用。2018年9月18日更名为捷径，2019年2月改名为快捷指令。</p>
-
+            <p>
+              2015年大学快毕业的时候我拥有了自己第一部iPhone手机，当时特别迷恋在App Store上找高分软件，Workflow是当时口碑极佳的一款，只不过当时对软件的了解不深，没有感受它的强大，现在重新拿起来，觉得这么久了，失去了好多。
+什么是Workflow快捷指令（英语：Shortcuts），2.
+              ...
+            </p>
+          <!--noindex-->
           
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chemistwang.github.io/2019/04/10/算法与数据结构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="wang yanglong">
-      <meta itemprop="description" content="wangyanglong">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chemist-Wang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/10/算法与数据结构/" class="post-title-link" itemprop="url">算法与数据结构（一）绪论</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-10 22:07:41" itemprop="dateCreated datePublished" datetime="2019-04-10T22:07:41+08:00">2019-04-10</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-18 11:49:02" itemprop="dateModified" datetime="2019-05-18T11:49:02+08:00">2019-05-18</time>
-              
-            
-          </span>
-
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/11/自动化工作流程Workflow/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法与数据结构学习笔记/" itemprop="url" rel="index"><span itemprop="name">算法与数据结构学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>数据结构是一门专业技术基础课程，课程分析、研究计算机加工</p>
-<ul>
-<li>数据的 <strong>特征</strong>、</li>
-<li>数据的 <strong>逻辑结构</strong>、</li>
-<li>数据的 <strong>存储结构</strong>、</li>
-<li>数据涉及的 <strong>算法</strong>、</li>
-<li>以及不同特征数据 <strong>应用情况</strong></li>
-</ul>
-<blockquote>
-<p>结构化程序 = （算法） + （数据结构）<br>面向对象的程序 = （算法 + 数据结构）</p>
-</blockquote>
-<h2 id="大类"><a href="#大类" class="headerlink" title="大类"></a>大类</h2><ul>
-<li>线性数据结构</li>
-<li>树</li>
-<li>图</li>
-<li>查找</li>
-<li>排序</li>
-</ul>
-<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><ul>
-<li>数据结构的基本概念</li>
-<li>算法和算法设计的要求</li>
-</ul>
-<h2 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h2><h3 id="什么是数据结构"><a href="#什么是数据结构" class="headerlink" title="什么是数据结构"></a>什么是数据结构</h3><p>计算机解决问题的一般步骤</p>
-<ol>
-<li>建立数据模型 （从具体问题中抽象出来）</li>
-</ol>
-<ul>
-<li>数值问题（数学方程）</li>
-<li>非数值问题（集合、线性表、树、图等）（敲黑板，生活中的大部分问题）<br>=》 </li>
-</ul>
-<ol start="2">
-<li>设计算法<br>=》 </li>
-<li>编写程序<br>=&gt; </li>
-<li>测试、调整程序解决问题</li>
-</ol>
-<p><strong>数据结构是一门研究非数值计算的程序设计问题中计算机的操作对象以及它们之间的关系和操作等等的学科。</strong><br>关键词：</p>
-<ul>
-<li>操作对象 =》 数据</li>
-<li>关系 =》 数据之间的关系</li>
-<li>操作 =》 对数据的操作</li>
-</ul>
-<h3 id="基本概念和术语"><a href="#基本概念和术语" class="headerlink" title="基本概念和术语"></a>基本概念和术语</h3><ol>
-<li><strong>数据（Data）</strong></li>
-</ol>
-<ul>
-<li>客观事务的符号表示</li>
-<li>所有能够输入到计算机中并被计算机程序处理的符号的总称</li>
-<li>信息在计算机中的表现形式</li>
-<li>图像、声音、符号等等</li>
-</ul>
-<ol start="2">
-<li><strong>数据元素（Data Element）</strong></li>
-</ol>
-<ul>
-<li>数据的基本单位，计算机中通常作为一个整体来考虑，如一棵树中的一个结点、一个图中的一个结点</li>
-<li>一个数据元素可以有若干个 <strong>数据项（Data Item）</strong>组成</li>
-<li><strong>数据对象（Data Object）</strong><br>性质相同的数据元素的集合</li>
-</ul>
-<ol start="3">
-<li><strong>数据结构</strong><br>相互之间存在一种或多种关系的数据元素的集合</li>
-</ol>
-<ul>
-<li>数据元素之间的关系 — 结构</li>
-<li>四种基本结构<br>集合<br>线性结构: 具备先后顺序关系<br>树形结构<br>图状结构/网状结构</li>
-<li>数据结构的形式定义<br>一个二元数组：<br>Data_Structure=(D,S)<br>D：数据元素的集合<br>S：D上的关系集合</li>
-</ul>
-<ol start="4">
-<li><strong>数据的逻辑、物理（存储）结构</strong></li>
-</ol>
-<ul>
-<li>逻辑结构：数据元素之间的逻辑关系</li>
-<li>物理结构：数据元素在计算机中的存储方法（表现和实现）</li>
-</ul>
-<ol start="5">
-<li><strong>数据结构的分类</strong></li>
-</ol>
-<ul>
-<li>按逻辑分：集合、线性结构、树状结构、网状结构</li>
-<li>按物理结构分：<br>顺序结构（利用在存储器中的物理关系来表示逻辑关系）<br>链式结构（用在存储器中附加指针的方式来表示逻辑关系）</li>
-</ul>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
-<li>算法与数据结构的基本概念</li>
-<li>数据、数据类型、抽象数据类型</li>
-<li>几种基本的数据结构</li>
-<li>数据的物理结构和逻辑结构</li>
-</ol>
-
-          
+          <!--/noindex-->
         
       
     </div>
@@ -2242,7 +2215,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
