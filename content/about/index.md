@@ -1,8 +1,8 @@
-<!-- ---
+---
 layout: page
 multilingual: true
---- -->
+---
 
-## 关于我
+## About Me
 
-曾经是一名有机合成药物研究员的搬砖工，现如今转行做计算机，想学的很多，只恨时间太少。
+Coding Boy used to be in lab
