@@ -1,0 +1,281 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="「React源码之一」 搭建源码调试环境"><meta property="og:title" content="「React源码之一」 搭建源码调试环境"><meta property="twitter:title" content="「React源码之一」 搭建源码调试环境"><meta name=description content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="og:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>「React源码之一」 搭建源码调试环境 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/react/react-debug-env/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/react-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags></div><h1>「React源码之一」 搭建源码调试环境</h1><h2 class=subheading>「源码阅读」第二层：掌握整体工作流程局部细节</h2><span class=meta>Posted by
+汪洋龙
+on
+Wednesday, August 3, 2022</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><p><strong>实现目标：在 <code>VSCode</code> 中执行断点调试 <a href=https://github.com/facebook/react.git><code>官方Github仓库中</code></a> 👈 的 <code>React原始源码</code> 并可以定位到具体文件</strong></p><blockquote><p>版本说明：<code>React18.02</code></p></blockquote><p>思路说明：利用源码编译出来的 <code>sourcemap</code> 寻找对应的源码文件</p><h2 id=第一步构建源码sourcemap>第一步：构建源码sourcemap</h2><ol><li>下载源码</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git clone https://github.com/facebook/react.git
+</span></span></code></pre></div><ol start=2><li><code>npm i</code> 安装依赖</li></ol><blockquote><p>warning 报错</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>➜  react git:<span style=color:#ff79c6>(</span>main<span style=color:#ff79c6>)</span> npm i
+</span></span><span style=display:flex><span>npm ERR! code EUNSUPPORTEDPROTOCOL
+</span></span><span style=display:flex><span>npm ERR! Unsupported URL Type <span style=color:#f1fa8c>&#34;link:&#34;</span>: link:./scripts/eslint-rules
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>npm ERR! A <span style=color:#8be9fd;font-style:italic>complete</span> log of this run can be found in:
+</span></span><span style=display:flex><span>npm ERR!     /Users/wyl/.npm/_logs/2022-07-22T11_12_55_347Z-debug.log
+</span></span></code></pre></div><p>解决方案：修改 <code>package.json</code> 的依赖并重新执行命令</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>...
+</span></span><span style=display:flex><span>   <span style=color:#6272a4>// &#34;eslint-plugin-react-internal&#34;: &#34;link:./scripts/eslint-rules&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>   <span style=color:#f1fa8c>&#34;eslint-plugin-react-internal&#34;</span>: <span style=color:#f1fa8c>&#34;file:./scripts/eslint-rules&#34;</span>,
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><ol start=3><li><code>npm run build</code> 开始构建</li></ol><p>在 <code>package.json</code> 中找到执行构建的文件</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>...
+</span></span><span style=display:flex><span>  <span style=color:#f1fa8c>&#34;scripts&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;build&#34;</span>: <span style=color:#f1fa8c>&#34;node ./scripts/rollup/build.js&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;build-combined&#34;</span>: <span style=color:#f1fa8c>&#34;node ./scripts/rollup/build-all-release-channels.js&#34;</span>,
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>  }
+</span></span></code></pre></div><p>修改 <code>./scripts/rollup/build.js</code> 文件中的 <code>sourcemap</code> 选项用以生成 <code>sourcemap</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> getRollupOutputOptions(
+</span></span><span style=display:flex><span>  outputPath,
+</span></span><span style=display:flex><span>  format,
+</span></span><span style=display:flex><span>  globals,
+</span></span><span style=display:flex><span>  globalName,
+</span></span><span style=display:flex><span>  bundleType
+</span></span><span style=display:flex><span>) {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> isProduction <span style=color:#ff79c6>=</span> isProductionBundleType(bundleType);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> {
+</span></span><span style=display:flex><span>    file<span style=color:#ff79c6>:</span> outputPath,
+</span></span><span style=display:flex><span>    format,
+</span></span><span style=display:flex><span>    globals,
+</span></span><span style=display:flex><span>    freeze<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>!</span>isProduction,
+</span></span><span style=display:flex><span>    interop<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>false</span>,
+</span></span><span style=display:flex><span>    name<span style=color:#ff79c6>:</span> globalName,
+</span></span><span style=display:flex><span>    sourcemap<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>true</span>, <span style=color:#6272a4>// 修改之前是 sourcemap: false,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    esModule<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>false</span>,
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>执行 <code>npm run build</code> （若没有下面的报错则中断命令并跳过这一步）</p><blockquote><p>warning 报错</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>➜  react git:<span style=color:#ff79c6>(</span>main<span style=color:#ff79c6>)</span> ✗ npm run build
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>&gt; @ build /Users/wyl/github/react
+</span></span><span style=display:flex><span>&gt; node ./scripts/rollup/build.js
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>internal/modules/cjs/loader.js:883
+</span></span><span style=display:flex><span>  throw err;
+</span></span><span style=display:flex><span>  ^
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Error: Cannot find module <span style=color:#f1fa8c>&#39;babel-code-frame&#39;</span>
+</span></span><span style=display:flex><span>Require stack:
+</span></span><span style=display:flex><span>- /Users/wyl/github/react/scripts/rollup/build.js
+</span></span><span style=display:flex><span>    at Function.Module._resolveFilename <span style=color:#ff79c6>(</span>internal/modules/cjs/loader.js:880:15<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    at Function.Module._load <span style=color:#ff79c6>(</span>internal/modules/cjs/loader.js:725:27<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    at Module.require <span style=color:#ff79c6>(</span>internal/modules/cjs/loader.js:952:19<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    at require <span style=color:#ff79c6>(</span>internal/modules/cjs/helpers.js:88:18<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    at Object.&lt;anonymous&gt; <span style=color:#ff79c6>(</span>/Users/wyl/github/react/scripts/rollup/build.js:23:19<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    at Module._compile <span style=color:#ff79c6>(</span>internal/modules/cjs/loader.js:1063:30<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    at Object.Module._extensions..js <span style=color:#ff79c6>(</span>internal/modules/cjs/loader.js:1092:10<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    at Module.load <span style=color:#ff79c6>(</span>internal/modules/cjs/loader.js:928:32<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    at Function.Module._load <span style=color:#ff79c6>(</span>internal/modules/cjs/loader.js:769:14<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    at Function.executeUserEntryPoint <span style=color:#ff79c6>[</span>as runMain<span style=color:#ff79c6>]</span> <span style=color:#ff79c6>(</span>internal/modules/run_main.js:72:12<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+</span></span><span style=display:flex><span>  code: <span style=color:#f1fa8c>&#39;MODULE_NOT_FOUND&#39;</span>,
+</span></span><span style=display:flex><span>  requireStack: <span style=color:#ff79c6>[</span> <span style=color:#f1fa8c>&#39;/Users/wyl/github/react/scripts/rollup/build.js&#39;</span> <span style=color:#ff79c6>]</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>}</span>
+</span></span><span style=display:flex><span>npm ERR! code ELIFECYCLE
+</span></span><span style=display:flex><span>npm ERR! errno <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>npm ERR! @ build: <span style=color:#f1fa8c>`</span>node ./scripts/rollup/build.js<span style=color:#f1fa8c>`</span>
+</span></span><span style=display:flex><span>npm ERR! Exit status <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>npm ERR! 
+</span></span><span style=display:flex><span>npm ERR! Failed at the @ build script.
+</span></span><span style=display:flex><span>npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>npm ERR! A <span style=color:#8be9fd;font-style:italic>complete</span> log of this run can be found in:
+</span></span><span style=display:flex><span>npm ERR!     /Users/wyl/.npm/_logs/2022-08-09T09_23_10_249Z-debug.log
+</span></span></code></pre></div><p>解决方案：<code>yarn</code></p><p>🤔 挺奇怪的，用 <code>yarn</code> 重新安装一下就可以正常执行 <code>npm run build</code></p><p>再次执行 <code>npm run build</code></p><blockquote><p>warning 报错</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>➜  react git:<span style=color:#ff79c6>(</span>main<span style=color:#ff79c6>)</span> ✗ npm run build
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>&gt; @ build /Users/wyl/github/react
+</span></span><span style=display:flex><span>&gt; node ./scripts/rollup/build.js
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span> BUILDING  react.development.js <span style=color:#ff79c6>(</span>umd_dev<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Sourcemap is likely to be incorrect: a plugin <span style=color:#ff79c6>(</span>at position 6<span style=color:#ff79c6>)</span> was used to transform files, but didn&#39;t generate a sourcemap <span style=color:#ff79c6>for</span> the transformation. Consult the plugin documentation <span style=color:#ff79c6>for</span> <span style=color:#8be9fd;font-style:italic>help</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>npm ERR! code ELIFECYCLE
+</span></span><span style=display:flex><span>npm ERR! errno <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>npm ERR! @ build: <span style=color:#f1fa8c>`</span>node ./scripts/rollup/build.js<span style=color:#f1fa8c>`</span>
+</span></span><span style=display:flex><span>npm ERR! Exit status <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>npm ERR! 
+</span></span><span style=display:flex><span>npm ERR! Failed at the @ build script.
+</span></span><span style=display:flex><span>npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>npm ERR! A <span style=color:#8be9fd;font-style:italic>complete</span> log of this run can be found in:
+</span></span><span style=display:flex><span>npm ERR!     /Users/wyl/.npm/_logs/2022-08-09T09_45_56_927Z-debug.log
+</span></span></code></pre></div><p><strong>原因</strong>：过程中需要很多插件一步一步进行构建，但是有一些插件没有生成 <code>sourcemap</code> 文件，导致过程中断，构建失败。</p><p><strong>解决方案</strong>：在 <code>getPlugins</code> 函数中注释掉这些插件即可。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>    <span style=color:#bd93f9>1.</span> <span style=color:#6272a4>// Remove &#39;use strict&#39; from individual source files.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// {
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   transform(source) {
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//     return source.replace(/[&#39;&#34;]use strict[&#34;&#39;]/g, &#39;&#39;);
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   },
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// },
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>    <span style=color:#bd93f9>2.</span> <span style=color:#6272a4>// Apply dead code elimination and/or minification.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// isProduction &amp;&amp;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// closure(
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   Object.assign({}, closureOptions, {
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//     // Don&#39;t let it create global variables in the browser.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//     // https://github.com/facebook/react/issues/10909
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//     assume_function_wrapper: !isUMDBundle,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//     renaming: !shouldStayReadable,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   })
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// ),
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>    <span style=color:#bd93f9>3.</span> <span style=color:#6272a4>// HACK to work around the fact that Rollup isn&#39;t removing unused, pure-module imports.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// Note that this plugin must be called after closure applies DCE.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// isProduction &amp;&amp; stripUnusedImports(pureExternalModules),
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>    <span style=color:#bd93f9>4.</span> <span style=color:#6272a4>// Add the whitespace back if necessary.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// shouldStayReadable &amp;&amp;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// prettier({
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   parser: &#39;babel&#39;,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   singleQuote: false,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   trailingComma: &#39;none&#39;,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   bracketSpacing: true,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// }),
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#bd93f9>5.</span> <span style=color:#6272a4>// License and haste headers, top-level `if` blocks.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// {
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   renderChunk(source) {
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//     return Wrappers.wrapBundle(
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//       source,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//       bundleType,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//       globalName,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//       filename,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//       moduleType,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//       bundle.wrapWithModuleBoundaries
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//     );
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//   },
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// },
+</span></span></span></code></pre></div><p>再次执行 <code>npm run build</code> 会在 <code>build/</code> 文件夹下得到一系列带有 <code>sourcemap</code> 的打包文件。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>➜  react git:<span style=color:#ff79c6>(</span>main<span style=color:#ff79c6>)</span> ✗ tree build/node_modules/react/umd 
+</span></span><span style=display:flex><span>build/node_modules/react/umd
+</span></span><span style=display:flex><span>├── react.development.js         ⬅️
+</span></span><span style=display:flex><span>├── react.development.js.map     ⬅️
+</span></span><span style=display:flex><span>├── react.production.min.js
+</span></span><span style=display:flex><span>├── react.production.min.js.map
+</span></span><span style=display:flex><span>├── react.profiling.min.js
+</span></span><span style=display:flex><span>└── react.profiling.min.js.map
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#bd93f9>0</span> directories, <span style=color:#bd93f9>6</span> files
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>➜  react git:<span style=color:#ff79c6>(</span>main<span style=color:#ff79c6>)</span> ✗ tree build/node_modules/react-dom/umd 
+</span></span><span style=display:flex><span>build/node_modules/react-dom/umd
+</span></span><span style=display:flex><span>├── react-dom-server-legacy.browser.development.js
+</span></span><span style=display:flex><span>├── react-dom-server-legacy.browser.development.js.map
+</span></span><span style=display:flex><span>├── react-dom-server-legacy.browser.production.min.js
+</span></span><span style=display:flex><span>├── react-dom-server-legacy.browser.production.min.js.map
+</span></span><span style=display:flex><span>├── react-dom-server.browser.development.js
+</span></span><span style=display:flex><span>├── react-dom-server.browser.development.js.map
+</span></span><span style=display:flex><span>├── react-dom-server.browser.production.min.js
+</span></span><span style=display:flex><span>├── react-dom-server.browser.production.min.js.map
+</span></span><span style=display:flex><span>├── react-dom-test-utils.development.js
+</span></span><span style=display:flex><span>├── react-dom-test-utils.development.js.map
+</span></span><span style=display:flex><span>├── react-dom-test-utils.production.min.js
+</span></span><span style=display:flex><span>├── react-dom-test-utils.production.min.js.map
+</span></span><span style=display:flex><span>├── react-dom.development.js        ⬅️
+</span></span><span style=display:flex><span>├── react-dom.development.js.map    ⬅️
+</span></span><span style=display:flex><span>├── react-dom.production.min.js
+</span></span><span style=display:flex><span>├── react-dom.production.min.js.map
+</span></span><span style=display:flex><span>├── react-dom.profiling.min.js
+</span></span><span style=display:flex><span>└── react-dom.profiling.min.js.map
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#bd93f9>0</span> directories, <span style=color:#bd93f9>18</span> files
+</span></span></code></pre></div><p>重点关注下面 <code>4</code> 个文件</p><ul><li><code>react.development.js</code></li><li><code>react.development.js.map</code></li><li><code>react-dom.development.js</code></li><li><code>react-dom.development.js.map</code></li></ul><h2 id=第二步创建调试应用>第二步：创建调试应用</h2><ol><li>用 <code>CRA</code> 创建一个 <code>APP</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npx create-react-app debug-react-app
+</span></span></code></pre></div><p>调试源码没必要用 <code>ts</code>，避免一些不必要的 <code>ts</code> 类型检查错误</p><ol start=2><li>暴露配置</li></ol><p><code>CRA</code> 创建的应用还是引用的打包之后的文件并且不能自定义配置，所以需要修改。</p><p>执行 <code>npm run reject</code> 暴露配置项。</p><ol start=3><li>修改配置</li></ol><p>在 <code>config/webpack.config.js</code> 文件中新增 <a href=https://webpack.js.org/configuration/externals/#externals><code>externals</code></a> 👈 属性。这样可以单独加载 <code>react</code>，<code>react-dom</code>。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>...
+</span></span><span style=display:flex><span>    ].filter(<span style=color:#8be9fd;font-style:italic>Boolean</span>),
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// Turn off performance processing because we utilize
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// our own hints via the FileSizeReporter
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    performance<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>false</span>,
+</span></span><span style=display:flex><span>    externals<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      react<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#39;React&#39;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f1fa8c>&#39;react-dom&#39;</span><span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#39;ReactDOM&#39;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><ol start=4><li>将刚才生成的下述文件粘贴到 <code>public</code> 目录下，并在 <code>index.html</code> 中加载</li></ol><ul><li><code>react.development.js</code></li><li><code>react.development.js.map</code></li><li><code>react-dom.development.js</code></li><li><code>react-dom.development.js.map</code></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>➜  debug-react-app git:<span style=color:#ff79c6>(</span>master<span style=color:#ff79c6>)</span> ✗ tree public 
+</span></span><span style=display:flex><span>public
+</span></span><span style=display:flex><span>├── favicon.ico
+</span></span><span style=display:flex><span>├── index.html
+</span></span><span style=display:flex><span>├── logo192.png
+</span></span><span style=display:flex><span>├── logo512.png
+</span></span><span style=display:flex><span>├── manifest.json
+</span></span><span style=display:flex><span>├── react-dom.development.js        ⬅️
+</span></span><span style=display:flex><span>├── react-dom.development.js.map    ⬅️
+</span></span><span style=display:flex><span>├── react.development.js            ⬅️
+</span></span><span style=display:flex><span>├── react.development.js.map        ⬅️
+</span></span><span style=display:flex><span>└── robots.txt
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#bd93f9>0</span> directories, <span style=color:#bd93f9>10</span> files
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span>...
+</span></span><span style=display:flex><span>      To create a production bundle, use `npm run build` or `yarn build`.
+</span></span><span style=display:flex><span>    --&gt;
+</span></span><span style=display:flex><span>  &lt;/<span style=color:#ff79c6>body</span>&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#ff79c6>html</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#ff79c6>script</span> <span style=color:#50fa7b>src</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;%PUBLIC_URL%/react.development.js&#34;</span>&gt;&lt;/<span style=color:#ff79c6>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#ff79c6>script</span> <span style=color:#50fa7b>src</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;%PUBLIC_URL%/react-dom.development.js&#34;</span>&gt;&lt;/<span style=color:#ff79c6>script</span>&gt;
+</span></span></code></pre></div><ol start=5><li>粘贴 <code>react</code> 源码到调试应用目录下</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mv /p/a/t/h/react .
+</span></span></code></pre></div><ol start=6><li>关联 <code>react</code> 源码</li></ol><p>打开 <code>react-dom.development.js.map</code> 文件发现 <code>sources</code> 属性的文件前缀是 <code>../../../../packages</code>。修改成当下的 <code>react</code> 源码路径就可以了。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;version&#34;</span><span style=color:#ff79c6>:</span> <span style=color:#bd93f9>3</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;file&#34;</span><span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;react-dom.development.js&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;sources&#34;</span><span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>        <span style=color:#f1fa8c>&#34;../../../../packages/shared/ReactSharedInternals.js&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f1fa8c>&#34;../../../../packages/shared/consoleWithStackDev.js&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f1fa8c>&#34;../../../../packages/react-reconciler/src/ReactWorkTags.js&#34;</span>,
+</span></span><span style=display:flex><span>        ...
+</span></span></code></pre></div><p>解决思路：修改配置项并重新构建刚才生成的 <code>4</code> 个文件</p><p>在刚才转移的 <code>react源码</code> 文件中找到 <code>/react/scripts/rollup/build.js</code> 新增 <code>sourcemapPathTransform</code> 方法，将路径修改为自己的项目路径</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> getRollupOutputOptions(
+</span></span><span style=display:flex><span>  outputPath,
+</span></span><span style=display:flex><span>  format,
+</span></span><span style=display:flex><span>  globals,
+</span></span><span style=display:flex><span>  globalName,
+</span></span><span style=display:flex><span>  bundleType
+</span></span><span style=display:flex><span>) {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> isProduction <span style=color:#ff79c6>=</span> isProductionBundleType(bundleType);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> {
+</span></span><span style=display:flex><span>    file<span style=color:#ff79c6>:</span> outputPath,
+</span></span><span style=display:flex><span>    format,
+</span></span><span style=display:flex><span>    globals,
+</span></span><span style=display:flex><span>    freeze<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>!</span>isProduction,
+</span></span><span style=display:flex><span>    interop<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>false</span>,
+</span></span><span style=display:flex><span>    name<span style=color:#ff79c6>:</span> globalName,
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// sourcemap: false,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    sourcemap<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>    esModule<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>false</span>,
+</span></span><span style=display:flex><span>    sourcemapPathTransform(relativeSourcePath, sourcemapPath) { ⬅️
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>return</span> relativeSourcePath.replace(<span style=color:#f1fa8c>&#39;../../../../packages&#39;</span>, <span style=color:#f1fa8c>&#39;/Users/wyl/github/debug-react-app/react/packages&#39;</span>)
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>再次打开新生成的 <code>react-dom.development.js.map</code> 文件可以看到 <code>sources</code> 路径已经修改完成。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;version&#34;</span><span style=color:#ff79c6>:</span> <span style=color:#bd93f9>3</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;file&#34;</span><span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;react.development.js&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;sources&#34;</span><span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>        <span style=color:#f1fa8c>&#34;/Users/wyl/github/debug-react-app/react/packages/shared/ReactVersion.js&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f1fa8c>&#34;/Users/wyl/github/debug-react-app/react/packages/shared/ReactSymbols.js&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f1fa8c>&#34;/Users/wyl/github/debug-react-app/react/packages/react/src/ReactCurrentDispatcher.js&#34;</span>,
+</span></span><span style=display:flex><span>    ...
+</span></span></code></pre></div><ol start=7><li>把之前 <code>public</code> 目录下的这 <code>4</code> 个文件用新生成的替换掉</li></ol><ul><li><code>react.development.js</code></li><li><code>react.development.js.map</code></li><li><code>react-dom.development.js</code></li><li><code>react-dom.development.js.map</code></li></ul><h2 id=第三步创建-vscode-debug-配置文件>第三步：创建 <code>VSCode Debug</code> 配置文件</h2><p>在 <code>VSCode</code> 左侧栏中点击 <code>Run and Debug</code> 按钮。点击 <code>绿色小箭头</code> 的 <code>Add Configuration</code> 新增配置文件</p><blockquote><p><code>url</code> 中的端口记得修改成自己的</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// Use IntelliSense to learn about possible attributes.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// Hover to view descriptions of existing attributes.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>&#34;version&#34;</span>: <span style=color:#f1fa8c>&#34;0.2.0&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;configurations&#34;</span>: [
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&#34;name&#34;</span>: <span style=color:#f1fa8c>&#34;Launch Chrome&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&#34;request&#34;</span>: <span style=color:#f1fa8c>&#34;launch&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&#34;type&#34;</span>: <span style=color:#f1fa8c>&#34;chrome&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&#34;url&#34;</span>: <span style=color:#f1fa8c>&#34;http://localhost:3000&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>&#34;webRoot&#34;</span>: <span style=color:#f1fa8c>&#34;${workspaceFolder}&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>    ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>使用方法：</p><ol><li><p>在项目中执行 <code>npm run start</code> 启动</p></li><li><p>再点击 <code>绿色小箭头</code> 启动 <code>debug</code></p></li><li><p>标记断点，点击对应的 <code>CALL STACK</code></p></li><li><p>点击 <code>VSCode</code> 左侧栏中的 <code>Explorer</code> 就可以查看到对应的 <code>React</code> 源码文件了</p></li></ol><p>大功告成！🎉</p><blockquote><p>但是这种方法有个缺点：直接在源文件中修改代码是无效的，因为最终生效的还是打包之后的文件</p></blockquote><hr><ul class=pager><li class=previous><a href=/post/hello-world/hello-world/ data-toggle=tooltip data-placement=top title="Welcome to Chemputer Blog">&larr;
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2022<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,r=$(_containerSelector),a=r.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),a.each(function(){n=$(this).prop("tagName").toLowerCase(),i="#"+$(this).prop("id"),s=$(this).text(),t=$('<a href="'+i+'" rel="nofollow">'+s+"</a>"),o=$('<li class="'+n+'_nav"></li>').append(t),$(e).append(o)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
