@@ -1,0 +1,413 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="JS体系之四【事件循环】"><meta property="og:title" content="JS体系之四【事件循环】"><meta property="twitter:title" content="JS体系之四【事件循环】"><meta name=description content="很重要"><meta property="og:description" content="很重要"><meta property="twitter:description" content="很重要"><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>JS体系之四【事件循环】 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/js/event-loop/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags></div><h1>JS体系之四【事件循环】</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Wednesday, August 31, 2022</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=事件循环>事件循环</h1><p>推荐下面这个视频，讲的非常好。</p><p><a href="https://www.bilibili.com/video/BV1XQ4y1P7L7?from=search&seid=4063426400438383115">JavaScript中的事件循环介绍 -Jake Archibald【Bilibili】</a> 👍</p><p><a href="https://www.youtube.com/watch?v=cCOL7MC4Pl0&t=166s&ab_channel=JSConf">JavaScript中的事件循环介绍 -Jake Archibald【YouTube】</a> 👈</p><h2 id=前言>前言</h2><ul><li><strong>单线程</strong>：这个概念很重要，它决定了 <code>JS</code> 的很多行为</li><li><strong>任务队列</strong>：<code>Task Queues</code>，既然是单线程，浏览器的特殊性决定了遇到阻塞性事件不能等待⌛️。怎么办呢，不妨提交一个任务，稍后处理</li></ul><h2 id=运行机制>运行机制</h2><ol><li>同步任务都在主线程执行，形成一个执行栈（<code>execution context stack</code>）</li><li>对于异步任务，主线程之外，存在任务队列（<code>task queue</code>）</li><li>任务队列分为两大类，分别是宏任务（<code>macro task</code>）和微任务（<code>micro task</code>）</li><li>只有同步任务全部完成，即执行栈清空，才会执行异步任务</li><li>清空完当前微任务，才会再去执行下一个宏任务，如下代码</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>for</span> (macroTask <span style=color:#ff79c6>of</span> macroTaskQueue) {
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 1. Handle current MACRO-TASK
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    handleMacroTask();
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 2. Handle all MICRO-TASK
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>for</span> (microTask <span style=color:#ff79c6>of</span> microTaskQueue) {
+</span></span><span style=display:flex><span>        handleMicroTask(microTask);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=名词解释>名词解释</h2><h3 id=宏任务-macro-task>宏任务 (macro task)</h3><ul><li><code>XHR</code> 回调</li><li>事件回调（鼠标键盘事件）</li><li><code>setImmediate</code></li><li><code>setTimeout</code></li><li><code>setInterval</code></li><li>indexedDB 数据库操作等 I/O</li></ul><blockquote><p><strong>说明</strong>：<code>setTimeout</code> 的延时参数始终 <code>相对于主程序执行完毕的时间</code>，并且多个 <code>setTimeout</code> 执行的先后顺序也是由这个延迟时间决定</p></blockquote><h3 id=微任务-micro-task>微任务 (micro task)</h3><ul><li><code>process.nextTick</code></li><li><code>Promise.then</code></li><li><code>MutationObserver</code></li></ul><h2 id=练习>练习</h2><h3 id=练习1>练习1</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>console.log(<span style=color:#f1fa8c>&#34;global&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>setTimeout(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;timeout1&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>(<span style=color:#8be9fd;font-style:italic>function</span>(resolve) {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#f1fa8c>&#34;timeout1_promise&#34;</span>);
+</span></span><span style=display:flex><span>    resolve();
+</span></span><span style=display:flex><span>  }).then(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#f1fa8c>&#34;timeout1_then&#34;</span>);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>}, <span style=color:#bd93f9>2000</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> (<span style=color:#8be9fd;font-style:italic>var</span> i <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span>; i <span style=color:#ff79c6>&lt;=</span> <span style=color:#bd93f9>5</span>; i<span style=color:#ff79c6>++</span>) {
+</span></span><span style=display:flex><span>  setTimeout(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>    console.log(i);
+</span></span><span style=display:flex><span>  }, i <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>1000</span>);
+</span></span><span style=display:flex><span>  console.log(i);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>(<span style=color:#8be9fd;font-style:italic>function</span>(resolve) {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;promise1&#34;</span>);
+</span></span><span style=display:flex><span>  resolve();
+</span></span><span style=display:flex><span>}).then(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;then1&#34;</span>);
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>setTimeout(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;timeout2&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>(<span style=color:#8be9fd;font-style:italic>function</span>(resolve) {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#f1fa8c>&#34;timeout2_promise&#34;</span>);
+</span></span><span style=display:flex><span>    resolve();
+</span></span><span style=display:flex><span>  }).then(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#f1fa8c>&#34;timeout2_then&#34;</span>);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>}, <span style=color:#bd93f9>1000</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>(<span style=color:#8be9fd;font-style:italic>function</span>(resolve) {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;promise2&#34;</span>);
+</span></span><span style=display:flex><span>  resolve();
+</span></span><span style=display:flex><span>}).then(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;then2&#34;</span>);
+</span></span><span style=display:flex><span>});
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// global
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 3
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 4
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 5
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// promise1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// promise2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// then1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// then2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 6
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// timeout2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// timeout2_promise
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// timeout2_then
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// timeout1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// timeout1_promise
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// timeout1_then
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 6
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 6
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 6
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 6
+</span></span></span></code></pre></div><hr><h3 id=练习2>练习2</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> async1() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async1 start&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>await</span> async2();
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async1 end&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> async2() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async2&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;script start&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>setTimeout(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;setTimeout&#34;</span>);
+</span></span><span style=display:flex><span>}, <span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>async1();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;script end&#34;</span>);
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>//script start
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async1 start
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//script end
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async1 end
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//setTimeout
+</span></span></span></code></pre></div><hr><h3 id=练习3>练习3</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> async1() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async1 start&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>await</span> async2();
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async1 end&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> async2() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async2&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;script start&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;setTimeout&#34;</span>);
+</span></span><span style=display:flex><span>}, <span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>async1();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>((resolve) =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;promise1&#34;</span>);
+</span></span><span style=display:flex><span>  resolve();
+</span></span><span style=display:flex><span>}).then(() =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;promise2&#34;</span>);
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;script end&#34;</span>);
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// script start
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// async1 start
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// async2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// promise1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// script end
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// async1 end
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// promise2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// setTimeout
+</span></span></span></code></pre></div><hr><h3 id=练习4>练习4</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;setTimeout&#34;</span>);
+</span></span><span style=display:flex><span>}, <span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;t1&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>fetch(<span style=color:#f1fa8c>&#34;http://localhost:8888&#34;</span>)
+</span></span><span style=display:flex><span>  .then(<span style=color:#8be9fd;font-style:italic>function</span>(response) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> response.json();
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>  .then(<span style=color:#8be9fd;font-style:italic>function</span>(myJson) {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#f1fa8c>&#34;myJson&#34;</span>);
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>  .<span style=color:#ff79c6>catch</span>(<span style=color:#8be9fd;font-style:italic>function</span>(err) {
+</span></span><span style=display:flex><span>    console.log(err);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;fetch zhi hou&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> async1() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async1 start&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>await</span> async2();
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async1 end&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>async1();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;t2&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>((resolve) =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;promise&#34;</span>);
+</span></span><span style=display:flex><span>  resolve();
+</span></span><span style=display:flex><span>}).then(() =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;promise.then&#34;</span>);
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;t3&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> async2() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async2&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;t4&#34;</span>);
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>//t1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//fetch zhi hou
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async1 start
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//t2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//promise
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//t3
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//t4
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async1 end
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//promise.then
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>//setTimeout
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//myJson
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//error
+</span></span></span></code></pre></div><hr><h3 id=练习5>练习5</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>const</span> promise <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>((resolve, reject) =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>1</span>);
+</span></span><span style=display:flex><span>  resolve();
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>2</span>);
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>promise.then(() =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#bd93f9>4</span>);
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>//1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//4
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//3
+</span></span></span></code></pre></div><hr><h3 id=练习6>练习6</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>console.log(<span style=color:#f1fa8c>&#34;script start&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;setTimeout...&#34;</span>);
+</span></span><span style=display:flex><span>}, <span style=color:#bd93f9>1</span> <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>2000</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>Promise</span>.resolve()
+</span></span><span style=display:flex><span>  .then(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#f1fa8c>&#34;promise1&#34;</span>);
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>  .then(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#f1fa8c>&#34;promise2&#34;</span>);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> foo() {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>await</span> bar();
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async1 end&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>foo();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> errorFunc() {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>try</span> {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>await</span> <span style=color:#8be9fd;font-style:italic>Promise</span>.reject(<span style=color:#f1fa8c>&#34;error!!!&#34;</span>);
+</span></span><span style=display:flex><span>  } <span style=color:#ff79c6>catch</span> (e) {
+</span></span><span style=display:flex><span>    console.log(e);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async1&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> <span style=color:#8be9fd;font-style:italic>Promise</span>.resolve(<span style=color:#f1fa8c>&#34;async1 success&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>errorFunc().then((res) =&gt; console.log(res));
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> bar() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;async2 end&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#f1fa8c>&#34;script end&#34;</span>);
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>//script start
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async2 end
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//script end
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//promise1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async1 end
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//error!!!
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//promise2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//async1 success
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//setTimeout...
+</span></span></span></code></pre></div><hr><h3 id=练习7>练习7</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>console.log(<span style=color:#bd93f9>1</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>Promise</span>.resolve().then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>((resolve) =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>4</span>);
+</span></span><span style=display:flex><span>    resolve();
+</span></span><span style=display:flex><span>  }).then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>5</span>);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>Promise</span>.reject().then(
+</span></span><span style=display:flex><span>  () =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>131</span>);
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  () =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>12</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>((resolve) =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>7</span>);
+</span></span><span style=display:flex><span>  resolve();
+</span></span><span style=display:flex><span>}).then(() =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>8</span>);
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>9</span>);
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>Promise</span>.resolve().then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>10</span>);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>((resolve) =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>11</span>);
+</span></span><span style=display:flex><span>    resolve();
+</span></span><span style=display:flex><span>  }).then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>121</span>);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>});
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 7
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 12
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 8
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 4
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 3
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 5
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 9
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 11
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 10
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 121
+</span></span></span></code></pre></div><hr><h3 id=练习8>练习8</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>((resolve, reject) =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>1</span>);
+</span></span><span style=display:flex><span>  resolve();
+</span></span><span style=display:flex><span>})
+</span></span><span style=display:flex><span>  .then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>2</span>);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>((resolve, reject) =&gt; {
+</span></span><span style=display:flex><span>      console.log(<span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span>      setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>        reject();
+</span></span><span style=display:flex><span>      }, <span style=color:#bd93f9>3</span> <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>1000</span>);
+</span></span><span style=display:flex><span>      resolve();
+</span></span><span style=display:flex><span>    })
+</span></span><span style=display:flex><span>      .then(() =&gt; {
+</span></span><span style=display:flex><span>        console.log(<span style=color:#bd93f9>4</span>);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>((resolve, reject) =&gt; {
+</span></span><span style=display:flex><span>          console.log(<span style=color:#bd93f9>5</span>);
+</span></span><span style=display:flex><span>          resolve();
+</span></span><span style=display:flex><span>        })
+</span></span><span style=display:flex><span>          .then(() =&gt; {
+</span></span><span style=display:flex><span>            console.log(<span style=color:#bd93f9>7</span>);
+</span></span><span style=display:flex><span>          })
+</span></span><span style=display:flex><span>          .then(() =&gt; {
+</span></span><span style=display:flex><span>            console.log(<span style=color:#bd93f9>9</span>);
+</span></span><span style=display:flex><span>          });
+</span></span><span style=display:flex><span>      })
+</span></span><span style=display:flex><span>      .then(() =&gt; {
+</span></span><span style=display:flex><span>        console.log(<span style=color:#bd93f9>8</span>);
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>  .then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>6</span>);
+</span></span><span style=display:flex><span>  });
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 3
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 4
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 5
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 6
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 7
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 8 
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 9
+</span></span></span></code></pre></div><hr><h3 id=练习9>练习9</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#8be9fd;font-style:italic>var</span> age <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>16</span>;
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>var</span> person <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>  age<span style=color:#ff79c6>:</span> <span style=color:#bd93f9>18</span>,
+</span></span><span style=display:flex><span>  getAge<span style=color:#ff79c6>:</span> <span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>var</span> age <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>22</span>;
+</span></span><span style=display:flex><span>    setTimeout(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>      alert(<span style=color:#ff79c6>this</span>.age);
+</span></span><span style=display:flex><span>    }, <span style=color:#bd93f9>1000</span>);
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>person.getAge();
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 16
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 解析：若setTimeout的回调为箭头函数。则为18
+</span></span></span></code></pre></div><hr><h3 id=练习10>练习10</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 代码输出
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>setTimeout(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>1</span>);
+</span></span><span style=display:flex><span>}, <span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>(<span style=color:#8be9fd;font-style:italic>function</span>(a, b) {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>for</span> (<span style=color:#8be9fd;font-style:italic>var</span> i <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>; i <span style=color:#ff79c6>&lt;</span> <span style=color:#bd93f9>1000</span>; i<span style=color:#ff79c6>++</span>) {
+</span></span><span style=display:flex><span>    i <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>999</span> <span style=color:#ff79c6>&amp;&amp;</span> a();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span>}).then(<span style=color:#8be9fd;font-style:italic>function</span>() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#bd93f9>4</span>);
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>console.log(<span style=color:#bd93f9>5</span>);
+</span></span></code></pre></div><p>Result</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// 2 
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 3
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 5
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 4
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 1
+</span></span></span></code></pre></div><hr><ul class=pager><li class=previous><a href=/post/translate/dynamic-import/ data-toggle=tooltip data-placement=top title="Dynamic import( )(译文)">&larr;
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2022<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
