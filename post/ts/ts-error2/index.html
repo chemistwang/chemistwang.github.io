@@ -1,0 +1,71 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="TS2559: Type '{ children: never[]; }' has no properties in common with type 'IntrinsicAttributes'."><meta property="og:title" content="TS2559: Type '{ children: never[]; }' has no properties in common with type 'IntrinsicAttributes'."><meta property="twitter:title" content="TS2559: Type '{ children: never[]; }' has no properties in common with type 'IntrinsicAttributes'."><meta name=description content="TS"><meta property="og:description" content="TS"><meta property="twitter:description" content="TS"><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>TS2559: Type '{ children: never[]; }' has no properties in common with type 'IntrinsicAttributes'. | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/ts/ts-error2/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/ts title=ts>ts</a></div><h1>TS2559: Type '{ children: never[]; }' has no properties in common with type 'IntrinsicAttributes'.</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Thursday, September 29, 2022</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><p>封装好的组件准备在外层进行调用：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-jsx data-lang=jsx><span style=display:flex><span><span style=color:#ff79c6>interface</span> Props {
+</span></span><span style=display:flex><span>    title<span style=color:#ff79c6>:</span> string
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> MyComponent(props<span style=color:#ff79c6>:</span> Props) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> { title } <span style=color:#ff79c6>=</span> props;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> &lt;<span style=color:#ff79c6>h1</span>&gt;{title}&lt;/<span style=color:#ff79c6>h1</span>&gt;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>default</span> MyComponent;
+</span></span></code></pre></div><p>结果 <code>TS</code> 直接报错</p><pre tabindex=0><code>ERROR in src/App.tsx:86:6
+TS2322: Type &#39;{ children: never[]; title: string; }&#39; is not assignable to type &#39;IntrinsicAttributes &amp; Props&#39;.
+  Property &#39;children&#39; does not exist on type &#39;IntrinsicAttributes &amp; Props&#39;.
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> &lt;&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#ff79c6>MyComponent</span> <span style=color:#50fa7b>title</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;App Title&#34;</span>&gt; 👈
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>~~~~~~~~~~~~</span>
+</span></span><span style=display:flex><span>    &lt;/<span style=color:#ff79c6>MyComponent</span>&gt;
+</span></span><span style=display:flex><span>  &lt;/&gt;
+</span></span></code></pre></div><p>寻思子组件中并没有 <code>children</code> 属性，但是如果这么写就没有问题。原因竟然是因为我换行了</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> &lt;&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#ff79c6>MyComponent</span> <span style=color:#50fa7b>title</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;App Title&#34;</span>&gt;&lt;/<span style=color:#ff79c6>MyComponent</span>&gt;
+</span></span><span style=display:flex><span>  &lt;/&gt;
+</span></span></code></pre></div><p>问题解析：</p><blockquote><p>写在标签内部的任何代码，该组件均被视为存在 <code>children</code> 属性，即使是空格。（也能理解，属于空字符串）</p></blockquote><p>解决方案：</p><ol><li><code>props</code> 用 <code>any</code> 定义</li></ol><p>之前用 <code>any</code> 去定义类型，这种错误就很容易被忽略。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> MyComponent(props: <span style=color:#8be9fd>any</span>) { <span style=color:#6272a4>// 👈 很容易养成 anyScript 的习惯
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> { title } <span style=color:#ff79c6>=</span> props;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> &lt;<span style=color:#ff79c6>h1</span>&gt;{title}&lt;/<span style=color:#ff79c6>h1</span>&gt;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>default</span> MyComponent;
+</span></span></code></pre></div><p>所以不推荐</p><ol start=2><li>用 <code>React.ReactNode</code> 定义 <code>children</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-jsx data-lang=jsx><span style=display:flex><span><span style=color:#ff79c6>interface</span> Props {
+</span></span><span style=display:flex><span>    title<span style=color:#ff79c6>:</span> string
+</span></span><span style=display:flex><span>    children<span style=color:#ff79c6>:</span> React.ReactNode; <span style=color:#6272a4>// 👈 定义类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> MyComponent(props<span style=color:#ff79c6>:</span> Props) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> { title, children } <span style=color:#ff79c6>=</span> props;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> &lt;&gt;
+</span></span><span style=display:flex><span>        &lt;<span style=color:#ff79c6>h1</span>&gt;{title}&lt;/<span style=color:#ff79c6>h1</span>&gt;
+</span></span><span style=display:flex><span>        &lt;<span style=color:#ff79c6>div</span>&gt;{children}&lt;/<span style=color:#ff79c6>div</span>&gt;
+</span></span><span style=display:flex><span>    &lt;/&gt;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>default</span> MyComponent;
+</span></span></code></pre></div><p>调用方法：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> &lt;&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#ff79c6>MyComponent</span> <span style=color:#50fa7b>title</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;App Title&#34;</span>&gt;
+</span></span><span style=display:flex><span>        &lt;<span style=color:#ff79c6>div</span>&gt;Something&lt;/<span style=color:#ff79c6>div</span>&gt;
+</span></span><span style=display:flex><span>    &lt;/<span style=color:#ff79c6>MyComponent</span>&gt;
+</span></span><span style=display:flex><span>  &lt;/&gt;
+</span></span></code></pre></div><hr><ul class=pager><li class=previous><a href=/post/js/visibilitystate/visibilitystate/ data-toggle=tooltip data-placement=top title=快回来啊，啊好了>&larr;
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2022<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
