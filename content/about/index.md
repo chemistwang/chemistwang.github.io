@@ -5,4 +5,4 @@ multilingual: true
 
 ## About Me
 
-Coding Boy used to be in lab
+Coding Boy used to be in A Lab
