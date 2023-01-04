@@ -1,0 +1,227 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="微前端【qiankun】小试（一）主应用和子应用初始化"><meta property="og:title" content="微前端【qiankun】小试（一）主应用和子应用初始化"><meta property="twitter:title" content="微前端【qiankun】小试（一）主应用和子应用初始化"><meta name=description content="分久必合，合久必分"><meta property="og:description" content="分久必合，合久必分"><meta property="twitter:description" content="分久必合，合久必分"><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>微前端【qiankun】小试（一）主应用和子应用初始化 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/micro-frontend/init/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/qiankun title=qiankun>qiankun</a></div><h1>微前端【qiankun】小试（一）主应用和子应用初始化</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Wednesday, January 4, 2023</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=主项目子项目初始化>主项目子项目初始化</h1><h2 id=前期准备>前期准备</h2><ol><li>分别创建主应用和子应用</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#6272a4># 创建 base-react</span>
+</span></span><span style=display:flex><span>npx create-react-app base-react
+</span></span><span style=display:flex><span><span style=color:#6272a4># 创建 mini-react18</span>
+</span></span><span style=display:flex><span>npx create-react-app mini-react18
+</span></span><span style=display:flex><span><span style=color:#6272a4># 创建 mini-vue2</span>
+</span></span><span style=display:flex><span>vue create mini-vue2
+</span></span></code></pre></div><ol start=2><li>创建 <code>.env</code> 指定具体端口，方便管理</li></ol><table><thead><tr><th>应用</th><th>端口</th></tr></thead><tbody><tr><td>base-react</td><td>11110</td></tr><tr><td>mini-react18</td><td>11111</td></tr><tr><td>mini-vue2</td><td>11112</td></tr></tbody></table><blockquote><p>说明：chrome 对于端口有部分的限制，指定非法端口号会出现 <code>ERR_UNSAFE_PORT</code>，可搜索关键词 <code>Google Chrome 默认非安全端口列表</code></p></blockquote><h2 id=base-react>base-react</h2><h3 id=描述>描述</h3><ul><li>主应用</li><li>不限技术栈，只需要提供一个容器 DOM</li><li>注册微应用并 start 即可</li></ul><h3 id=步骤>步骤</h3><ol><li>安装 <code>qiankun</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>yarn add qiankun <span style=color:#6272a4># 或者 npm i qiankun -S</span>
+</span></span></code></pre></div><ol start=2><li>在 <code>App.tsx</code> 中创建容器</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> App() {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> (
+</span></span><span style=display:flex><span>    &lt;<span style=color:#ff79c6>div</span> <span style=color:#50fa7b>className</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;App&#34;</span>&gt;
+</span></span><span style=display:flex><span>      &lt;<span style=color:#ff79c6>h1</span>&gt;Base React App&lt;/<span style=color:#ff79c6>h1</span>&gt;
+</span></span><span style=display:flex><span>      &lt;<span style=color:#ff79c6>div</span> <span style=color:#50fa7b>id</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;mini-react18&#34;</span>&gt;&lt;/<span style=color:#ff79c6>div</span>&gt;
+</span></span><span style=display:flex><span>      &lt;<span style=color:#ff79c6>div</span> <span style=color:#50fa7b>id</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;mini-vue2&#34;</span>&gt;&lt;/<span style=color:#ff79c6>div</span>&gt;
+</span></span><span style=display:flex><span>    &lt;/<span style=color:#ff79c6>div</span>&gt;
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>default</span> App;
+</span></span></code></pre></div><ol start=3><li>在 <code>index.tsx</code> 中注册并启动</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>import</span> { registerMicroApps, start } from <span style=color:#f1fa8c>&#34;qiankun&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>registerMicroApps([
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    name<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;react app 18&#34;</span>,
+</span></span><span style=display:flex><span>    entry<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;//localhost:11111&#34;</span>,
+</span></span><span style=display:flex><span>    container<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#mini-react18&#34;</span>,
+</span></span><span style=display:flex><span>    activeRule<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;/mini-react18&#34;</span>,
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    name<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;vue app 2&#34;</span>,
+</span></span><span style=display:flex><span>    entry<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;//localhost:11112&#34;</span>,
+</span></span><span style=display:flex><span>    container<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#mini-vue2&#34;</span>,
+</span></span><span style=display:flex><span>    activeRule<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;/mini-vue2&#34;</span>,
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>]);
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 启动 qiankun
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>start();
+</span></span></code></pre></div><h2 id=mini-react18>mini-react18</h2><h3 id=描述-1>描述</h3><ul><li>微应用 1（react18）</li></ul><h3 id=步骤-1>步骤</h3><ol><li>新建 <code>src/public-path.js</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>if</span> (<span style=color:#8be9fd;font-style:italic>window</span>.__POWERED_BY_QIANKUN__) {
+</span></span><span style=display:flex><span>  __webpack_public_path__ <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>window</span>.__INJECTED_PUBLIC_PATH_BY_QIANKUN__;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ol start=2><li>新建 <code>src/types/index.d.ts</code></li></ol><p>因为项目基于 ts 编译，需要手动指定 <code>POWERED_BY_QIANKUN</code>，否则会报错</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ts data-lang=ts><span style=display:flex><span><span style=color:#ff79c6>declare</span> <span style=color:#ff79c6>global</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>interface</span> Window {
+</span></span><span style=display:flex><span>    __POWERED_BY_QIANKUN__: <span style=color:#8be9fd>string</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> {};
+</span></span></code></pre></div><ol start=3><li>利用 <code>react-app-rewired</code> 重写 <code>webpack</code> 配置</li></ol><p>安装</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i react-app-rewired
+</span></span></code></pre></div><p>根目录新建 <code>config-overrides.js</code> 文件 （文件名是规定好的）</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> { name } <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;./package&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>module.exports <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>  webpack<span style=color:#ff79c6>:</span> (config) =&gt; {
+</span></span><span style=display:flex><span>    config.output.library <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>`</span><span style=color:#f1fa8c>${</span>name<span style=color:#f1fa8c>}</span><span style=color:#f1fa8c>-[name]`</span>;
+</span></span><span style=display:flex><span>    config.output.libraryTarget <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;umd&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// config.output.jsonpFunction = `webpackJsonp_${name}`;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    config.output.globalObject <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;window&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> config;
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  devServer<span style=color:#ff79c6>:</span> (_) =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> config <span style=color:#ff79c6>=</span> _;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    config.headers <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>      <span style=color:#f1fa8c>&#34;Access-Control-Allow-Origin&#34;</span><span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;*&#34;</span>,
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>    config.historyApiFallback <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>;
+</span></span><span style=display:flex><span>    config.hot <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>    config.watchContentBase <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>    config.liveReload <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> config;
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><p>修改 <code>package.json</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>  <span style=color:#f1fa8c>&#34;scripts&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;start&#34;</span>: <span style=color:#f1fa8c>&#34;react-app-rewired start&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;build&#34;</span>: <span style=color:#f1fa8c>&#34;react-scripts build&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;test&#34;</span>: <span style=color:#f1fa8c>&#34;react-scripts test&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;eject&#34;</span>: <span style=color:#f1fa8c>&#34;react-scripts eject&#34;</span>
+</span></span><span style=display:flex><span>  },
+</span></span></code></pre></div><ol start=4><li>在 <code>index.tsx</code> 中导出子应用生命周期</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#ff79c6>import</span> React <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;react&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> ReactDOM <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;react-dom/client&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> <span style=color:#f1fa8c>&#34;./index.css&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> App <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;./App&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> reportWebVitals <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;./reportWebVitals&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// const root = ReactDOM.createRoot(
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//   document.getElementById(&#39;root&#39;) as HTMLElement
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// );
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// root.render(
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//   &lt;React.StrictMode&gt;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//     &lt;App /&gt;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//   &lt;/React.StrictMode&gt;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// );
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// let root: ReactDOM.Root;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> render(props: <span style=color:#8be9fd>any</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> { container } <span style=color:#ff79c6>=</span> props;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> root <span style=color:#ff79c6>=</span> container
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>?</span> ReactDOM.createRoot(container.querySelector(<span style=color:#f1fa8c>&#34;#root&#34;</span>) <span style=color:#ff79c6>as</span> HTMLElement)
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>:</span> ReactDOM.createRoot(<span style=color:#8be9fd;font-style:italic>document</span>.getElementById(<span style=color:#f1fa8c>&#34;root&#34;</span>) <span style=color:#ff79c6>as</span> HTMLElement);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  root.render(
+</span></span><span style=display:flex><span>    &lt;<span style=color:#ff79c6>React.StrictMode</span>&gt;
+</span></span><span style=display:flex><span>      &lt;<span style=color:#ff79c6>App</span> /&gt;
+</span></span><span style=display:flex><span>    &lt;/<span style=color:#ff79c6>React.StrictMode</span>&gt;
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span><span style=color:#8be9fd;font-style:italic>window</span>.__POWERED_BY_QIANKUN__) {
+</span></span><span style=display:flex><span>  render({});
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> bootstrap() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;[react18] react app bootstraped&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> mount(props: <span style=color:#8be9fd>any</span>) {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;[react18] props from main framework&#34;</span>, props);
+</span></span><span style=display:flex><span>  render(props);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> unmount(props: <span style=color:#8be9fd>any</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> { container } <span style=color:#ff79c6>=</span> props;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> root <span style=color:#ff79c6>=</span> container
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>?</span> ReactDOM.createRoot(container.querySelector(<span style=color:#f1fa8c>&#34;#root&#34;</span>) <span style=color:#ff79c6>as</span> HTMLElement)
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>:</span> ReactDOM.createRoot(<span style=color:#8be9fd;font-style:italic>document</span>.getElementById(<span style=color:#f1fa8c>&#34;root&#34;</span>) <span style=color:#ff79c6>as</span> HTMLElement);
+</span></span><span style=display:flex><span>  root.unmount();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// If you want to start measuring performance in your app, pass a function
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// to log results (for example: reportWebVitals(console.log))
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>reportWebVitals();
+</span></span></code></pre></div><ol start=5><li>解决静态资源不加载</li></ol><p>在 <code>index.tsx</code> 顶部引入 <code>public-path</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#ff79c6>import</span> <span style=color:#f1fa8c>&#34;./public-path&#34;</span>;
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><h2 id=mini-vue2>mini-vue2</h2><h3 id=描述-2>描述</h3><ul><li>微应用 2（vue2.0）</li></ul><h3 id=步骤-2>步骤</h3><ol><li>新建 <code>src/public-path.js</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>if</span> (<span style=color:#8be9fd;font-style:italic>window</span>.__POWERED_BY_QIANKUN__) {
+</span></span><span style=display:flex><span>  __webpack_public_path__ <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>window</span>.__INJECTED_PUBLIC_PATH_BY_QIANKUN__;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ol start=2><li>修改 <code>main.js</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>import</span> <span style=color:#f1fa8c>&#34;./public-path&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> Vue from <span style=color:#f1fa8c>&#34;vue&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> App from <span style=color:#f1fa8c>&#34;./App.vue&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Vue.config.productionTip <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// new Vue({
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//   render: h =&gt; h(App),
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// }).$mount(&#39;#app&#39;)
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// let router = null;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#8be9fd;font-style:italic>let</span> instance <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> render(props <span style=color:#ff79c6>=</span> {}) {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> { container } <span style=color:#ff79c6>=</span> props;
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// router = new VueRouter({
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>//   base: window.__POWERED_BY_QIANKUN__ ? &#34;/app-vue/&#34; : &#34;/&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>//   mode: &#34;history&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>//   routes,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// });
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>  instance <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> Vue({
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// router,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// store,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    render<span style=color:#ff79c6>:</span> (h) =&gt; h(App),
+</span></span><span style=display:flex><span>  }).$mount(container <span style=color:#ff79c6>?</span> container.querySelector(<span style=color:#f1fa8c>&#34;#app&#34;</span>) <span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#app&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 独立运行时
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span><span style=color:#8be9fd;font-style:italic>window</span>.__POWERED_BY_QIANKUN__) {
+</span></span><span style=display:flex><span>  render();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> bootstrap() {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;[vue] vue app bootstraped&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> mount(props) {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;[vue] props from main framework&#34;</span>, props);
+</span></span><span style=display:flex><span>  render(props);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> unmount() {
+</span></span><span style=display:flex><span>  instance.$destroy();
+</span></span><span style=display:flex><span>  instance.$el.innerHTML <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;&#34;</span>;
+</span></span><span style=display:flex><span>  instance <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// router = null;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>}
+</span></span></code></pre></div><ol start=3><li>根目录新增 <code>vue.config.js</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> { name } <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;./package&#34;</span>);
+</span></span><span style=display:flex><span>module.exports <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>  devServer<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>    headers<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      <span style=color:#f1fa8c>&#34;Access-Control-Allow-Origin&#34;</span><span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;*&#34;</span>,
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  configureWebpack<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>    output<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      library<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>`</span><span style=color:#f1fa8c>${</span>name<span style=color:#f1fa8c>}</span><span style=color:#f1fa8c>-[name]`</span>,
+</span></span><span style=display:flex><span>      libraryTarget<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;umd&#34;</span>, <span style=color:#6272a4>// 把微应用打包成 umd 库格式
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      jsonpFunction<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>`webpackJsonp_</span><span style=color:#f1fa8c>${</span>name<span style=color:#f1fa8c>}</span><span style=color:#f1fa8c>`</span>,
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><h2 id=启动>启动</h2><p>分别启动 <code>base-react</code>、<code>mini-react18</code>、<code>mini-vue2</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#6272a4># 启动 base-react</span>
+</span></span><span style=display:flex><span>npm run start
+</span></span><span style=display:flex><span><span style=color:#6272a4># 启动 mini-react18</span>
+</span></span><span style=display:flex><span>npm run start
+</span></span><span style=display:flex><span><span style=color:#6272a4># 启动 mini-vue2</span>
+</span></span><span style=display:flex><span>npm run serve
+</span></span></code></pre></div><p>通过路由 <code>http://localhost:11110/mini-react18</code> 访问 <code>mini-react18</code> 子应用，通过路由 <code>http://localhost:11110/mini-vue2</code> 访问 <code>mini-vue2</code> 子应用</p><hr><ul class=pager><li class=previous><a href=/post/js/clipboard/ data-toggle=tooltip data-placement=top title=navigator.clipboard>&larr;
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
