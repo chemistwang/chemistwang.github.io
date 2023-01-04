@@ -13,6 +13,8 @@ tags:
 
 # 主项目子项目初始化
 
+基于 `qiankun 2.8.4`
+
 ## 前期准备
 
 1. 分别创建主应用和子应用
@@ -339,4 +341,14 @@ npm run start
 npm run serve
 ```
 
-通过路由 `http://localhost:11110/mini-react18` 访问 `mini-react18` 子应用，通过路由 `http://localhost:11110/mini-vue2` 访问 `mini-vue2` 子应用
+通过路由 `http://localhost:11110` 访问 `base-react` 主应用
+
+![base-react](/post/micro-frontend/init/base-react.png)
+
+通过路由 `http://localhost:11110/mini-react18` 访问 `mini-react18` 子应用
+
+![mini-react18](/post/micro-frontend/init/mini-react18.png)
+
+通过路由 `http://localhost:11110/mini-vue2` 访问 `mini-vue2` 子应用
+
+![mini-vue2](/post/micro-frontend/init/mini-vue2.png)
