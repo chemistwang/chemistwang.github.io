@@ -2,7 +2,7 @@
 layout: post
 title: "微前端【qiankun】小试（一）主应用和子应用初始化"
 subtitle: ""
-date: 2023-01-04
+date: 2023-01-03 13:00:00
 author: "汪洋龙"
 categories: [Tech]
 image: "img/coffee-bg.jpg"
@@ -11,7 +11,7 @@ tags:
   - qiankun
 ---
 
-# 主项目子项目初始化
+# 主应用和子应用初始化
 
 基于 `qiankun 2.8.4`
 
