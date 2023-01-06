@@ -1,0 +1,102 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="微前端【qiankun】小试（二）添加主应用和子应用视图"><meta property="og:title" content="微前端【qiankun】小试（二）添加主应用和子应用视图"><meta property="twitter:title" content="微前端【qiankun】小试（二）添加主应用和子应用视图"><meta name=description content="分久必合，合久必分"><meta property="og:description" content="分久必合，合久必分"><meta property="twitter:description" content="分久必合，合久必分"><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>微前端【qiankun】小试（二）添加主应用和子应用视图 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/micro-frontend/base-react/base-react/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/qiankun title=qiankun>qiankun</a></div><h1>微前端【qiankun】小试（二）添加主应用和子应用视图</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Tuesday, January 3, 2023</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><p>上一篇似乎一个初步的 demo 就已经跑起来了，在实践中我遇到过单点应用跳转多平台的需求，不妨趁机试着做成一个完整的 demo。</p><h1 id=添加主应用和子应用视图>添加主应用和子应用视图</h1><h2 id=1-添加主应用逻辑>1. 添加主应用逻辑</h2><ul><li>基于 <code>antd5.x</code> 实现 UI</li><li>基于 <code>react-router6.x</code> 实现路由</li></ul><h3 id=11-路由设定>1.1 路由设定</h3><table><thead><tr><th>路由</th><th>应用</th></tr></thead><tbody><tr><td>/login</td><td>登陆</td></tr><tr><td>/workbench</td><td>工作台</td></tr><tr><td>/workbench/apps</td><td>工作台-应用管理</td></tr><tr><td>/workbench/system/users</td><td>工作台-系统设置-用户管理</td></tr><tr><td>/workbench/system/roles</td><td>工作台-系统设置-角色管理</td></tr><tr><td>/workbench/mini-react18</td><td>子应用 mini-react18</td></tr><tr><td>/workbench/mini-react18/form</td><td>子应用 mini-react18 form 菜单</td></tr><tr><td>/workbench/mini-react18/timeline</td><td>子应用 mini-react18 timeline 菜单</td></tr><tr><td>/workbench/mini-vue2</td><td>子应用 mini-vue2</td></tr></tbody></table><h3 id=12-路由修改>1.2 路由修改</h3><p>新建的 <code>router/index.tsx</code>，注意下子应用的容器和对应的路由。</p><table><thead><tr><th>子应用容器</th><th>路由</th></tr></thead><tbody><tr><td><code>&lt;div id="mini-react18">&lt;/div></code></td><td><code>mini-react18/*</code></td></tr><tr><td><code>&lt;div id="mini-vue2">&lt;/div></code></td><td><code>mini-vue2/*</code></td></tr></tbody></table><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> router <span style=color:#ff79c6>=</span> createBrowserRouter([
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;/&#34;</span>,
+</span></span><span style=display:flex><span>    element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>LoginPage<span style=color:#ff79c6>&gt;&lt;</span>/LoginPage&gt;,
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;/workbench&#34;</span>,
+</span></span><span style=display:flex><span>    element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>WorkbenchPage<span style=color:#ff79c6>&gt;&lt;</span>/WorkbenchPage&gt;,
+</span></span><span style=display:flex><span>    children<span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>        element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>MainModule<span style=color:#ff79c6>&gt;&lt;</span>/MainModule&gt;,
+</span></span><span style=display:flex><span>        children<span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>          {
+</span></span><span style=display:flex><span>            path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;apps&#34;</span>,
+</span></span><span style=display:flex><span>            element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>AppsModule<span style=color:#ff79c6>&gt;&lt;</span>/AppsModule&gt;,
+</span></span><span style=display:flex><span>          },
+</span></span><span style=display:flex><span>          {
+</span></span><span style=display:flex><span>            path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;system/users&#34;</span>,
+</span></span><span style=display:flex><span>            element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>UsersModule<span style=color:#ff79c6>&gt;&lt;</span>/UsersModule&gt;,
+</span></span><span style=display:flex><span>          },
+</span></span><span style=display:flex><span>          {
+</span></span><span style=display:flex><span>            path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;system/roles&#34;</span>,
+</span></span><span style=display:flex><span>            element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>RolesModule<span style=color:#ff79c6>&gt;&lt;</span>/RolesModule&gt;,
+</span></span><span style=display:flex><span>          },
+</span></span><span style=display:flex><span>        ],
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;mini-react18/*&#34;</span>,
+</span></span><span style=display:flex><span>        element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>div id<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;mini-react18&#34;</span><span style=color:#ff79c6>&gt;&lt;</span>/div&gt;,
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;mini-vue2/*&#34;</span>,
+</span></span><span style=display:flex><span>        element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>div id<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;mini-vue2&#34;</span><span style=color:#ff79c6>&gt;&lt;</span>/div&gt;,
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>    ],
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>]);
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><h3 id=13-主应用挂载路由修改>1.3 主应用挂载路由修改</h3><p>因为路由变了，对应的 <code>activeRule</code> 也需要跟着变</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>...
+</span></span><span style=display:flex><span>registerMicroApps([
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    name<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;react app 18&#34;</span>,
+</span></span><span style=display:flex><span>    entry<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;//localhost:11111&#34;</span>,
+</span></span><span style=display:flex><span>    container<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#mini-react18&#34;</span>,
+</span></span><span style=display:flex><span>    activeRule<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;/workbench/mini-react18&#34;</span>,
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    name<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;vue app 2&#34;</span>,
+</span></span><span style=display:flex><span>    entry<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;//localhost:11112&#34;</span>,
+</span></span><span style=display:flex><span>    container<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#mini-vue2&#34;</span>,
+</span></span><span style=display:flex><span>    activeRule<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;/workbench/mini-vue2&#34;</span>,
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>]);
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><h2 id=2-添加-mini-react18-子应用逻辑>2 添加 mini-react18 子应用逻辑</h2><h3 id=21-修改路由>2.1 修改路由</h3><p>新建的 <code>router/index.tsx</code>，需要设定 <code>basename</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> router <span style=color:#ff79c6>=</span> createBrowserRouter(
+</span></span><span style=display:flex><span>  [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;/&#34;</span>,
+</span></span><span style=display:flex><span>      element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>WorkbenchPage<span style=color:#ff79c6>&gt;&lt;</span>/WorkbenchPage&gt;,
+</span></span><span style=display:flex><span>      children<span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;form&#34;</span>,
+</span></span><span style=display:flex><span>          element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>FormPage<span style=color:#ff79c6>&gt;&lt;</span>/FormPage&gt;,
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          path<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;timeline&#34;</span>,
+</span></span><span style=display:flex><span>          element<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>&lt;</span>TimelinePage<span style=color:#ff79c6>&gt;&lt;</span>/TimelinePage&gt;,
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  ],
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    basename<span style=color:#ff79c6>:</span> <span style=color:#8be9fd;font-style:italic>window</span>.__POWERED_BY_QIANKUN__ <span style=color:#ff79c6>?</span> <span style=color:#f1fa8c>&#34;/workbench/mini-react18&#34;</span> <span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;/&#34;</span>,
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><h2 id=3-添加-mini-vue2-子应用逻辑>3. 添加 mini-vue2 子应用逻辑</h2><p>目前暂无逻辑</p><h2 id=4-视图展示>4. 视图展示</h2><p>可以注意下浏览器路由</p><p>登陆</p><p><img src=/post/micro-frontend/base-react/login.png alt=login></p><p>主应用</p><p><img src=/post/micro-frontend/base-react/main.png alt=main></p><p>子应用 <code>mini-react18</code></p><p><img src=/post/micro-frontend/base-react/mini-react18.png alt=mini-react18></p><p>子应用 <code>mini-vue2</code></p><p><img src=/post/micro-frontend/base-react/mini-vue2.png alt=mini-vue2></p><hr><ul class=pager><li class=previous><a href=/post/micro-frontend/init/init/ data-toggle=tooltip data-placement=top title=微前端【qiankun】小试（一）主应用和子应用初始化>&larr;
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
