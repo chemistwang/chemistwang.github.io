@@ -1,0 +1,223 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="前端基建之（一）代码风格和提交规范配置"><meta property="og:title" content="前端基建之（一）代码风格和提交规范配置"><meta property="twitter:title" content="前端基建之（一）代码风格和提交规范配置"><meta name=description content="Eslint Prettier Commitlint Husky"><meta property="og:description" content="Eslint Prettier Commitlint Husky"><meta property="twitter:description" content="Eslint Prettier Commitlint Husky"><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>前端基建之（一）代码风格和提交规范配置 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/infrastructure/code/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags></div><h1>前端基建之（一）代码风格和提交规范配置</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Tuesday, December 13, 2022</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=前端基建之一代码风格和提交规范配置>前端基建之（一）代码风格和提交规范配置</h1><h2 id=1-初始化项目>1. 初始化项目</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npx create-react-app demo-framework --template typescript
+</span></span></code></pre></div><h2 id=2-配置-eslint>2. 配置 Eslint</h2><h3 id=21-vscode-安装-eslint>2.1 <code>vscode</code> 安装 <code>eslint</code></h3><h3 id=22-安装依赖>2.2 安装依赖</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i eslint -D
+</span></span></code></pre></div><h3 id=23-初始化-eslint>2.3 初始化 eslint</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npx eslint --init
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>You can also run this <span style=color:#8be9fd;font-style:italic>command</span> directly using <span style=color:#f1fa8c>&#39;npm init @eslint/config&#39;</span>.
+</span></span><span style=display:flex><span>npx: installed <span style=color:#bd93f9>41</span> in 3.304s
+</span></span><span style=display:flex><span>✔ How would you like to use ESLint? · problems
+</span></span><span style=display:flex><span>✔ What <span style=color:#8be9fd;font-style:italic>type</span> of modules does your project use? · esm
+</span></span><span style=display:flex><span>✔ Which framework does your project use? · react
+</span></span><span style=display:flex><span>✔ Does your project use TypeScript? · No / Yes ✔
+</span></span><span style=display:flex><span>✔ Where does your code run? · browser
+</span></span><span style=display:flex><span>✔ What format <span style=color:#ff79c6>do</span> you want your config file to be in? · JavaScript
+</span></span><span style=display:flex><span>The config that you&#39;ve selected requires the following dependencies:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>eslint-plugin-react@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest
+</span></span><span style=display:flex><span>✔ Would you like to install them now? · No ✔ / Yes
+</span></span><span style=display:flex><span>A config file was generated, but the config file itself may not follow your linting rules.
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>module.exports <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>  env<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>    browser<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>    es2021<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>extends</span><span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;eslint:recommended&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;plugin:react/recommended&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;plugin:@typescript-eslint/recommended&#34;</span>,
+</span></span><span style=display:flex><span>  ],
+</span></span><span style=display:flex><span>  overrides<span style=color:#ff79c6>:</span> [],
+</span></span><span style=display:flex><span>  parser<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;@typescript-eslint/parser&#34;</span>,
+</span></span><span style=display:flex><span>  parserOptions<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>    ecmaVersion<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;latest&#34;</span>,
+</span></span><span style=display:flex><span>    sourceType<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;module&#34;</span>,
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  plugins<span style=color:#ff79c6>:</span> [<span style=color:#f1fa8c>&#34;react&#34;</span>, <span style=color:#f1fa8c>&#34;@typescript-eslint&#34;</span>],
+</span></span><span style=display:flex><span>  rules<span style=color:#ff79c6>:</span> {},
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><h3 id=24-社区规范>2.4 社区规范</h3><p>三种社区主流规范</p><ul><li>Airbnb</li><li>Standard</li><li>Google</li></ul><p><a href=https://star-history.com/#google/eslint-config-google&standard/standard&airbnb/javascript&Date><img src="https://api.star-history.com/svg?repos=google/eslint-config-google,standard/standard,airbnb/javascript&type=Date" alt="Star History Chart"></a></p><h3 id=25-配置-airbnb-规范>2.5 配置 airbnb 规范</h3><ol><li>安装 <code>eslint-config-airbnb</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i eslint-config-airbnb -D
+</span></span></code></pre></div><ol start=2><li>在 <code>.eslintrc.js</code> 配置规则</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span><span style=color:#6272a4>//  .eslintrc.js
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>{
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;extends&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#f1fa8c>&#34;airbnb&#34;</span>,
+</span></span><span style=display:flex><span>        ...
+</span></span><span style=display:flex><span>    ]
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ol start=3><li><code>package.json</code> 配置 <code>script</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>...
+</span></span><span style=display:flex><span>  <span style=color:#f1fa8c>&#34;scripts&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;start&#34;</span>: <span style=color:#f1fa8c>&#34;react-scripts start&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;build&#34;</span>: <span style=color:#f1fa8c>&#34;react-scripts build&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;test&#34;</span>: <span style=color:#f1fa8c>&#34;react-scripts test&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;eject&#34;</span>: <span style=color:#f1fa8c>&#34;react-scripts eject&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;lint&#34;</span>: <span style=color:#f1fa8c>&#34;eslint src --ext .ts,.jsx,.tsx --fix --quiet&#34;</span>
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><ol start=4><li>修复运行错误</li></ol><ul><li><code>error Unable to resolve path to module './App' import/no-unresolved</code></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i eslint-import-resolver-typescript -D
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// .eslintrc
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>...
+</span></span><span style=display:flex><span>  rules<span style=color:#ff79c6>:</span> {},
+</span></span><span style=display:flex><span>  settings<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;import/resolver&#34;</span><span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      typescript<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>        directory<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;./tsconfig.json&#34;</span>,
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><ul><li><code>error Missing file extension for "./App" import/extensions</code></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// .eslintrc
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>...
+</span></span><span style=display:flex><span>  rules<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;react/jsx-filename-extension&#34;</span><span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>      <span style=color:#bd93f9>2</span>,
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        extensions<span style=color:#ff79c6>:</span> [<span style=color:#f1fa8c>&#34;.js&#34;</span>, <span style=color:#f1fa8c>&#34;.jsx&#34;</span>, <span style=color:#f1fa8c>&#34;.ts&#34;</span>, <span style=color:#f1fa8c>&#34;.tsx&#34;</span>],
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>    ],
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><ul><li><code>error JSX not allowed in files with extension '.tsx' react/jsx-filename-extension</code></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// .eslintrc
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  rules<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;import/extensions&#34;</span><span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>      <span style=color:#f1fa8c>&#34;error&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f1fa8c>&#34;ignorePackages&#34;</span>,
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        js<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;never&#34;</span>,
+</span></span><span style=display:flex><span>        jsx<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;never&#34;</span>,
+</span></span><span style=display:flex><span>        ts<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;never&#34;</span>,
+</span></span><span style=display:flex><span>        tsx<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;never&#34;</span>,
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>    ],
+</span></span><span style=display:flex><span>  },
+</span></span></code></pre></div><h2 id=3-prettier>3. prettier</h2><p><a href=https://prettier.io/>Prettier 官网</a></p><h3 id=31-跟-linters-区别>3.1 跟 Linters 区别</h3><p><a href=https://www.prettier.cn/docs/comparison.html>Prettier vs. Linters</a></p><p><strong>In other words, use Prettier for formatting and linters for catching bugs!</strong></p><h3 id=32-vscode-安装-prettier>3.2 <code>vscode</code> 安装 <code>prettier</code></h3><h3 id=33-安装配置>3.3 安装配置</h3><p><code>VsCode</code> 安装 <code>Prettier - Code formatter</code></p><h3 id=34-规则设定>3.4. 规则设定</h3><table><thead><tr><th>标签名</th><th>含义</th><th>属性</th><th>默认值</th></tr></thead><tbody><tr><td>Print Width</td><td>行宽度</td><td><code>printWidth</code></td><td><code>80</code></td></tr><tr><td>Tab Width</td><td>Tab 宽度</td><td><code>tabWidth</code></td><td><code>2</code></td></tr><tr><td>Tabs</td><td>是否使用 Tab</td><td><code>useTabs</code></td><td><code>false</code></td></tr><tr><td>Semicolons</td><td>是否句末开启分号</td><td><code>semi</code></td><td><code>true</code></td></tr><tr><td>Quotes</td><td>是否启用单引号</td><td><code>singleQuote</code></td><td><code>false</code></td></tr><tr><td>Quote Props</td><td></td><td><code>quoteProps</code></td><td><code>as-needed</code></td></tr><tr><td>JSX Quotes</td><td>JSX 是否用单引号</td><td><code>jsxSingleQuote</code></td><td><code>false</code></td></tr><tr><td>Trailing Commas</td><td>尾部逗号</td><td><code>trailingComma</code></td><td><code>es5</code></td></tr><tr><td>Bracket Spacing</td><td>括号空格</td><td><code>bracketSpacing</code></td><td><code>true</code></td></tr><tr><td>Bracket Line</td><td>括号换行</td><td><code>bracketSameLine</code></td><td><code>false</code></td></tr><tr><td>Arrow Function Parentheses</td><td>剪头函数括号</td><td><code>arrowParens</code></td><td><code>always</code></td></tr><tr><td>Range</td><td>格式化范围</td><td><code>rangeStart</code> <code>rangeEnd</code></td><td></td></tr><tr><td>Parser</td><td>指定解析器</td><td><code>parser</code></td><td></td></tr><tr><td>File Path</td><td></td><td><code>filepath</code></td><td>``</td></tr><tr><td>Require Pragma</td><td></td><td><code>requirePragma</code></td><td><code>false</code></td></tr><tr><td>Insert Pragma</td><td></td><td><code>insertPragma</code></td><td><code>false</code></td></tr><tr><td>Prose Wrap</td><td></td><td><code>proseWrap</code></td><td><code>preserve</code></td></tr><tr><td>HTML Whitespace Sensitivity</td><td></td><td><code>htmlWhitespaceSensitivity</code></td><td><code>css</code></td></tr><tr><td>Vue files script and style tags indentation</td><td></td><td><code>vueIndentScriptAndStyle</code></td><td><code>false</code></td></tr><tr><td>End of Line</td><td></td><td><code>endOfLine</code></td><td><code>lf</code></td></tr><tr><td>Embedded Language Formatting</td><td></td><td><code>embeddedLanguageFormatting</code></td><td><code>auto</code></td></tr><tr><td>Single Attribute Per Line</td><td></td><td><code>singleAttributePerLine</code></td><td><code>false</code></td></tr></tbody></table><h3 id=35-案例>3.5 案例</h3><ul><li><a href=https://github.com/facebook/react/blob/main/.prettierrc.js>React</a></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#f1fa8c>&#34;use strict&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> { esNextPaths } <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;./scripts/shared/pathsByLanguageVersion&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>module.exports <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>  bracketSpacing<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>false</span>,
+</span></span><span style=display:flex><span>  singleQuote<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>  jsxBracketSameLine<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>  trailingComma<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;es5&#34;</span>,
+</span></span><span style=display:flex><span>  printWidth<span style=color:#ff79c6>:</span> <span style=color:#bd93f9>80</span>,
+</span></span><span style=display:flex><span>  parser<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;babel&#34;</span>,
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  overrides<span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      files<span style=color:#ff79c6>:</span> esNextPaths,
+</span></span><span style=display:flex><span>      options<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>        trailingComma<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;all&#34;</span>,
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  ],
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><ul><li><a href=https://github.com/ant-design/ant-design/blob/master/.prettierrc>Ant Design</a></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;singleQuote&#34;</span>: <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;trailingComma&#34;</span>: <span style=color:#f1fa8c>&#34;all&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;printWidth&#34;</span>: <span style=color:#bd93f9>100</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;proseWrap&#34;</span>: <span style=color:#f1fa8c>&#34;never&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;overrides&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;files&#34;</span>: <span style=color:#f1fa8c>&#34;.prettierrc&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;options&#34;</span>: {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;parser&#34;</span>: <span style=color:#f1fa8c>&#34;json&#34;</span>
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ul><li><a href=https://github.com/angular/angular/blob/main/.prettierrc>Angular</a></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;printWidth&#34;</span>: <span style=color:#bd93f9>100</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;tabWidth&#34;</span>: <span style=color:#bd93f9>2</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;tabs&#34;</span>: <span style=color:#ff79c6>false</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;singleQuote&#34;</span>: <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;semicolon&#34;</span>: <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;quoteProps&#34;</span>: <span style=color:#f1fa8c>&#34;preserve&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;bracketSpacing&#34;</span>: <span style=color:#ff79c6>false</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ul><li><a href=https://github.com/vuejs/vue/blob/main/.prettierrc>Vue</a></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>semi: <span style=color:#ff79c6>false</span>
+</span></span><span style=display:flex><span>singleQuote: <span style=color:#ff79c6>true</span>
+</span></span><span style=display:flex><span>printWidth: <span style=color:#bd93f9>80</span>
+</span></span><span style=display:flex><span>trailingComma: &#39;none&#39;
+</span></span><span style=display:flex><span>arrowParens: &#39;avoid&#39;
+</span></span></code></pre></div><h3 id=36-配置-prettier>3.6 配置 prettier</h3><ol><li>安装</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i prettier -D
+</span></span></code></pre></div><ol start=2><li>根目录创建 <code>.prettierrc</code></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;printWidth&#34;</span>: <span style=color:#bd93f9>80</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;tabWidth&#34;</span>: <span style=color:#bd93f9>2</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;useTabs&#34;</span>: <span style=color:#ff79c6>false</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;semi&#34;</span>: <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;singleQuote&#34;</span>: <span style=color:#ff79c6>true</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ol start=3><li><code>package.json</code> 新增命令</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#f1fa8c>&#34;scripts&#34;</span>: {
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;prettier&#34;</span>: <span style=color:#f1fa8c>&#34;prettier --write **/*.{js,jsx,ts,tsx,json}&#34;</span>
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><h3 id=37-解决和-eslint-的冲突>3.7 解决和 <code>eslint</code> 的冲突</h3><p>因为 <code>eslint</code> 也可以做风格检查，所以会跟 <code>prettier</code> 冲突</p><blockquote><p>例如：在 <code>prettier</code> 中设置 <code>"semi": false</code>，在 <code>eslintrc</code> 中设置 <code>semi: 2</code>。保存文件会取消分号，但是 <code>npm run lint</code> 之后又会新增分号。</p></blockquote><ol><li>将 <code>prettier</code> 集成到 <code>eslint</code> 中</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i eslint-config-prettier -D <span style=color:#6272a4># 关闭可能与prettier冲突的规则</span>
+</span></span><span style=display:flex><span>npm i eslint-plugin-prettier -D <span style=color:#6272a4># 使用prettier代替eslint格式化</span>
+</span></span></code></pre></div><ol start=2><li>设置 <code>prettier</code> 为默认格式化并设置保存时生效</li></ol><p>在 <code>.eslintrc</code> 中配置 <code>prettier</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>...
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>extends</span><span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#39;airbnb&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#39;eslint:recommended&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#39;plugin:react/recommended&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#39;plugin:@typescript-eslint/recommended&#39;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#39;prettier&#39;</span>
+</span></span><span style=display:flex><span>  ],
+</span></span><span style=display:flex><span>  ...
+</span></span></code></pre></div><h2 id=4-配置别名>4. 配置别名</h2><h3 id=41-cracocraco>4.1 <code>@craco/craco</code></h3><p>安装</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i -D @craco/craco
+</span></span></code></pre></div><h3 id=42-npm-run-eject>4.2 <code>npm run eject</code></h3><blockquote><p>报错 1</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Unable to resolve path to module <span style=color:#f1fa8c>&#39;@utils/request&#39;</span>  import/no-unresolved
+</span></span></code></pre></div><p>因为 eslint 没有配置别名，安装插件
+<code>eslint-plugin-import</code>,
+<code>eslint-import-resolver-webpack</code>
+<code>eslint-import-resolver-typescript</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i eslint-plugin-import -D
+</span></span><span style=display:flex><span>npm i eslint-import-resolver-webpack -D
+</span></span><span style=display:flex><span>npm i eslint-import-resolver-typescript -D
+</span></span></code></pre></div><p>在 <code>.eslintrc</code> 添加映射</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>	<span style=color:#f1fa8c>&#34;rules&#34;</span>: {
+</span></span><span style=display:flex><span>		<span style=color:#ff79c6>&#34;react/react-in-jsx-scope&#34;</span>: <span style=color:#f1fa8c>&#34;off&#34;</span>,
+</span></span><span style=display:flex><span>		<span style=color:#6272a4>// Turned off because conflicts with the ones above and does not support aliases
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>		<span style=color:#ff79c6>&#34;node/no-missing-require&#34;</span>: <span style=color:#f1fa8c>&#34;off&#34;</span>,
+</span></span><span style=display:flex><span>		<span style=color:#ff79c6>&#34;node/no-extraneous-import&#34;</span>: <span style=color:#f1fa8c>&#34;off&#34;</span>
+</span></span><span style=display:flex><span>	},
+</span></span><span style=display:flex><span>	<span style=color:#f1fa8c>&#34;settings&#34;</span>: {
+</span></span><span style=display:flex><span>		<span style=color:#ff79c6>&#34;import/parsers&#34;</span>: {
+</span></span><span style=display:flex><span>			<span style=color:#6272a4>// 使用 TypeScript parser
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>			<span style=color:#ff79c6>&#34;@typescript-eslint/parser&#34;</span>: [<span style=color:#f1fa8c>&#34;.ts&#34;</span>, <span style=color:#f1fa8c>&#34;.tsx&#34;</span>]
+</span></span><span style=display:flex><span>		},
+</span></span><span style=display:flex><span>		<span style=color:#ff79c6>&#34;import/resolver&#34;</span>: {
+</span></span><span style=display:flex><span>			<span style=color:#ff79c6>&#34;typescript&#34;</span>: {
+</span></span><span style=display:flex><span>				<span style=color:#ff79c6>&#34;directory&#34;</span>: <span style=color:#f1fa8c>&#34;./tsconfig.json&#34;</span>
+</span></span><span style=display:flex><span>			}
+</span></span><span style=display:flex><span>		}
+</span></span><span style=display:flex><span>	}
+</span></span></code></pre></div><p>========</p><h2 id=5-husky>5. Husky</h2><p>用 <code>git hooks</code> 自动化校验</p><h3 id=51-安装-husky>5.1 安装 husky</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i husky -D
+</span></span></code></pre></div><h3 id=52-初始化-husky>5.2 初始化 husky</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npx husky install
+</span></span></code></pre></div><h3 id=53-添加-lint-钩子>5.3 添加 lint 钩子</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npx husky add .husky/pre-commit <span style=color:#f1fa8c>&#34;npm run lint&#34;</span>
+</span></span></code></pre></div><h2 id=6-commitlint>6. Commitlint</h2><h3 id=61-安装>6.1 安装</h3><ul><li><a href=https://commitlint.js.org/#/>@commitlint/cli</a> <code>commitlint</code> 命令行工具</li><li><a href=https://www.npmjs.com/package/@commitlint/config-conventional>@commitlint/config-conventional</a> 基于 <code>Angular</code> 的约定规范</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i @commitlint/cli @commitlint/config-conventional -D
+</span></span></code></pre></div><h3 id=62-创建-commitlintrc写入配置>6.2. 创建 <code>.commitlintrc</code>，写入配置</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;extends&#34;</span>: [<span style=color:#f1fa8c>&#34;@commitlint/config-conventional&#34;</span>]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=63-集成-husky-中>6.3. 集成 <code>husky</code> 中</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npx husky add .husky/commit-msg <span style=color:#f1fa8c>&#39;npx --no-install commitlint --edit &#34;$1&#34;&#39;</span>
+</span></span></code></pre></div><p>angular</p><ul><li>feat: 新功能</li><li>fix: 修补 BUG</li><li>docs: 修改文档，eg：README，CHANGELOG，CONTRIBUTE 等</li><li>style: 不改变代码逻辑（仅仅修改空格、格式缩进、逗号等）</li><li>refactor: 重构（既不修复错误也不添加功能）</li><li>perf：优化相关，比如提升性能、体验</li><li>test：增加测试，包括单元测试、集成测试等</li><li>build：构建系统或外部依赖项的更改</li><li>ci：自动化流程配置或脚本修改</li><li>chore：非 src 和 test 的修改，发布版本等</li><li>revert：恢复先前的提交</li></ul><h2 id=7-semantic-release>7. Semantic Release</h2><hr><ul class=pager><li class=previous><a href=/post/js/clipboard/ data-toggle=tooltip data-placement=top title=navigator.clipboard>&larr;
+Previous Post</a></li><li class=next><a href=/post/micro-frontend/init/init/ data-toggle=tooltip data-placement=top title=微前端【qiankun】小试（一）主应用和子应用初始化>Next
+Post &rarr;</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
