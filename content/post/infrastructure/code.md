@@ -171,6 +171,15 @@ npm i eslint-import-resolver-typescript -D
   },
 ```
 
+- `error  Do not use a triple slash reference for react, use `import` style instead  @typescript-eslint/triple-slash-reference`
+
+```js
+// .eslintrc
+  rules: {
+    "@typescript-eslint/triple-slash-reference": "warn",
+  }
+```
+
 ## 3. prettier
 
 [Prettier 官网](https://prettier.io/)
@@ -356,48 +365,92 @@ npm i eslint-plugin-prettier -D # 使用prettier代替eslint格式化
 npm i -D @craco/craco
 ```
 
-### 4.2 `npm run eject`
+根目录新建 `craco.config.js`
 
-> 报错 1
+```js
+const path = require("path");
 
-```bash
-Unable to resolve path to module '@utils/request'  import/no-unresolved
+const pathResolve = (pathUrl) => path.join(__dirname, pathUrl);
+
+module.exports = {
+  webpack: {
+    alias: {
+      "@": pathResolve("src"),
+      "@assets": pathResolve("src/assets"),
+      "@components": pathResolve("src/components"),
+      "@utils": pathResolve("src/utils"),
+    },
+  },
+};
 ```
 
-因为 eslint 没有配置别名，安装插件
-`eslint-plugin-import`,
-`eslint-import-resolver-webpack`
-`eslint-import-resolver-typescript`
-
-```bash
-npm i eslint-plugin-import -D
-npm i eslint-import-resolver-webpack -D
-npm i eslint-import-resolver-typescript -D
-```
-
-在 `.eslintrc` 添加映射
+修改 `tsconfig.json` 配置文件
 
 ```json
-	"rules": {
-		"react/react-in-jsx-scope": "off",
-		// Turned off because conflicts with the ones above and does not support aliases
-		"node/no-missing-require": "off",
-		"node/no-extraneous-import": "off"
-	},
-	"settings": {
-		"import/parsers": {
-			// 使用 TypeScript parser
-			"@typescript-eslint/parser": [".ts", ".tsx"]
-		},
-		"import/resolver": {
-			"typescript": {
-				"directory": "./tsconfig.json"
-			}
-		}
-	}
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@utils/*": ["utils/*"]
+    }
+  }
+  //   ...
+}
 ```
 
-========
+修改 `package.json`
+
+```json
+...
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
+  },
+...
+```
+
+### 4.2 `webpack`
+
+暴露 `webpack` 配置
+
+```bash
+npm run eject
+```
+
+修改 `config/webpack/webpack.config.js`
+
+```js
+...
+    alias: {
+    // Support React Native Web
+    // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
+    "react-native": "react-native-web",
+    // Allows for better profiling with ReactDevTools
+    ...(isEnvProductionProfile && {
+        "react-dom$": "react-dom/profiling",
+        "scheduler/tracing": "scheduler/tracing-profiling",
+    }),
+    ...(modules.webpackAliases || {}),
+    "@utils": path.resolve(__dirname, "../src/utils"),
+    },
+...
+```
+
+修改 `tsconfig.json` 配置文件
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@utils/*": ["utils/*"]
+    }
+  }
+  //   ...
+}
+```
 
 ## 5. Husky
 
@@ -423,6 +476,8 @@ npx husky add .husky/pre-commit "npm run lint"
 
 ## 6. Commitlint
 
+约定 `commit` 信息
+
 ### 6.1 安装
 
 - [@commitlint/cli](https://commitlint.js.org/#/) `commitlint` 命令行工具
@@ -446,18 +501,16 @@ npm i @commitlint/cli @commitlint/config-conventional -D
 npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 ```
 
-angular
-
-- feat: 新功能
-- fix: 修补 BUG
-- docs: 修改文档，eg：README，CHANGELOG，CONTRIBUTE 等
-- style: 不改变代码逻辑（仅仅修改空格、格式缩进、逗号等）
-- refactor: 重构（既不修复错误也不添加功能）
-- perf：优化相关，比如提升性能、体验
-- test：增加测试，包括单元测试、集成测试等
-- build：构建系统或外部依赖项的更改
-- ci：自动化流程配置或脚本修改
-- chore：非 src 和 test 的修改，发布版本等
-- revert：恢复先前的提交
+- `feat`: 新功能
+- `fix`: 修补 BUG
+- `docs`: 修改文档，eg：README，CHANGELOG，CONTRIBUTE 等
+- `style`: 不改变代码逻辑（仅仅修改空格、格式缩进、逗号等）
+- `refactor`: 重构（既不修复错误也不添加功能）
+- `perf`：优化相关，比如提升性能、体验
+- `test`：增加测试，包括单元测试、集成测试等
+- `build`：构建系统或外部依赖项的更改
+- `ci`：自动化流程配置或脚本修改
+- `chore`：非 src 和 test 的修改，发布版本等
+- `revert`：恢复先前的提交
 
 ## 7. Semantic Release
