@@ -180,6 +180,15 @@ npm i eslint-import-resolver-typescript -D
   }
 ```
 
+- `'React' must be in scope when using JSX  react/react-in-jsx-scope`
+
+```js
+// .eslintrc
+  rules: {
+    "react/react-in-jsx-scope": "off",
+  }
+```
+
 ## 3. prettier
 
 [Prettier 官网](https://prettier.io/)
@@ -468,7 +477,19 @@ npm i husky -D
 npx husky install
 ```
 
-### 5.3 添加 lint 钩子
+### 5.3 启用 husky
+
+我们需要在每次执行 `npm install` 时自动启用 `husky`
+
+修改 `package.json`
+
+```json
+  "scripts": {
+    "prepare": "husky install"
+  },
+```
+
+### 5.4 添加 lint 钩子
 
 ```bash
 npx husky add .husky/pre-commit "npm run lint"
