@@ -46,13 +46,13 @@ post-container"><h1 id=前端基建之二项目约定>前端基建之（二）�
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;prettier&#34;</span>: <span style=color:#f1fa8c>&#34;^2.8.2&#34;</span>
 </span></span><span style=display:flex><span>    },
 </span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;scripts&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;prepare&#34;</span>: <span style=color:#f1fa8c>&#34;husky install&#34;</span>,
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;start&#34;</span>: <span style=color:#f1fa8c>&#34;craco start&#34;</span>,
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;build&#34;</span>: <span style=color:#f1fa8c>&#34;craco build&#34;</span>,
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;test&#34;</span>: <span style=color:#f1fa8c>&#34;craco test&#34;</span>,
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;eject&#34;</span>: <span style=color:#f1fa8c>&#34;craco eject&#34;</span>,
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;lint&#34;</span>: <span style=color:#f1fa8c>&#34;eslint src --ext .ts,.jsx,.tsx --fix --quiet&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;prettier&#34;</span>: <span style=color:#f1fa8c>&#34;prettier --write **/*.{js,jsx,ts,tsx,json}&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;prepare&#34;</span>: <span style=color:#f1fa8c>&#34;husky install&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;prettier&#34;</span>: <span style=color:#f1fa8c>&#34;prettier --write **/*.{js,jsx,ts,tsx,json}&#34;</span>
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
@@ -98,7 +98,7 @@ post-container"><h1 id=前端基建之二项目约定>前端基建之（二）�
 </span></span></code></pre></div><ol start=3><li>发布</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm publish --access public
 </span></span></code></pre></div><ol start=4><li>测试</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npx create-react-app demo-admin --template @carbonhydrogen2oxygen/cra-template-water
 </span></span></code></pre></div><hr><ul class=pager><li class=previous><a href=/post/infrastructure/code/ data-toggle=tooltip data-placement=top title=前端基建之（一）代码风格和提交规范配置>&larr;
-Previous Post</a></li><li class=next><a href=/post/micro-frontend/init/init/ data-toggle=tooltip data-placement=top title=微前端【qiankun】小试（一）主应用和子应用初始化>Next
+Previous Post</a></li><li class=next><a href=/post/infrastructure/gitflow/ data-toggle=tooltip data-placement=top title="前端基建之（三）Git 分支策略和 GitFlow 工作流">Next
 Post &rarr;</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
 sidebar-container
