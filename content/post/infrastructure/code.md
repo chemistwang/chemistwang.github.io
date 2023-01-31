@@ -364,9 +364,55 @@ npm i eslint-plugin-prettier -D # 使用prettier代替eslint格式化
   ...
 ```
 
-## 4. 配置别名
+## 4. 配置 StyleLint
 
-### 4.1 `@craco/craco`
+### 4.1 vscode 安装 Stylelint 插件
+
+### 4.2 安装依赖
+
+```bash
+npm install --save-dev stylelint stylelint-config-standard
+```
+
+### 4.3 根目录创建 `.stylelintrc`
+
+```json
+// .stylelintrc
+{
+  "extends": "stylelint-config-standard"
+}
+```
+
+### 4.4 解决与 `prettier` 配置的冲突
+
+```bash
+npm install --save-dev stylelint-config-prettier
+```
+
+### 4.5 修改 `stylelintrc`
+
+```json
+// .stylelintrc
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-prettier"]
+}
+```
+
+### 4.6 在 git commit 阶段检测
+
+```json
+...
+ "scripts": {
+    ...
+    "lint:style": "stylelint src/**/*.less",
+    ...
+ },
+...
+```
+
+## 5. 配置别名
+
+### 5.1 `@craco/craco`
 
 安装
 
@@ -420,7 +466,7 @@ module.exports = {
 ...
 ```
 
-### 4.2 `webpack`
+### 5.2 `webpack`
 
 暴露 `webpack` 配置
 
@@ -461,23 +507,23 @@ npm run eject
 }
 ```
 
-## 5. Husky
+## 6. Husky
 
 用 `git hooks` 自动化校验
 
-### 5.1 安装 husky
+### 6.1 安装 husky
 
 ```bash
 npm i husky -D
 ```
 
-### 5.2 初始化 husky
+### 6.2 初始化 husky
 
 ```bash
 npx husky install
 ```
 
-### 5.3 启用 husky
+### 6.3 启用 husky
 
 我们需要在每次执行 `npm install` 时自动启用 `husky`
 
@@ -489,17 +535,55 @@ npx husky install
   },
 ```
 
-### 5.4 添加 lint 钩子
+### 6.4 添加 lint 钩子
 
 ```bash
 npx husky add .husky/pre-commit "npm run lint"
 ```
 
-## 6. Commitlint
+### 6.5 添加 lint-staged
+
+用来对 `暂存区` 的文件进行检测，用不全量检查
+
+```bash
+npm install --save-dev lint-staged
+```
+
+修改 `.husky/pre-commit`
+
+```bash
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# npm run lint
+npx lint-staged
+```
+
+修改 `package.json`
+
+```json
+...
+  "scripts": {
+    ...
+  },
+  "lint-staged": {
+    "**/*.{jsx,ts,tsx}": "npm run lint"
+  },
+  //  "lint-staged": {
+  //   "**/*": "prettier --write --ignore-unknown", //格式化
+  //   "src/**.{js,jsx,ts,tsx}": "eslint --ext .js,.jsx,.ts,.tsx", //对js文件检测
+  //   "**/*.{less,css}": "stylelint --fix", //对css文件进行检测
+  //   "**/*.{jsx,ts,tsx}": "npm run lint",
+  //   "**/*.{less,css}": "npm run lint:style"
+  // },
+...
+```
+
+## 7. Commitlint
 
 约定 `commit` 信息
 
-### 6.1 安装
+### 7.1 安装
 
 - [@commitlint/cli](https://commitlint.js.org/#/) `commitlint` 命令行工具
 - [@commitlint/config-conventional](https://www.npmjs.com/package/@commitlint/config-conventional) 基于 `Angular` 的约定规范
@@ -508,7 +592,7 @@ npx husky add .husky/pre-commit "npm run lint"
 npm i @commitlint/cli @commitlint/config-conventional -D
 ```
 
-### 6.2. 创建 `.commitlintrc`，写入配置
+### 7.2. 创建 `.commitlintrc`，写入配置
 
 ```json
 {
@@ -516,7 +600,7 @@ npm i @commitlint/cli @commitlint/config-conventional -D
 }
 ```
 
-### 6.3. 集成 `husky` 中
+### 7.3. 集成 `husky` 中
 
 ```bash
 npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
@@ -534,4 +618,4 @@ npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 - `chore`：非 src 和 test 的修改，发布版本等
 - `revert`：恢复先前的提交
 
-## 7. Semantic Release
+## 8. Semantic Release

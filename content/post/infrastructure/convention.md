@@ -144,13 +144,13 @@ cp .gitignore template/gitignore
       "prettier": "^2.8.2"
     },
     "scripts": {
+      "prepare": "husky install",
       "start": "craco start",
       "build": "craco build",
       "test": "craco test",
       "eject": "craco eject",
       "lint": "eslint src --ext .ts,.jsx,.tsx --fix --quiet",
-      "prettier": "prettier --write **/*.{js,jsx,ts,tsx,json}",
-      "prepare": "husky install"
+      "prettier": "prettier --write **/*.{js,jsx,ts,tsx,json}"
     }
   }
 }
