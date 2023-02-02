@@ -10,12 +10,16 @@
 on
 Tuesday, January 10, 2023</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
 col-md-10 col-md-offset-1
-post-container"><h1 id=bff-的落地实现>BFF 的落地实现</h1><p><a href=https://github.com/chemistwang/demo-bff>Github 完整项目地址</a></p><h2 id=1-前置知识>1. 前置知识</h2><ul><li><p><a href=https://www.yuque.com/egg/nodejs/dklip5>聊聊 Node.js RPC（一）— 协议</a></p><p><code>RPC(Remote Procedure Call)</code> 是远程过程调用的缩写，是一种通信协议，允许程序在不同的计算机上相互调用远程过程，就像调用本地过程一样</p></li><li><p><code>sofa-rpc-node</code>：基于 <code>nodejs</code> 的一个 <code>RPC</code> 框架，支持多种协议</p></li><li><p><code>Protocol Buffers</code>(简称 <code>protobuf</code>)：<code>Google</code>开发的一种数据序列化格式，可以将结构化数据序列化成二进制格式，并能够垮语言使用</p></li></ul><h2 id=2-技术选型>2. 技术选型</h2><ul><li>MySQL</li><li>Redis</li><li>Zookeeper</li><li>Koa</li></ul><h2 id=3-环境安装并启动>3. 环境安装并启动</h2><ul><li>macOS 11.6.4</li><li>本地 <code>localhost</code> 运行</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#6272a4># 安装</span>
+post-container"><h1 id=bff-的落地实现>BFF 的落地实现</h1><p><a href=https://github.com/chemistwang/demo-bff>Github 完整项目地址</a></p><h2 id=1-前置知识>1. 前置知识</h2><ul><li><p><a href=https://www.yuque.com/egg/nodejs/dklip5>聊聊 Node.js RPC（一）— 协议</a></p><p><code>RPC(Remote Procedure Call)</code> 是远程过程调用的缩写，是一种通信协议，允许程序在不同的计算机上相互调用远程过程，就像调用本地过程一样</p></li><li><p><code>sofa-rpc-node</code>：基于 <code>nodejs</code> 的一个 <code>RPC</code> 框架，支持多种协议</p></li><li><p><code>Protocol Buffers</code>(简称 <code>protobuf</code>)：<code>Google</code>开发的一种数据序列化格式，可以将结构化数据序列化成二进制格式，并能够垮语言使用</p></li></ul><h2 id=2-技术选型>2. 技术选型</h2><ul><li>Koa</li><li>Redis</li><li>MySQL</li><li>Zookeeper</li><li>RabbitMQ</li></ul><h2 id=3-环境安装并启动>3. 环境安装并启动</h2><ul><li>macOS <code>11.6.4</code></li><li>本地 <code>localhost</code> 运行</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#6272a4># 安装</span>
 </span></span><span style=display:flex><span>brew install mysql
 </span></span><span style=display:flex><span>brew install zookeeper
+</span></span><span style=display:flex><span>brew install rabbitmq
 </span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#6272a4># 启动 zookeeper</span>
 </span></span><span style=display:flex><span>zkServer start
-</span></span></code></pre></div><h2 id=4-安装-mysql-并创建数据库和表>4. 安装 mysql 并创建数据库和表</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#6272a4>-- t_user 表
+</span></span><span style=display:flex><span><span style=color:#6272a4># 启动 rabbitmq</span>
+</span></span><span style=display:flex><span>brew services start rabbitmq
+</span></span></code></pre></div><h2 id=4-安装-mysql-并创建数据库和表>4. 安装 mysql 并创建数据库和表</h2><h3 id=41-创建数据库>4.1 创建数据库</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#ff79c6>CREATE</span> <span style=color:#ff79c6>DATABASE</span> bff;
+</span></span></code></pre></div><h3 id=42-创建表>4.2 创建表</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#6272a4>-- t_user 表
 </span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>CREATE</span> <span style=color:#ff79c6>TABLE</span> <span style=color:#ff79c6>IF</span> <span style=color:#ff79c6>NOT</span> <span style=color:#ff79c6>EXISTS</span> <span style=color:#ff79c6>`</span>t_user<span style=color:#ff79c6>`</span>(
 </span></span><span style=display:flex><span>   <span style=color:#ff79c6>`</span>id<span style=color:#ff79c6>`</span> <span style=color:#8be9fd;font-style:italic>INT</span> UNSIGNED AUTO_INCREMENT,
 </span></span><span style=display:flex><span>   <span style=color:#ff79c6>`</span>username<span style=color:#ff79c6>`</span> <span style=color:#8be9fd;font-style:italic>VARCHAR</span>(<span style=color:#bd93f9>20</span>) <span style=color:#ff79c6>NOT</span> <span style=color:#ff79c6>NULL</span>,
@@ -29,11 +33,18 @@ post-container"><h1 id=bff-的落地实现>BFF 的落地实现</h1><p><a href=ht
 </span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>CREATE</span> <span style=color:#ff79c6>TABLE</span> <span style=color:#ff79c6>IF</span> <span style=color:#ff79c6>NOT</span> <span style=color:#ff79c6>EXISTS</span> <span style=color:#ff79c6>`</span>t_post<span style=color:#ff79c6>`</span>(
 </span></span><span style=display:flex><span>   <span style=color:#ff79c6>`</span>id<span style=color:#ff79c6>`</span> <span style=color:#8be9fd;font-style:italic>INT</span> UNSIGNED AUTO_INCREMENT,
 </span></span><span style=display:flex><span>   <span style=color:#ff79c6>`</span>user_id<span style=color:#ff79c6>`</span> <span style=color:#8be9fd;font-style:italic>INT</span>,
+</span></span><span style=display:flex><span>   <span style=color:#ff79c6>`</span>title<span style=color:#ff79c6>`</span> <span style=color:#8be9fd;font-style:italic>VARCHAR</span>(<span style=color:#bd93f9>100</span>) <span style=color:#ff79c6>NOT</span> <span style=color:#ff79c6>NULL</span>,
 </span></span><span style=display:flex><span>   <span style=color:#ff79c6>PRIMARY</span> <span style=color:#ff79c6>KEY</span> ( <span style=color:#ff79c6>`</span>id<span style=color:#ff79c6>`</span> )
 </span></span><span style=display:flex><span>)
+</span></span></code></pre></div><h3 id=43-创建模拟数据>4.3 创建模拟数据</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#ff79c6>INSERT</span> <span style=color:#ff79c6>INTO</span> t_user (id, username, avatar, password, phone) <span style=color:#ff79c6>VALUES</span> (<span style=color:#bd93f9>1</span>, <span style=color:#f1fa8c>&#39;lucus&#39;</span>, <span style=color:#f1fa8c>&#39;avatar1.png&#39;</span>, <span style=color:#f1fa8c>&#39;111111&#39;</span>, <span style=color:#f1fa8c>&#39;13100000001&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>INSERT</span> <span style=color:#ff79c6>INTO</span> t_user (id, username, avatar, password, phone) <span style=color:#ff79c6>VALUES</span> (<span style=color:#bd93f9>2</span>, <span style=color:#f1fa8c>&#39;mars&#39;</span>, <span style=color:#f1fa8c>&#39;avatar2.png&#39;</span>, <span style=color:#f1fa8c>&#39;222222&#39;</span>, <span style=color:#f1fa8c>&#39;13100000002&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>INSERT</span> <span style=color:#ff79c6>INTO</span> t_post  (id, user_id, title) <span style=color:#ff79c6>VALUES</span> (<span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#f1fa8c>&#39;文章1&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>INSERT</span> <span style=color:#ff79c6>INTO</span> t_post (id, user_id, title) <span style=color:#ff79c6>VALUES</span> (<span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>1</span>, <span style=color:#f1fa8c>&#39;文章2&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>INSERT</span> <span style=color:#ff79c6>INTO</span> t_post (id, user_id, title) <span style=color:#ff79c6>VALUES</span> (<span style=color:#bd93f9>3</span>, <span style=color:#bd93f9>1</span>, <span style=color:#f1fa8c>&#39;文章3&#39;</span>);
 </span></span></code></pre></div><h2 id=5-创建-user-微服务>5. 创建 user 微服务</h2><h3 id=51-安装>5.1 安装</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mkdir user <span style=color:#ff79c6>&amp;&amp;</span> npm init -y
 </span></span><span style=display:flex><span>npm install mysql2 sofa-rpc-node --save
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span></code></pre></div><p><code>user/package.json</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;name&#34;</span>: <span style=color:#f1fa8c>&#34;user&#34;</span>,
 </span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;version&#34;</span>: <span style=color:#f1fa8c>&#34;1.0.0&#34;</span>,
 </span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;description&#34;</span>: <span style=color:#f1fa8c>&#34;&#34;</span>,
@@ -51,7 +62,9 @@ post-container"><h1 id=bff-的落地实现>BFF 的落地实现</h1><p><a href=ht
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><h3 id=52-启动-rpc-服务并发布-user-服务>5.2 启动 RPC 服务并发布 user 服务</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>touch user/index.js
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> {
+</span></span><span style=display:flex><span><span style=color:#6272a4># 启动服务</span>
+</span></span><span style=display:flex><span>npm run dev
+</span></span></code></pre></div><p><code>user/index.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> {
 </span></span><span style=display:flex><span>  server<span style=color:#ff79c6>:</span> { RpcServer }, <span style=color:#6272a4>// 可以使用它创建RPC服务器
 </span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  registry<span style=color:#ff79c6>:</span> { ZookeeperRegistry }, <span style=color:#6272a4>// 可以通过它来创建注册中心
 </span></span></span><span style=display:flex><span><span style=color:#6272a4></span>} <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;sofa-rpc-node&#34;</span>);
@@ -88,7 +101,7 @@ post-container"><h1 id=bff-的落地实现>BFF 的落地实现</h1><p><a href=ht
 </span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    { interfaceName<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;com.chemputer.user&#34;</span> }, <span style=color:#6272a4>// 格式约定为域名反转+领域模型的名称
 </span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    {
 </span></span><span style=display:flex><span>      <span style=color:#ff79c6>async</span> getUserInfo(userId) {
-</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> sql <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>`SELECT id,username,avatar,password,phone from user WHERE id=</span><span style=color:#f1fa8c>${</span>userId<span style=color:#f1fa8c>}</span><span style=color:#f1fa8c> limit 1`</span>;
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> sql <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>`SELECT id,username,avatar,password,phone from t_user WHERE id=</span><span style=color:#f1fa8c>${</span>userId<span style=color:#f1fa8c>}</span><span style=color:#f1fa8c> limit 1`</span>;
 </span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> [rows] <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> connection.execute(sql);
 </span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> rows[<span style=color:#bd93f9>0</span>];
 </span></span><span style=display:flex><span>      },
@@ -101,7 +114,7 @@ post-container"><h1 id=bff-的落地实现>BFF 的落地实现</h1><p><a href=ht
 </span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;用户微服务已经启动&#34;</span>);
 </span></span><span style=display:flex><span>})();
 </span></span></code></pre></div><h3 id=53-客户端>5.3 客户端</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>touch user/client.js
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> {
+</span></span></code></pre></div><p><code>user/client.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> {
 </span></span><span style=display:flex><span>  client<span style=color:#ff79c6>:</span> { RpcClient }, <span style=color:#6272a4>// 可以使用它创建RPC服务
 </span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  registry<span style=color:#ff79c6>:</span> { ZookeeperRegistry }, <span style=color:#6272a4>// 可以通过它来创建注册中心
 </span></span></span><span style=display:flex><span><span style=color:#6272a4></span>} <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;sofa-rpc-node&#34;</span>);
@@ -129,9 +142,357 @@ post-container"><h1 id=bff-的落地实现>BFF 的落地实现</h1><p><a href=ht
 </span></span><span style=display:flex><span>  console.log(result, <span style=color:#f1fa8c>&#34;result....&#34;</span>);
 </span></span><span style=display:flex><span>  process.exit(<span style=color:#bd93f9>0</span>);
 </span></span><span style=display:flex><span>})();
-</span></span></code></pre></div><h2 id=6-创建-post-微服务>6. 创建 post 微服务</h2><h3 id=61-安装>6.1 安装</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mkdir user <span style=color:#ff79c6>&amp;&amp;</span> npm init -y
+</span></span></code></pre></div><h2 id=6-创建-post-微服务同创建-user-微服务>6. 创建 post 微服务（同创建 user 微服务）</h2><h3 id=61-安装>6.1 安装</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mkdir post <span style=color:#ff79c6>&amp;&amp;</span> npm init -y
 </span></span><span style=display:flex><span>npm install mysql2 sofa-rpc-node --save
-</span></span></code></pre></div><h2 id=7-bff-中间层>7. bff 中间层</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i amqplib fs-extra ioredis koa koa-logger koa-router lru-cache sofa-rpc-node
+</span></span></code></pre></div><p><code>post/package.json</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;name&#34;</span>: <span style=color:#f1fa8c>&#34;post&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;version&#34;</span>: <span style=color:#f1fa8c>&#34;1.0.0&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;description&#34;</span>: <span style=color:#f1fa8c>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;main&#34;</span>: <span style=color:#f1fa8c>&#34;index.js&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;scripts&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;test&#34;</span>: <span style=color:#f1fa8c>&#34;echo \&#34;Error: no test specified\&#34; &amp;&amp; exit 1&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;dev&#34;</span>: <span style=color:#f1fa8c>&#34;nodemon index.js&#34;</span>
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;keywords&#34;</span>: [],
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;author&#34;</span>: <span style=color:#f1fa8c>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;license&#34;</span>: <span style=color:#f1fa8c>&#34;ISC&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;dependencies&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;mysql2&#34;</span>: <span style=color:#f1fa8c>&#34;^3.1.0&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;sofa-rpc-node&#34;</span>: <span style=color:#f1fa8c>&#34;^2.8.0&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=62-启动-rpc-服务并发布-post-服务>6.2 启动 RPC 服务并发布 post 服务</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>touch post/index.js
+</span></span><span style=display:flex><span><span style=color:#6272a4># 启动服务</span>
+</span></span><span style=display:flex><span>npm run dev
+</span></span></code></pre></div><p><code>post/index.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> {
+</span></span><span style=display:flex><span>  server<span style=color:#ff79c6>:</span> { RpcServer }, <span style=color:#6272a4>// 可以使用它创建RPC服务器
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  registry<span style=color:#ff79c6>:</span> { ZookeeperRegistry }, <span style=color:#6272a4>// 可以通过它来创建注册中心
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>} <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;sofa-rpc-node&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> mysql <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;mysql2/promise&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> logger <span style=color:#ff79c6>=</span> console;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 创建一个注册中心，用于注册微服务
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>const</span> registry <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> ZookeeperRegistry({
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 记录日志用哪个工具
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  logger,
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// zookeeper地址
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  address<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;127.0.0.1:2181&#34;</span>,
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 创建RPC服务器的实例
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 客户端连接RPC服务器的可以通过zookeeper，也可以直接直连rpcServer
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>const</span> server <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> RpcServer({
+</span></span><span style=display:flex><span>  logger,
+</span></span><span style=display:flex><span>  registry,
+</span></span><span style=display:flex><span>  port<span style=color:#ff79c6>:</span> <span style=color:#bd93f9>10001</span>,
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(<span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> () {
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>//连接mysql数据库
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> connection <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> mysql.createConnection({
+</span></span><span style=display:flex><span>    host<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;localhost&#34;</span>,
+</span></span><span style=display:flex><span>    user<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;root&#34;</span>,
+</span></span><span style=display:flex><span>    password<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>    database<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;bff&#34;</span>,
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 添加服务接口
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  server.addService(
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 格式约定为域名反转+领域模型的名称
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    { interfaceName<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;com.chemputer.post&#34;</span> }, <span style=color:#6272a4>// 格式约定为域名反转+领域模型的名称
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>async</span> getPostCount(userId) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> sql <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>`SELECT count(*) as postCount from t_post WHERE user_id=</span><span style=color:#f1fa8c>${</span>userId<span style=color:#f1fa8c>}</span><span style=color:#f1fa8c>`</span>;
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> [rows] <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> connection.execute(sql);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> rows[<span style=color:#bd93f9>0</span>].postCount;
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 启动RPC服务
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>await</span> server.start();
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 把启动好的RPC服务注册到zookeeper上
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>await</span> server.publish();
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34;文章微服务已经启动&#34;</span>);
+</span></span><span style=display:flex><span>})();
+</span></span></code></pre></div><h3 id=63-客户端>6.3 客户端</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>touch post/client.js
+</span></span></code></pre></div><p><code>post/client.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> {
+</span></span><span style=display:flex><span>  client<span style=color:#ff79c6>:</span> { RpcClient }, <span style=color:#6272a4>// 可以使用它创建RPC服务
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  registry<span style=color:#ff79c6>:</span> { ZookeeperRegistry }, <span style=color:#6272a4>// 可以通过它来创建注册中心
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>} <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;sofa-rpc-node&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> logger <span style=color:#ff79c6>=</span> console;
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 创建一个注册中心，用于注册微服务
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>const</span> registry <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> ZookeeperRegistry({
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 记录日志用哪个工具
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  logger,
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// zookeeper的地址
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  address<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;127.0.0.1:2181&#34;</span>,
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>(<span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> () {
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 创建RPC客户端
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> client <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> RpcClient({
+</span></span><span style=display:flex><span>    logger,
+</span></span><span style=display:flex><span>    registry,
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 创建一个RPC服务器的消费者
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> consumer <span style=color:#ff79c6>=</span> client.createConsumer({
+</span></span><span style=display:flex><span>    interfaceName<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;com.chemputer.post&#34;</span>,
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 等待服务就绪
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>await</span> consumer.ready();
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> result <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> consumer.invoke(<span style=color:#f1fa8c>&#34;getPostCount&#34;</span>, [<span style=color:#bd93f9>1</span>]);
+</span></span><span style=display:flex><span>  console.log(result, <span style=color:#f1fa8c>&#34;post result....&#34;</span>);
+</span></span><span style=display:flex><span>  process.exit(<span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span>})();
+</span></span></code></pre></div><h2 id=7-创建-bff>7. 创建 BFF</h2><h3 id=71-安装>7.1 安装</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mkdir bff <span style=color:#ff79c6>&amp;&amp;</span> npm init -y
+</span></span><span style=display:flex><span>npm i koa koa-router koa-logger sofa-rpc-node lru-cache ioredis amqplib fs-extra
+</span></span></code></pre></div><p><code>bff/package.json</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;name&#34;</span>: <span style=color:#f1fa8c>&#34;bff&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;version&#34;</span>: <span style=color:#f1fa8c>&#34;1.0.0&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;description&#34;</span>: <span style=color:#f1fa8c>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;main&#34;</span>: <span style=color:#f1fa8c>&#34;index.js&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;scripts&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;test&#34;</span>: <span style=color:#f1fa8c>&#34;echo \&#34;Error: no test specified\&#34; &amp;&amp; exit 1&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;dev&#34;</span>: <span style=color:#f1fa8c>&#34;nodemon index.js&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;start&#34;</span>: <span style=color:#f1fa8c>&#34;pm2 start index.js --name bff&#34;</span>
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;keywords&#34;</span>: [],
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;author&#34;</span>: <span style=color:#f1fa8c>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;license&#34;</span>: <span style=color:#f1fa8c>&#34;ISC&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;dependencies&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;amqplib&#34;</span>: <span style=color:#f1fa8c>&#34;^0.10.3&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;fs-extra&#34;</span>: <span style=color:#f1fa8c>&#34;^11.1.0&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;ioredis&#34;</span>: <span style=color:#f1fa8c>&#34;^5.2.4&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;koa&#34;</span>: <span style=color:#f1fa8c>&#34;^2.14.1&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;koa-logger&#34;</span>: <span style=color:#f1fa8c>&#34;^3.2.1&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;koa-router&#34;</span>: <span style=color:#f1fa8c>&#34;^12.0.0&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;lru-cache&#34;</span>: <span style=color:#f1fa8c>&#34;^7.14.1&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;sofa-rpc-node&#34;</span>: <span style=color:#f1fa8c>&#34;^2.8.0&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=72-创建-bff-层-rpc-中间件>7.2 创建 BFF 层 RPC 中间件</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>touch bff/middleware/rpc.js
+</span></span></code></pre></div><p><code>bff/middleware/rpc.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> {
+</span></span><span style=display:flex><span>  client<span style=color:#ff79c6>:</span> { RpcClient }, <span style=color:#6272a4>// 可以使用它创建RPC服务器
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  registry<span style=color:#ff79c6>:</span> { ZookeeperRegistry }, <span style=color:#6272a4>// 可以通过它来创建注册中心
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>} <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;sofa-rpc-node&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> logger <span style=color:#ff79c6>=</span> console;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> rpcMiddleware <span style=color:#ff79c6>=</span> (options <span style=color:#ff79c6>=</span> {}) =&gt; {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> (ctx, next) {
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 创建 zookeeperRegistry 类的实例，用于管理服务发现和注册
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> registry <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> ZookeeperRegistry({
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// 记录日志用哪个工具
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      logger,
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// zookeeper 的地址
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      address<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;127.0.0.1:2181&#34;</span>,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 创建 RpcClient 类的实例，用于发送 rpc 请求
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> client <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> RpcClient({
+</span></span><span style=display:flex><span>      logger,
+</span></span><span style=display:flex><span>      registry,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> interfaceNames <span style=color:#ff79c6>=</span> options.interfaceNames <span style=color:#ff79c6>||</span> [];
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> rpcConsumers <span style=color:#ff79c6>=</span> {};
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> (<span style=color:#8be9fd;font-style:italic>let</span> i <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>; i <span style=color:#ff79c6>&lt;</span> interfaceNames.length; i<span style=color:#ff79c6>++</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>const</span> interfaceName <span style=color:#ff79c6>=</span> interfaceNames[i];
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// 使用 RpcClient 的 createConsumer 方法创建 rpc 消费者
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#ff79c6>const</span> consumer <span style=color:#ff79c6>=</span> client.createConsumer({ interfaceName });
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// 等待 rpc 消费者准备完毕
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#ff79c6>await</span> consumer.ready();
+</span></span><span style=display:flex><span>      rpcConsumers[interfaceName.split(<span style=color:#f1fa8c>&#34;.&#34;</span>).pop()] <span style=color:#ff79c6>=</span> consumer;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    ctx.rpcConsumers <span style=color:#ff79c6>=</span> rpcConsumers;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>await</span> next();
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>module.exports <span style=color:#ff79c6>=</span> rpcMiddleware;
+</span></span></code></pre></div><h3 id=73-启动-bff-服务>7.3 启动 BFF 服务</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>touch bff/index.js
+</span></span><span style=display:flex><span><span style=color:#6272a4># 启动服务</span>
+</span></span><span style=display:flex><span>npm run dev
+</span></span></code></pre></div><p><code>bff/index.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> Koa <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;koa&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> router <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;koa-router&#34;</span>)();
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> logger <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;koa-logger&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> rpcMiddleware <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;./middleware/rpc&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> app <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> Koa();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>app.use(logger());
+</span></span><span style=display:flex><span>app.use(
+</span></span><span style=display:flex><span>  rpcMiddleware({
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 配置 rpc 中间件的参数，表示要调用的 rpc 接口名称
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    interfaceNames<span style=color:#ff79c6>:</span> [<span style=color:#f1fa8c>&#34;com.chemputer.user&#34;</span>, <span style=color:#f1fa8c>&#34;com.chemputer.post&#34;</span>],
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>router.get(<span style=color:#f1fa8c>&#34;/&#34;</span>, <span style=color:#ff79c6>async</span> (ctx) =&gt; {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> userId <span style=color:#ff79c6>=</span> ctx.query.userId;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> {
+</span></span><span style=display:flex><span>    rpcConsumers<span style=color:#ff79c6>:</span> { user, post },
+</span></span><span style=display:flex><span>  } <span style=color:#ff79c6>=</span> ctx;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> [userInfo, postCount] <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> <span style=color:#8be9fd;font-style:italic>Promise</span>.all([
+</span></span><span style=display:flex><span>    user.invoke(<span style=color:#f1fa8c>&#34;getUserInfo&#34;</span>, [userId]),
+</span></span><span style=display:flex><span>    post.invoke(<span style=color:#f1fa8c>&#34;getPostCount&#34;</span>, [userId]),
+</span></span><span style=display:flex><span>  ]);
+</span></span><span style=display:flex><span>  ctx.body <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    userInfo,
+</span></span><span style=display:flex><span>    postCount,
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>app.use(router.routes()).use(router.allowedMethods());
+</span></span><span style=display:flex><span>app.listen(<span style=color:#bd93f9>3000</span>, () =&gt; {
+</span></span><span style=display:flex><span>  console.log(<span style=color:#f1fa8c>&#34; 🚀 bff server is running at 3000&#34;</span>);
+</span></span><span style=display:flex><span>});
+</span></span></code></pre></div><p>浏览器访问</p><pre tabindex=0><code>http://localhost:3000/?userId=1
+</code></pre><h2 id=8-数据处理>8. 数据处理</h2><p>对数据进行个性化的 <code>裁剪</code> <code>脱敏</code> <code>适配</code></p><p><code>bff/index.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>...
+</span></span><span style=display:flex><span>router.get(<span style=color:#f1fa8c>&#34;/&#34;</span>, <span style=color:#ff79c6>async</span> (ctx) =&gt; {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> userId <span style=color:#ff79c6>=</span> ctx.query.userId;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> {
+</span></span><span style=display:flex><span>    rpcConsumers<span style=color:#ff79c6>:</span> { user, post },
+</span></span><span style=display:flex><span>  } <span style=color:#ff79c6>=</span> ctx;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> [userInfo, postCount] <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> <span style=color:#8be9fd;font-style:italic>Promise</span>.all([
+</span></span><span style=display:flex><span>    user.invoke(<span style=color:#f1fa8c>&#34;getUserInfo&#34;</span>, [userId]),
+</span></span><span style=display:flex><span>    post.invoke(<span style=color:#f1fa8c>&#34;getPostCount&#34;</span>, [userId]),
+</span></span><span style=display:flex><span>  ]);
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 数据的裁剪，把不需要的信息和字符裁剪掉，不返回给客户端
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>delete</span> userInfo.password;
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 数据脱敏
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  userInfo.phone <span style=color:#ff79c6>=</span> userInfo.phone.replace(<span style=color:#f1fa8c>/(\d{3})\d{4}(\d{4})/</span>, <span style=color:#f1fa8c>&#34;$1****$2&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 数据适配
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  userInfo.avatar <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;http://www.chemputer.top/&#34;</span> <span style=color:#ff79c6>+</span> userInfo.avatar;
+</span></span><span style=display:flex><span>  ctx.body <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    userInfo,
+</span></span><span style=display:flex><span>    postCount,
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><h2 id=9-缓存>9. 缓存</h2><ul><li>BFF 作为前端应用和后端系统之间的抽象层，承担了大量的请求转发和数据转换工作。使用多级缓存可以帮助 BFF 减少对后端系统的访问，从而提高应用的响应速度</li><li>当 BFF 收到一个请求时，首先会检查内存缓存中是否存在对应的数据，如果有就直接返回数据。如果内存缓存中没有数据，就会检查 Redis 缓存，如果 Redis 缓存中有数据就返回数据，并将数据写入内存缓存。如果本地缓存中也没有数据，就会向后端系统发起请求，并将数据写入 Redis 缓存和内存缓存</li></ul><h3 id=91-多级缓存>9.1 多级缓存</h3><ul><li>多级缓存（<code>multi-level cache</code>）是指系统中使用了多个缓存层来存储数据的技术。这些缓存层的优先级通常是依次递减的，即最快的缓存层位于最顶层，最慢的缓存层位于最底层</li></ul><h3 id=92-lru>9.2 LRU</h3><ul><li>LRU（<code>Least Recently Used</code>）是一种常用的高速缓存淘汰算法，它的原理是将最近使用过的数据或页面保留在缓存中，而最少使用的数据或页面将被淘汰。这样做的目的是为了最大化缓存的命中率，即使用缓存尽可能多地满足用户的请求</li></ul><h3 id=93-redis>9.3 Redis</h3><ul><li><code>Redis</code> 是一种开源的内存数据存储系统，可以作为数据库、缓存和消息中间件使用</li><li><code>Redis</code> 运行在内存中，因为它的读写速度非常快</li><li><code>ioredis</code> 是一个基于 <code>Node.js</code> 的 <code>Redis</code> 客户端，提供了对 <code>Redis</code> 命令的高度封装和支持</li></ul><h3 id=94-bff-使用缓存>9.4 BFF 使用缓存</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>touch bff/middleware/cache.js
+</span></span></code></pre></div><p><code>bff/middleware/cache.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> Redis <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;ioredis&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> LRUCache <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;lru-cache&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> CacheStore {
+</span></span><span style=display:flex><span>  constructor() {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>this</span>.stores <span style=color:#ff79c6>=</span> [];
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  add(store) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>this</span>.stores.push(store);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>this</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>async</span> set(key, value) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> (<span style=color:#ff79c6>const</span> store <span style=color:#ff79c6>of</span> <span style=color:#ff79c6>this</span>.stores) {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>await</span> store.set(key, value);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>async</span> get(key) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> (<span style=color:#ff79c6>const</span> store <span style=color:#ff79c6>of</span> <span style=color:#ff79c6>this</span>.stores) {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>const</span> value <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> store.get(key);
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>if</span> (value <span style=color:#ff79c6>!==</span> <span style=color:#ff79c6>undefined</span>) <span style=color:#ff79c6>return</span> value;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> MemoryStore {
+</span></span><span style=display:flex><span>  constructor() {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>this</span>.cache <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> LRUCache({
+</span></span><span style=display:flex><span>      max<span style=color:#ff79c6>:</span> <span style=color:#bd93f9>100</span>,
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>//一般来说越上层的过期时间越短
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      ttl<span style=color:#ff79c6>:</span> <span style=color:#bd93f9>1000</span>, <span style=color:#6272a4>//设置过期时间
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    });
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>async</span> set(key, value) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>this</span>.cache.set(key, value);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>async</span> get(key) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>this</span>.cache.get(key);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> RedisStore {
+</span></span><span style=display:flex><span>  constructor(options <span style=color:#ff79c6>=</span> { host<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;localhost&#34;</span>, port<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;6379&#34;</span> }) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>this</span>.client <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> Redis(options);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>async</span> set(key, value) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>await</span> <span style=color:#ff79c6>this</span>.client.set(key, JSON.stringify(value));
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//await this.client.pexpire(key, 60);
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>async</span> get(key) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> value <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> <span style=color:#ff79c6>this</span>.client.get(key);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> value <span style=color:#ff79c6>?</span> JSON.parse(value) <span style=color:#ff79c6>:</span> <span style=color:#ff79c6>undefined</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#6272a4>//创建一个缓存实例
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>const</span> cacheStore <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> CacheStore();
+</span></span><span style=display:flex><span><span style=color:#6272a4>//添一些缓存层
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>cacheStore.add(<span style=color:#ff79c6>new</span> MemoryStore());
+</span></span><span style=display:flex><span>cacheStore.add(<span style=color:#ff79c6>new</span> RedisStore());
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> cacheMiddleware <span style=color:#ff79c6>=</span> () =&gt; {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> (ctx, next) {
+</span></span><span style=display:flex><span>    ctx.cache <span style=color:#ff79c6>=</span> cacheStore;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>await</span> next();
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>module.exports <span style=color:#ff79c6>=</span> cacheMiddleware;
+</span></span></code></pre></div><h2 id=10-消息队列处理日志>10. 消息队列处理日志</h2><ul><li>消息队列（<code>Message Queue</code>）用于在分布式系统中传递数据。它的特点是可以将消息发送者和接收者解耦，使得消息生产者和消息消费者可以独立的开发和部署</li></ul><h3 id=101-引入原因>10.1 引入原因</h3><ul><li>在 BFF 中使用消息队列（<code>message queue</code>）有几个原因<ul><li><code>大并发</code>：消息队列可以帮助应对大并发的请求，BFF 可以将请求写入消息队列，然后后端服务可以从消息队列中读取请求并处理</li><li><code>解耦</code>：消息队列可以帮助解耦 BFF 和后端服务，BFF 不需要关心后端服务的具体实现，只需要将请求写入消息队列，后端服务负责从消息队列中读取请求并处理</li><li><code>异步</code>：消息队列可以帮助实现异步调用，BFF 可以将请求写入消息队列，然后立即返回响应给前端应用，后端服务在后台处理请求</li><li><code>流量削峰</code>：消息队列可以帮助流量削峰，BFF 可以将请求写入消息队列，然后后端服务可以在合适的时候处理请求，从而缓解瞬时高峰流量带来的压力</li></ul></li></ul><h3 id=102-rabbitmq>10.2 RabbitMQ</h3><ul><li><code>RabbitMQ</code> 是一个消息代理，它可以用来在消息生产者和消息消费者之间传递消息</li><li><code>RabbitMQ</code> 的工作流程如下：<ul><li>消息生产者将消息发送到 <code>RabbitMQ</code> 服务器</li><li><code>RabbitMQ</code> 服务器将消息保存到队列中</li><li>消息消费者从队列中读取消息</li><li>当消息消费者处理完消息后 <code>RabbitMQ</code> 服务器将消息删除</li></ul></li></ul><h3 id=103-bff-使用-mq>10.3 BFF 使用 MQ</h3><ol><li>创建 mq 中间件</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>touch bff/middleware/mq.js
+</span></span></code></pre></div><p><code>bff/middleware/mq.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> amqplib <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;amqplib&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> mqMiddleware <span style=color:#ff79c6>=</span> (options <span style=color:#ff79c6>=</span> {}) =&gt; {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> (ctx, next) {
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//连接 MQ服务器
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> mqClient <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> amqplib.connect(options.url <span style=color:#ff79c6>||</span> <span style=color:#f1fa8c>&#34;amqp://localhost&#34;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//创建一个通道
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> logger <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> mqClient.createChannel();
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//创建一个名称为logger的队列，如果已经存在，不会重复创建
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>await</span> logger.assertQueue(<span style=color:#f1fa8c>&#34;logger&#34;</span>);
+</span></span><span style=display:flex><span>    ctx.channels <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>      logger,
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>await</span> next();
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>module.exports <span style=color:#ff79c6>=</span> mqMiddleware;
+</span></span></code></pre></div><ol start=2><li>接入到 bff 层</li></ol><p><code>bff/index.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>router.get(<span style=color:#f1fa8c>&#39;/&#39;</span>, <span style=color:#ff79c6>async</span> (ctx) =&gt; {
+</span></span><span style=display:flex><span>   ...
+</span></span><span style=display:flex><span>  ctx.channels.logger.sendToQueue(
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;logger&#34;</span>,
+</span></span><span style=display:flex><span>    Buffer.from(
+</span></span><span style=display:flex><span>      JSON.stringify({
+</span></span><span style=display:flex><span>        method<span style=color:#ff79c6>:</span> ctx.method,
+</span></span><span style=display:flex><span>        path<span style=color:#ff79c6>:</span> ctx.path,
+</span></span><span style=display:flex><span>        userId,
+</span></span><span style=display:flex><span>      })
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>   ...
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><ol start=3><li>启动写入日志服务</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mkdir write-logger <span style=color:#ff79c6>&amp;&amp;</span> npm init -y
+</span></span><span style=display:flex><span>npm i amqplib fs-extra
+</span></span></code></pre></div><p><code>write-logger/package.json</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;name&#34;</span>: <span style=color:#f1fa8c>&#34;write-logger&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;version&#34;</span>: <span style=color:#f1fa8c>&#34;1.0.0&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;description&#34;</span>: <span style=color:#f1fa8c>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;main&#34;</span>: <span style=color:#f1fa8c>&#34;index.js&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;scripts&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;test&#34;</span>: <span style=color:#f1fa8c>&#34;echo \&#34;Error: no test specified\&#34; &amp;&amp; exit 1&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;dev&#34;</span>: <span style=color:#f1fa8c>&#34;nodemon index.js&#34;</span>
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;keywords&#34;</span>: [],
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;author&#34;</span>: <span style=color:#f1fa8c>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;license&#34;</span>: <span style=color:#f1fa8c>&#34;ISC&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;dependencies&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;amqplib&#34;</span>: <span style=color:#f1fa8c>&#34;^0.10.3&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;fs-extra&#34;</span>: <span style=color:#f1fa8c>&#34;^11.1.0&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>write-logger/index.js</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>const</span> amqplib <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;amqplib&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> fs <span style=color:#ff79c6>=</span> require(<span style=color:#f1fa8c>&#34;fs-extra&#34;</span>);
+</span></span><span style=display:flex><span>(<span style=color:#ff79c6>async</span> <span style=color:#8be9fd;font-style:italic>function</span> () {
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>//连接 MQ服务器
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> mqClient <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> amqplib.connect(<span style=color:#f1fa8c>&#34;amqp://localhost&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>//创建一个通道
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> logger <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>await</span> mqClient.createChannel();
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>//创建一个名称为logger的队列，如果已经存在，不会重复创建
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>await</span> logger.assertQueue(<span style=color:#f1fa8c>&#34;logger&#34;</span>);
+</span></span><span style=display:flex><span>  logger.consume(<span style=color:#f1fa8c>&#34;logger&#34;</span>, <span style=color:#ff79c6>async</span> (event) =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>await</span> fs.appendFile(<span style=color:#f1fa8c>&#34;./logger.txt&#34;</span>, event.content.toString() <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;\n&#34;</span>);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>})();
 </span></span></code></pre></div><hr><ul class=pager><li class=previous><a href=/post/bff/evolution/ data-toggle=tooltip data-placement=top title=BFF（一）BFF架构演进>&larr;
 Previous Post</a></li><li class=next><a href=/post/bff/serverless/ data-toggle=tooltip data-placement=top title=BFF（三）Serverless>Next
 Post &rarr;</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
