@@ -201,11 +201,25 @@ npm i eslint-import-resolver-typescript -D
 
 ### 3.2 `vscode` 安装 `prettier`
 
-### 3.3 安装配置
+1. `VsCode` 安装 `Prettier - Code formatter`
 
-`VsCode` 安装 `Prettier - Code formatter`
+2. 设置自动保存
 
-### 3.4. 规则设定
+![设置自动保存](/post/infrastructure/images/vscode-autosave.png)
+
+3. 编辑器的 `settings.json` 的配置项
+
+点击上图 👆 中的 `Edit in settings.json` 设置
+
+```json
+{
+  ...
+   "editor.defaultFormatter": "esbenp.prettier-vscode",
+   ...
+}
+```
+
+### 3.3. 规则设定
 
 | 标签名                                      | 含义             | 属性                         | 默认值      |
 | ------------------------------------------- | ---------------- | ---------------------------- | ----------- |
@@ -232,7 +246,7 @@ npm i eslint-import-resolver-typescript -D
 | Embedded Language Formatting                |                  | `embeddedLanguageFormatting` | `auto`      |
 | Single Attribute Per Line                   |                  | `singleAttributePerLine`     | `false`     |
 
-### 3.5 案例
+### 3.4 案例
 
 - [React](https://github.com/facebook/react/blob/main/.prettierrc.js)
 
@@ -303,7 +317,7 @@ trailingComma: 'none'
 arrowParens: 'avoid'
 ```
 
-### 3.6 配置 prettier
+### 3.5 配置 prettier
 
 1.  安装
 
@@ -335,7 +349,7 @@ npm i prettier -D
 ...
 ```
 
-### 3.7 解决和 `eslint` 的冲突
+### 3.6 解决和 `eslint` 的冲突
 
 因为 `eslint` 也可以做风格检查，所以会跟 `prettier` 冲突
 
