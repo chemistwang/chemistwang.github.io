@@ -1,0 +1,174 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="TS 基本玩法"><meta property="og:title" content="TS 基本玩法"><meta property="twitter:title" content="TS 基本玩法"><meta name=description content="TS"><meta property="og:description" content="TS"><meta property="twitter:description" content="TS"><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>TS 基本玩法 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/ts/ts-basic/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/es6>es6</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/ts title=ts>ts</a></div><h1>TS 基本玩法</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Friday, November 4, 2022</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ts data-lang=ts><span style=display:flex><span><span style=color:#ff79c6>type</span> MyType&lt;<span style=color:#ff79c6>T</span>&gt; <span style=color:#ff79c6>=</span> T <span style=color:#ff79c6>extends</span> <span style=color:#8be9fd>any</span> <span style=color:#ff79c6>?</span> T : <span style=color:#8be9fd>never</span>;
+</span></span><span style=display:flex><span><span style=color:#6272a4>// type res = MyType&lt;string | number | boolean&gt;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 1. 从 T 中剔除 U
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> Res1 <span style=color:#ff79c6>=</span> Exclude&lt;<span style=color:#ff79c6>string</span> | <span style=color:#50fa7b>number</span>, <span style=color:#50fa7b>number</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 2. 从 T 中剔除 null undefined
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> Res2 <span style=color:#ff79c6>=</span> NonNullable&lt;<span style=color:#ff79c6>string</span> | <span style=color:#50fa7b>number</span> | <span style=color:#50fa7b>null</span> | <span style=color:#50fa7b>undefined</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 3. 获取函数返回值类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> Res3 <span style=color:#ff79c6>=</span> ReturnType<span style=color:#ff79c6>&lt;</span>() <span style=color:#ff79c6>=&gt;</span> <span style=color:#8be9fd>number</span><span style=color:#ff79c6>&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 4. 获取一个类的构造函数组成的元组类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> Res4 <span style=color:#ff79c6>=</span> ConstructorParameters&lt;<span style=color:#ff79c6>typeof</span> <span style=color:#50fa7b>Person</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> Person {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>constructor</span>(name: <span style=color:#8be9fd>string</span>, age: <span style=color:#8be9fd>number</span>) { }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 5. 获得函数参数类型组成的元组类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> Res5 <span style=color:#ff79c6>=</span> Parameters&lt;<span style=color:#ff79c6>typeof</span> <span style=color:#50fa7b>showFn</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> showFn(name: <span style=color:#8be9fd>string</span>, age: <span style=color:#8be9fd>number</span>) { }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// infer 关键字
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> ElementOf&lt;<span style=color:#ff79c6>T</span>&gt; <span style=color:#ff79c6>=</span> T <span style=color:#ff79c6>extends</span> <span style=color:#8be9fd;font-style:italic>Array</span>&lt;<span style=color:#ff79c6>infer</span> <span style=color:#50fa7b>E</span>&gt; <span style=color:#ff79c6>?</span> E : <span style=color:#8be9fd>T</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// eg: 
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> IName <span style=color:#ff79c6>=</span> <span style=color:#8be9fd>string</span>[];
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> ID <span style=color:#ff79c6>=</span> <span style=color:#8be9fd>number</span>[];
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> Unpacked&lt;<span style=color:#ff79c6>T</span>&gt; <span style=color:#ff79c6>=</span> T <span style=color:#ff79c6>extends</span> IName <span style=color:#ff79c6>?</span> <span style=color:#8be9fd>string</span> <span style=color:#ff79c6>:</span> T <span style=color:#ff79c6>extends</span> ID <span style=color:#ff79c6>?</span> <span style=color:#8be9fd>number</span> <span style=color:#ff79c6>:</span> T;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> nameType1 <span style=color:#ff79c6>=</span> Unpacked&lt;<span style=color:#ff79c6>boolean</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> nameType2 <span style=color:#ff79c6>=</span> ElementOf&lt;<span style=color:#ff79c6>IName</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> nameType3 <span style=color:#ff79c6>=</span> ElementOf&lt;<span style=color:#ff79c6>ID</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> nameType4 <span style=color:#ff79c6>=</span> ElementOf&lt;<span style=color:#ff79c6>boolean</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// infer 关键字可以推断出联合类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> Foo&lt;<span style=color:#ff79c6>T</span>&gt; <span style=color:#ff79c6>=</span> T <span style=color:#ff79c6>extends</span> { a: <span style=color:#8be9fd>infer</span> U; b: <span style=color:#8be9fd>infer</span> U } <span style=color:#ff79c6>?</span> U : <span style=color:#8be9fd>never</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> T11 <span style=color:#ff79c6>=</span> Foo<span style=color:#ff79c6>&lt;</span>{ a: <span style=color:#8be9fd>string</span>, b: <span style=color:#8be9fd>number</span> }<span style=color:#ff79c6>&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// Readonly | Partial 类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>interface</span> Res6 {
+</span></span><span style=display:flex><span>    name: <span style=color:#8be9fd>string</span>
+</span></span><span style=display:flex><span>    age: <span style=color:#8be9fd>number</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 通过 + - 指定添加或者删除
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> ReadOnlyObj&lt;<span style=color:#ff79c6>T</span>&gt; <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>-</span><span style=color:#ff79c6>readonly</span> [P <span style=color:#ff79c6>in</span> <span style=color:#ff79c6>keyof</span> T]<span style=color:#ff79c6>-?:</span> T[P]
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> res1 <span style=color:#ff79c6>=</span> Readonly&lt;<span style=color:#ff79c6>Res6</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> res2 <span style=color:#ff79c6>=</span> Partial&lt;<span style=color:#ff79c6>Res6</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// Record 类型 将一个类型的所有值都映射到另一个类型上并创造一个新的类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> RecordType1 <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;person&#39;</span> <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#39;animal&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> RecordType2 <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    name: <span style=color:#8be9fd>string</span>
+</span></span><span style=display:flex><span>    age: <span style=color:#8be9fd>number</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> RecordType3 <span style=color:#ff79c6>=</span> Record&lt;<span style=color:#ff79c6>RecordType1</span>, <span style=color:#50fa7b>RecordType2</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>let</span> recordType3: <span style=color:#8be9fd>RecordType3</span> <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    person<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>        name<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#39;mars&#39;</span>,
+</span></span><span style=display:flex><span>        age: <span style=color:#8be9fd>22</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    animal<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>        name<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#39;bear&#39;</span>,
+</span></span><span style=display:flex><span>        age: <span style=color:#8be9fd>2</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> A <span style=color:#ff79c6>=</span> [<span style=color:#f1fa8c>&#39;a&#39;</span>, <span style=color:#f1fa8c>&#39;b&#39;</span>, <span style=color:#f1fa8c>&#39;c&#39;</span>]
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> C <span style=color:#ff79c6>=</span> A[<span style=color:#f1fa8c>&#39;length&#39;</span>] <span style=color:#6272a4>// 3
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> B <span style=color:#ff79c6>=</span> A[<span style=color:#8be9fd>number</span>] <span style=color:#6272a4>// &#34;a&#34; | &#34;b&#34; | &#34;c&#34;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> TupleToObject&lt;<span style=color:#ff79c6>T</span> <span style=color:#50fa7b>extends</span> <span style=color:#50fa7b>ReadonlyArray</span>&lt;<span style=color:#50fa7b>string</span>&gt;<span style=color:#ff79c6>&gt;</span> <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    [K <span style=color:#ff79c6>in</span> T[<span style=color:#8be9fd>number</span>]]<span style=color:#ff79c6>:</span> K 
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// Pick 类型 将原有类型中的部分内容映射到新类型中
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> PickType1 <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    name: <span style=color:#8be9fd>string</span>
+</span></span><span style=display:flex><span>    age: <span style=color:#8be9fd>number</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> PickType3 <span style=color:#ff79c6>=</span> Pick&lt;<span style=color:#ff79c6>PickType1</span>, &#39;<span style=color:#50fa7b>name</span>&#39;&gt;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> pickType3: <span style=color:#8be9fd>PickType3</span> <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    name<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#39;something&#39;</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// Required 类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> RequiredType1 <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    name: <span style=color:#8be9fd>string</span>
+</span></span><span style=display:flex><span>    age: <span style=color:#8be9fd>number</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> RequiredType3 <span style=color:#ff79c6>=</span> Required&lt;<span style=color:#ff79c6>RequiredType1</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> requiredType3: <span style=color:#8be9fd>RequiredType3</span> <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    name<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#39;mars&#39;</span>,
+</span></span><span style=display:flex><span>    age: <span style=color:#8be9fd>18</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// Omit 类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>type</span> OmitType1 <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    name: <span style=color:#8be9fd>string</span>
+</span></span><span style=display:flex><span>    age: <span style=color:#8be9fd>number</span>
+</span></span><span style=display:flex><span>    score: <span style=color:#8be9fd>number</span>
+</span></span><span style=display:flex><span>    gender: <span style=color:#8be9fd>boolean</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> OmitType3 <span style=color:#ff79c6>=</span> Omit&lt;<span style=color:#ff79c6>OmitType1</span>, &#39;<span style=color:#50fa7b>name</span>&#39;&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// OmitThisParameter 类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#8be9fd;font-style:italic>function</span> f0(<span style=color:#ff79c6>this</span><span style=color:#ff79c6>:</span> <span style=color:#8be9fd>object</span>, x: <span style=color:#8be9fd>number</span>) { }
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> f1(x: <span style=color:#8be9fd>number</span>) { }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> T0 <span style=color:#ff79c6>=</span> OmitThisParameter&lt;<span style=color:#ff79c6>typeof</span> <span style=color:#50fa7b>f0</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> T1 <span style=color:#ff79c6>=</span> OmitThisParameter&lt;<span style=color:#ff79c6>typeof</span> <span style=color:#50fa7b>f1</span>&gt;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>type</span> T2 <span style=color:#ff79c6>=</span> OmitThisParameter&lt;<span style=color:#ff79c6>string</span> | <span style=color:#50fa7b>number</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// namespace 命名空间
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>namespace</span> A {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> a <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>100</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>console.log(A.a)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>namespace</span> B {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> b <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>200</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>export</span> <span style=color:#ff79c6>namespace</span> C {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> c <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>300</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>console.log(B.b)
+</span></span><span style=display:flex><span>console.log(B.C.c)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> c <span style=color:#ff79c6>=</span> B.C.c
+</span></span><span style=display:flex><span>console.log(c)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 三斜线
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 如果一个命名空间在一个单独的 typescript 文件中，则嘴应该使用三斜杠引用
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>/// &lt;reference types=&#34;node&#34; /&gt;
+</span></span></span></code></pre></div><hr><ul class=pager><li class=previous><a href=/post/ts/ts-challenges/ data-toggle=tooltip data-placement=top title="TS Challenges">&larr;
+Previous Post</a></li><li class=next><a href=/post/ts/ts-config/ data-toggle=tooltip data-placement=top title=TS配置文件>Next
+Post &rarr;</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a>
+<a href=/tags/ts title=ts>ts</a>
+<a href=/tags/%E8%AF%91%E6%96%87 title=译文>译文</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>

@@ -1,0 +1,127 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="「React源码之四」【前置知识二】 Fiber"><meta property="og:title" content="「React源码之四」【前置知识二】 Fiber"><meta property="twitter:title" content="「React源码之四」【前置知识二】 Fiber"><meta name=description content="面试官：请简单介绍下Fiber"><meta property="og:description" content="面试官：请简单介绍下Fiber"><meta property="twitter:description" content="面试官：请简单介绍下Fiber"><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>「React源码之四」【前置知识二】 Fiber | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/react/fiber/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/es6>es6</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/react-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags></div><h1>「React源码之四」【前置知识二】 Fiber</h1><h2 class=subheading>「源码阅读」第二层：掌握整体工作流程局部细节</h2><span class=meta>Posted by
+汪洋龙
+on
+Tuesday, August 9, 2022</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><p><a href=https://claudiopro.github.io/react-fiber-vs-stack-demo/>Fiber vs Stack Demo</a> 👈</p><h2 id=结构>结构</h2><blockquote><p>源码位置： <code>react/packages/react-reconciler/src/ReactFiber.old.js</code> 👈</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> FiberNode(
+</span></span><span style=display:flex><span>  tag<span style=color:#ff79c6>:</span> WorkTag,
+</span></span><span style=display:flex><span>  pendingProps<span style=color:#ff79c6>:</span> mixed,
+</span></span><span style=display:flex><span>  key<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>null</span> <span style=color:#ff79c6>|</span> string,
+</span></span><span style=display:flex><span>  mode<span style=color:#ff79c6>:</span> TypeOfMode,
+</span></span><span style=display:flex><span>) {
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// Instance
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>this</span>.tag <span style=color:#ff79c6>=</span> tag;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.key <span style=color:#ff79c6>=</span> key;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.elementType <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.type <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.stateNode <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// Fiber
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>this</span>.<span style=color:#ff79c6>return</span> <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.child <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.sibling <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.index <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.ref <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.pendingProps <span style=color:#ff79c6>=</span> pendingProps;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.memoizedProps <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.updateQueue <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.memoizedState <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.dependencies <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.mode <span style=color:#ff79c6>=</span> mode;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// Effects
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>this</span>.flags <span style=color:#ff79c6>=</span> NoFlags;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.subtreeFlags <span style=color:#ff79c6>=</span> NoFlags;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.deletions <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.lanes <span style=color:#ff79c6>=</span> NoLanes;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.childLanes <span style=color:#ff79c6>=</span> NoLanes;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>this</span>.alternate <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=worktag>WorkTag</h2><p>源码位置： <code>react/packages/react-reconciler/src/ReactWorkTags.js</code> 👈</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * Copyright (c) Facebook, Inc. and its affiliates.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> *
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * This source code is licensed under the MIT license found in the
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * LICENSE file in the root directory of this source tree.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> *
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * @flow
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> */</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> type WorkTag <span style=color:#ff79c6>=</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>2</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>3</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>4</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>5</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>6</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>7</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>8</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>9</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>10</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>11</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>12</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>13</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>14</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>15</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>16</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>17</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>18</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>19</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>20</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>21</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>22</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>23</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>24</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#bd93f9>25</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> FunctionComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> ClassComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> IndeterminateComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>2</span>; <span style=color:#6272a4>// Before we know whether it is function or class
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> HostRoot <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>3</span>; <span style=color:#6272a4>// Root of a host tree. Could be nested inside another node.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> HostPortal <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>4</span>; <span style=color:#6272a4>// A subtree. Could be an entry point to a different renderer.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> HostComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>5</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> HostText <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>6</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> Fragment <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>7</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> Mode <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>8</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> ContextConsumer <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>9</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> ContextProvider <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>10</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> ForwardRef <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>11</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> Profiler <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>12</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> SuspenseComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>13</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> MemoComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>14</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> SimpleMemoComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>15</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> LazyComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>16</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> IncompleteClassComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>17</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> DehydratedFragment <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>18</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> SuspenseListComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>19</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> ScopeComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>21</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> OffscreenComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>22</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> LegacyHiddenComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>23</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> CacheComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>24</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> TracingMarkerComponent <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>25</span>;
+</span></span></code></pre></div><p>好家伙，<code>函数</code> 果然是 <code>一等公民</code></p><hr><ul class=pager><li class=previous><a href=/post/react/jsx/ data-toggle=tooltip data-placement=top title=「React源码之三」【前置知识一】JSX>&larr;
+Previous Post</a></li><li class=next><a href=/post/react/reconciler/ data-toggle=tooltip data-placement=top title="「React源码之五」 Reconciler 工作阶段【render阶段】">Next
+Post &rarr;</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a>
+<a href=/tags/ts title=ts>ts</a>
+<a href=/tags/%E8%AF%91%E6%96%87 title=译文>译文</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>

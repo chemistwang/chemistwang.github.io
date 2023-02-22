@@ -1,0 +1,551 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="「React源码之五」 Reconciler 工作阶段【render阶段】"><meta property="og:title" content="「React源码之五」 Reconciler 工作阶段【render阶段】"><meta property="twitter:title" content="「React源码之五」 Reconciler 工作阶段【render阶段】"><meta name=description content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="og:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>「React源码之五」 Reconciler 工作阶段【render阶段】 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/react/reconciler/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/es6>es6</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/react-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags></div><h1>「React源码之五」 Reconciler 工作阶段【render阶段】</h1><h2 class=subheading>「源码阅读」第二层：掌握整体工作流程局部细节</h2><span class=meta>Posted by
+汪洋龙
+on
+Wednesday, August 10, 2022</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h2 id=导读>导读</h2><p>因为是 <code>【render 阶段】</code>，所以会包含 <code>mount（初始化）</code> 和 <code>update（更新）</code> 两种情况。</p><h3 id=双缓存池>双缓存池</h3><p>这个是 <code>React</code> 实现更新的一个策略。可以追溯在源码 <code>createWorkInProgress</code> 注释中。</p><p>源码位置：<code>react/packages/react-reconciler/src/ReactFiber.old.js</code> 👈</p><blockquote><p><strong>注释大意：</strong> 该方法用来创建一个 alternate Fiber</p><p>我们用了一个双缓存池技术，是因为我们知道，最多需要2个版本的树。
+我们共享”其他“不用的节点，这样可以自由重用。
+这个是惰性创造的，避免给那些从未更新的对象分配额外空间。
+如果需要，也允许我们回收额外的内存。</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// This is used to create an alternate fiber to do work on.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>export</span> <span style=color:#8be9fd;font-style:italic>function</span> createWorkInProgress(current<span style=color:#ff79c6>:</span> Fiber, pendingProps<span style=color:#ff79c6>:</span> any)<span style=color:#ff79c6>:</span> Fiber {
+</span></span><span style=display:flex><span><span style=color:#6272a4>// We use a double buffering pooling technique because we know that we&#39;ll
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// only ever need at most two versions of a tree. We pool the &#34;other&#34; unused
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// node that we&#39;re free to reuse. This is lazily created to avoid allocating
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// extra objects for things that are never updated. It also allow us to
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// reclaim the extra memory if needed.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>let</span> workInProgress <span style=color:#ff79c6>=</span> current.alternate;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (workInProgress <span style=color:#ff79c6>===</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>     current.alternate <span style=color:#ff79c6>=</span> workInProgress;
+</span></span><span style=display:flex><span>  } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> workInProgress;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><em>TODO：找找理论概念</em></p><p>也就是说，在 <code>React</code> 中最多会有 <code>2</code> 棵树，<code>current</code> 树和 <code>workInProgress</code> 树。<code>current</code> 表示当前视图的树，而 <code>workInProgress</code> 表示正在内存中构建的树，两者通过 <code>alternate</code> 相互引用。当 <code>workInProgress</code> 构建完成后，会将 <code>current</code> 替换掉。</p><h3 id=准备工作>准备工作</h3><p>结合案例是最直接的，我们用 <code>CRA</code> 的 <code>App</code> 做一个 <code>demo</code>，描述下 <code>Reconciler</code> 的工作流程。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// ./src/index.js
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>const</span> root <span style=color:#ff79c6>=</span> ReactDOM.createRoot(<span style=color:#8be9fd;font-style:italic>document</span>.getElementById(<span style=color:#f1fa8c>&#39;root&#39;</span>));
+</span></span><span style=display:flex><span>root.render(
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&lt;</span>React.StrictMode<span style=color:#ff79c6>&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;</span>App <span style=color:#ff79c6>/&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&lt;</span>/React.StrictMode&gt;
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// ./src/App.js
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#8be9fd;font-style:italic>function</span> App() {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> (
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;</span>div className<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;App&#34;</span><span style=color:#ff79c6>&gt;</span>
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&lt;</span>header className<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;App-header&#34;</span><span style=color:#ff79c6>&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;</span>img src<span style=color:#ff79c6>=</span>{logo} className<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;App-logo&#34;</span> alt<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;logo&#34;</span> <span style=color:#ff79c6>/&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;</span>p<span style=color:#ff79c6>&gt;</span>
+</span></span><span style=display:flex><span>          Edit <span style=color:#ff79c6>&lt;</span>code<span style=color:#ff79c6>&gt;</span>src<span style=color:#ff79c6>/</span>App.js<span style=color:#ff79c6>&lt;</span>/code&gt; and save to reload.
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;</span>/p&gt;
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;</span>a
+</span></span><span style=display:flex><span>          className<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;App-link&#34;</span>
+</span></span><span style=display:flex><span>          href<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;https://reactjs.org&#34;</span>
+</span></span><span style=display:flex><span>          target<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;_blank&#34;</span>
+</span></span><span style=display:flex><span>          rel<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;noopener noreferrer&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&gt;</span>
+</span></span><span style=display:flex><span>          Learn React
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&lt;</span>/a&gt;
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&lt;</span>/header&gt;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&lt;</span>/div&gt;
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>DOM</code> 层级结构如下</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>div
+</span></span><span style=display:flex><span>  - header
+</span></span><span style=display:flex><span>    - img
+</span></span><span style=display:flex><span>    - p
+</span></span><span style=display:flex><span>      - Edit
+</span></span><span style=display:flex><span>      - code
+</span></span><span style=display:flex><span>        - src/App.js
+</span></span><span style=display:flex><span>      - and save to reload
+</span></span><span style=display:flex><span>    - a
+</span></span><span style=display:flex><span>      - Learn React
+</span></span></code></pre></div><p>代码中贴上 <code>./src/index.js</code> ，是因为既然存在层级关系，自然也会包含外层 <code>root</code> 和 <code>React.StrictMode</code>，所以，实际上 <code>React</code> 的解析结构是</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>root
+</span></span><span style=display:flex><span>  Symbol<span style=color:#ff79c6>(</span>react.strict_mode<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>    - div
+</span></span><span style=display:flex><span>      - header
+</span></span><span style=display:flex><span>        - img
+</span></span><span style=display:flex><span>        - p
+</span></span><span style=display:flex><span>          - Edit
+</span></span><span style=display:flex><span>          - code
+</span></span><span style=display:flex><span>            - src/App.js
+</span></span><span style=display:flex><span>          - and save to reload
+</span></span><span style=display:flex><span>        - a
+</span></span><span style=display:flex><span>          - Learn React
+</span></span></code></pre></div><h2 id=渲染流程>渲染流程</h2><p>过程中我们重点关注下 <code>workInProgress</code> 这个变量（是一个 <code>FiberNode</code> ）以及它下面的 👇 <code>5</code> 个属性，可以在 <code>debug</code> 的时候 <code>watch</code> 一下。</p><ul><li><code>key</code></li><li><code>tag</code></li><li><code>elementType</code></li><li><code>type</code></li><li><code>pendingProps</code></li><li><code>child</code></li><li><code>sibling</code></li><li><code>return</code></li><li><code>alternate</code></li><li><code>stateNode</code></li></ul><h3 id=1-performconcurrentworkonroot>1. performConcurrentWorkOnRoot</h3><blockquote><p>源码位置：<code>react/packages/react-reconciler/src/ReactFiberWorkLoop.old.js</code></p></blockquote><p>简写为:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> performConcurrentWorkOnRoot(root, didTimeout) {
+</span></span><span style=display:flex><span>      <span style=color:#8be9fd;font-style:italic>let</span> exitStatus <span style=color:#ff79c6>=</span> shouldTimeSlice
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>?</span> renderRootConcurrent(root, lanes)
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>:</span> renderRootSync(root, lanes);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>注意方法的 <code>第一个参数: root</code> 是通过 <code>bind</code> 绑定的</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>performSyncWorkOnRoot.bind(<span style=color:#ff79c6>null</span>, root)
+</span></span></code></pre></div><blockquote><p>🌟 知识点：</p><p><code>bind</code> 是一个方法，创建一个新的函数。这个新函数的 <code>this</code> 被指定为 <code>bind()</code> 的 <code>第一个参数</code>，而其余参数将作为新函数的参数，供调用时使用。</p></blockquote><p>我们顺便看下 <code>root</code> 的结构，这里只展示一些关键属性，它是一个 <code>FiberRootNode</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  containerInfo<span style=color:#ff79c6>:</span> div#root,
+</span></span><span style=display:flex><span>  current<span style=color:#ff79c6>:</span> FiberNode {
+</span></span><span style=display:flex><span>    tag<span style=color:#ff79c6>:</span> <span style=color:#bd93f9>3</span>,
+</span></span><span style=display:flex><span>    alternate<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#39;&#39;</span>
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>将拿到的 <code>root</code> 作为参数传给 <code>renderRootSync</code></p><blockquote><p>如果想知道 <code>root</code> 如何生成，可以</p></blockquote><h3 id=2-renderrootsync--renderrootconcurrent>2. renderRootSync | renderRootConcurrent</h3><blockquote><p>源码位置：<code>react/packages/react-reconciler/src/ReactFiberWorkLoop.old.js</code></p></blockquote><ol><li>调用 <code>prepareFreshStack</code> ，将 <code>root</code> 向下传</li><li><code>prepareFreshStack</code> 内部调用 <code>createWorkInProgress</code> 方法，传入 <code>root.current</code> 作为参数</li><li><code>createWorkInProgress</code> 方法值得拿来说</li></ol><p>简写为：</p><blockquote><p>该方法用来创建一个 alternate Fiber</p></blockquote><blockquote><p>我们用了一个双缓存池技术，是因为我们知道，最多需要2个版本的树。
+我们共享”其他“不用的节点，这样可以自由重用。
+这个是惰性创造的，避免给那些从未更新的对象分配额外空间。
+如果需要，也允许我们回收额外的内存。</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// This is used to create an alternate fiber to do work on.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>export</span> <span style=color:#8be9fd;font-style:italic>function</span> createWorkInProgress(current<span style=color:#ff79c6>:</span> Fiber, pendingProps<span style=color:#ff79c6>:</span> any)<span style=color:#ff79c6>:</span> Fiber {
+</span></span><span style=display:flex><span><span style=color:#6272a4>// We use a double buffering pooling technique because we know that we&#39;ll
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// only ever need at most two versions of a tree. We pool the &#34;other&#34; unused
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// node that we&#39;re free to reuse. This is lazily created to avoid allocating
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// extra objects for things that are never updated. It also allow us to
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// reclaim the extra memory if needed.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>let</span> workInProgress <span style=color:#ff79c6>=</span> current.alternate;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (workInProgress <span style=color:#ff79c6>===</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>     current.alternate <span style=color:#ff79c6>=</span> workInProgress;
+</span></span><span style=display:flex><span>  } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> workInProgress;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>在当前节点 <code>alternate</code> 不存在的时候，创建一个基于当前节点的 <code>Fiber</code>。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>current.alternate <span style=color:#ff79c6>=</span> workInProgress;
+</span></span></code></pre></div><p>第一次初始化了 <code>workInProgress</code></p><h3 id=3-workloopsync--workloopconcurrent>3. workLoopSync | workLoopConcurrent</h3><blockquote><p>源码位置：<code>react/packages/react-reconciler/src/ReactFiberWorkLoop.old.js</code></p></blockquote><p>区别仅在于是否需要 <code>shouldYield</code>，在当前阶段，两者没有区别</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> workLoopConcurrent() {
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// Perform work until Scheduler asks us to yield
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>while</span> (workInProgress <span style=color:#ff79c6>!==</span> <span style=color:#ff79c6>null</span> <span style=color:#ff79c6>&amp;&amp;</span> <span style=color:#ff79c6>!</span>shouldYield()) {
+</span></span><span style=display:flex><span>    performUnitOfWork(workInProgress);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> workLoopSync() {
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// Already timed out, so perform work without checking if we need to yield.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>while</span> (workInProgress <span style=color:#ff79c6>!==</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>    performUnitOfWork(workInProgress);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>上一步中拿到初始化的 <code>workInProgress</code>，工作流开始循环！</p><h3 id=4-performunitofwork>4. performUnitOfWork</h3><blockquote><p>源码位置：<code>react/packages/react-reconciler/src/ReactFiberWorkLoop.old.js</code></p></blockquote><p>可以简写为</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> performUnitOfWork(unitOfWork<span style=color:#ff79c6>:</span> Fiber)<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>void</span> {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> current <span style=color:#ff79c6>=</span> unitOfWork.alternate;
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>let</span> next;
+</span></span><span style=display:flex><span>    next <span style=color:#ff79c6>=</span> beginWork(current, unitOfWork, renderLanes);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (next <span style=color:#ff79c6>===</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// If this doesn&#39;t spawn new work, complete the current work.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      completeUnitOfWork(unitOfWork);
+</span></span><span style=display:flex><span>    } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>      workInProgress <span style=color:#ff79c6>=</span> next;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span></code></pre></div><ol><li>拿到 <code>alternate</code> 作为参数准备</li><li>开始 <code>beginWork</code></li><li>根据 <code>beginWork</code> 的返回值是否进行 <code>completeUnitOfWork</code></li></ol><h3 id=5-beginwork>5. beginWork</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> beginWork(
+</span></span><span style=display:flex><span>    current<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span>,
+</span></span><span style=display:flex><span>    workInProgress<span style=color:#ff79c6>:</span> Fiber,
+</span></span><span style=display:flex><span>    renderLanes<span style=color:#ff79c6>:</span> Lanes,
+</span></span><span style=display:flex><span>  )<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span> {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (current <span style=color:#ff79c6>!==</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>const</span> oldProps <span style=color:#ff79c6>=</span> current.memoizedProps;
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>const</span> newProps <span style=color:#ff79c6>=</span> workInProgress.pendingProps;
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>if</span> (
+</span></span><span style=display:flex><span>        oldProps <span style=color:#ff79c6>!==</span> newProps <span style=color:#ff79c6>||</span>
+</span></span><span style=display:flex><span>        hasLegacyContextChanged() <span style=color:#ff79c6>||</span>
+</span></span><span style=display:flex><span>        ...
+</span></span><span style=display:flex><span>      ) {
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// If props or context changed, mark the fiber as having performed work.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        <span style=color:#6272a4>// This may be unset if the props are determined to be equal later (memo).
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        didReceiveUpdate <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>;
+</span></span><span style=display:flex><span>      } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// Neither props nor legacy context changes. Check if there&#39;s a pending
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        <span style=color:#6272a4>// update or context change.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        <span style=color:#ff79c6>const</span> hasScheduledUpdateOrContext <span style=color:#ff79c6>=</span> checkScheduledUpdateOrContext(
+</span></span><span style=display:flex><span>          current,
+</span></span><span style=display:flex><span>          renderLanes,
+</span></span><span style=display:flex><span>        );
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (
+</span></span><span style=display:flex><span>          <span style=color:#ff79c6>!</span>hasScheduledUpdateOrContext <span style=color:#ff79c6>&amp;&amp;</span>
+</span></span><span style=display:flex><span>          <span style=color:#6272a4>// If this is the second pass of an error or suspense boundary, there
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>// may not be work scheduled on `current`, so we check for this flag.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          (workInProgress.flags <span style=color:#ff79c6>&amp;</span> DidCapture) <span style=color:#ff79c6>===</span> NoFlags
+</span></span><span style=display:flex><span>        ) {
+</span></span><span style=display:flex><span>          <span style=color:#6272a4>// No pending updates or context. Bail out now.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          didReceiveUpdate <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>          <span style=color:#ff79c6>return</span>  (
+</span></span><span style=display:flex><span>            current,
+</span></span><span style=display:flex><span>            workInProgress,
+</span></span><span style=display:flex><span>            renderLanes,
+</span></span><span style=display:flex><span>          );
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> ((current.flags <span style=color:#ff79c6>&amp;</span> ForceUpdateForLegacySuspense) <span style=color:#ff79c6>!==</span> NoFlags) {
+</span></span><span style=display:flex><span>          <span style=color:#6272a4>// This is a special case that only exists for legacy mode.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>// See https://github.com/facebook/react/pull/19216.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          didReceiveUpdate <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>;
+</span></span><span style=display:flex><span>        } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>          <span style=color:#6272a4>// An update was scheduled on this fiber, but there are no new props
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>// nor legacy context. Set this to false. If an update queue or context
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>// consumer produces a changed value, it will set this to true. Otherwise,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>// the component will assume the children have not changed and bail out.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          didReceiveUpdate <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>      didReceiveUpdate <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>false</span>;
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//   ...
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    }
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// Before entering the begin phase, clear pending update priority.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// TODO: This assumes that we&#39;re about to evaluate the component and process
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// the update queue. However, there&#39;s an exception: SimpleMemoComponent
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// sometimes bails out later in the begin phase. This indicates that we should
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// move this assignment out of the common path and into each branch.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    workInProgress.lanes <span style=color:#ff79c6>=</span> NoLanes;
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>switch</span> (workInProgress.tag) {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>case</span> IndeterminateComponent<span style=color:#ff79c6>:</span>
+</span></span><span style=display:flex><span>      ...
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>case</span> LazyComponent<span style=color:#ff79c6>:</span> 
+</span></span><span style=display:flex><span>      ...
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>case</span> FunctionComponent<span style=color:#ff79c6>:</span> 
+</span></span><span style=display:flex><span>      ...
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>case</span> ClassComponent<span style=color:#ff79c6>:</span> 
+</span></span><span style=display:flex><span>      ...
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>case</span> HostRoot<span style=color:#ff79c6>:</span>
+</span></span><span style=display:flex><span>      ...
+</span></span><span style=display:flex><span>    } 
+</span></span><span style=display:flex><span>  }
+</span></span></code></pre></div><p>删掉不必要的代码，就会发现 <code>beginWork</code> 先判断 <code>current</code> 是否存在：如果存在则表示当前是 <code>update</code> 阶段，根据判断条件设置 <code>didReceiveUpdate</code>，若不存在，则表示 <code>mount</code> 阶段，根据 <code>tag</code> 属性分别执行不同方法</p><p>调用 <code>reconcileChildren</code></p><h3 id=6-reconcilechildren>6. reconcileChildren</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#8be9fd;font-style:italic>function</span> reconcileChildren(
+</span></span><span style=display:flex><span>  current<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span>,
+</span></span><span style=display:flex><span>  workInProgress<span style=color:#ff79c6>:</span> Fiber,
+</span></span><span style=display:flex><span>  nextChildren<span style=color:#ff79c6>:</span> any,
+</span></span><span style=display:flex><span>  renderLanes<span style=color:#ff79c6>:</span> Lanes,
+</span></span><span style=display:flex><span>) {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (current <span style=color:#ff79c6>===</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// If this is a fresh new component that hasn&#39;t been rendered yet, we
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// won&#39;t update its child set by applying minimal side-effects. Instead,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// we will add them all to the child before it gets rendered. That means
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// we can optimize this reconciliation pass by not tracking side-effects.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    workInProgress.child <span style=color:#ff79c6>=</span> mountChildFibers(
+</span></span><span style=display:flex><span>      workInProgress,
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>null</span>,
+</span></span><span style=display:flex><span>      nextChildren,
+</span></span><span style=display:flex><span>      renderLanes,
+</span></span><span style=display:flex><span>    );
+</span></span><span style=display:flex><span>  } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// If the current child is the same as the work in progress, it means that
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// we haven&#39;t yet started any work on these children. Therefore, we use
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// the clone algorithm to create a copy of all the current children.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// If we had any progressed work already, that is invalid at this point so
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// let&#39;s throw it out.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    workInProgress.child <span style=color:#ff79c6>=</span> reconcileChildFibers(
+</span></span><span style=display:flex><span>      workInProgress,
+</span></span><span style=display:flex><span>      current.child,
+</span></span><span style=display:flex><span>      nextChildren,
+</span></span><span style=display:flex><span>      renderLanes,
+</span></span><span style=display:flex><span>    );
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>从整体逻辑而言，同样也是是根据 <code>current === null</code> 判断进入不同的方法。但是，细心点就会发现。它们最终进入了一个叫 <code>ChildReconciler</code> 的方法，只不过传了不同的 <code>boolean</code>。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> reconcileChildFibers <span style=color:#ff79c6>=</span> ChildReconciler(<span style=color:#ff79c6>true</span>);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> mountChildFibers <span style=color:#ff79c6>=</span> ChildReconciler(<span style=color:#ff79c6>false</span>);
+</span></span></code></pre></div><p>我们不妨看一眼 <code>ChildReconciler</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#6272a4>// This wrapper function exists because I expect to clone the code in each path
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// to be able to optimize each path individually by branching early. This needs
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// a compiler or we can do it manually. Helpers that don&#39;t need this branching
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// live outside of this function.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#8be9fd;font-style:italic>function</span> ChildReconciler(shouldTrackSideEffects) {
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>function</span> reconcileChildrenArray...
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>function</span> reconcileChildrenIterator...
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>function</span> placeSingleChild...
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// This API will tag the children with the side-effect of the reconciliation
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// itself. They will be added to the side-effect list as we pass through the
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// children and the parent.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#8be9fd;font-style:italic>function</span> reconcileChildFibers...
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> reconcileChildFibers;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>从参数 <code>shouldTrackSideEffects</code> 来看，表示 <code>是否追踪副作用</code>；从返回值来看，返回了其中一个叫 <code>reconcileChildFibers</code> 的函数。</p><p>在 <code>reconcileChildFibers</code> 函数中，</p><p><strong>总结</strong></p><p>在 <code>reconcileChildren</code> 阶段，<code>mount</code> 不需要 <code>追踪</code>，<code>update</code></p><h3 id=7-reconcilechildfibers>7. reconcileChildFibers</h3><h3 id=8-completeunitofwork>8. completeUnitOfWork</h3><blockquote><p>准备完成当前单元的工作，然后移动到下个 <code>sibling</code>。若没有，则返回 <code>parent</code></p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> completeUnitOfWork(unitOfWork<span style=color:#ff79c6>:</span> Fiber)<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>void</span> {
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// Attempt to complete the current unit of work, then move to the next
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// sibling. If there are no more siblings, return to the parent fiber.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>}
+</span></span></code></pre></div><h3 id=9-completework>9. completeWork</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> completeWork(
+</span></span><span style=display:flex><span>  current<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span>,
+</span></span><span style=display:flex><span>  workInProgress<span style=color:#ff79c6>:</span> Fiber,
+</span></span><span style=display:flex><span>  renderLanes<span style=color:#ff79c6>:</span> Lanes,
+</span></span><span style=display:flex><span>)<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> newProps <span style=color:#ff79c6>=</span> workInProgress.pendingProps;
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// Note: This intentionally doesn&#39;t check if we&#39;re hydrating because comparing
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// to the current tree provider fiber is just as fast and less error-prone.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// Ideally we would have a special version of the work loop only
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// for hydration.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  popTreeContext(workInProgress);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>switch</span> (workInProgress.tag) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>case</span> IndeterminateComponent<span style=color:#ff79c6>:</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>case</span> LazyComponent<span style=color:#ff79c6>:</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>case</span> SimpleMemoComponent<span style=color:#ff79c6>:</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>case</span> FunctionComponent<span style=color:#ff79c6>:</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=10-createelement>10. createElement</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#8be9fd;font-style:italic>function</span> createElement(
+</span></span><span style=display:flex><span>  type<span style=color:#ff79c6>:</span> string,
+</span></span><span style=display:flex><span>  props<span style=color:#ff79c6>:</span> <span style=color:#8be9fd;font-style:italic>Object</span>,
+</span></span><span style=display:flex><span>  rootContainerElement<span style=color:#ff79c6>:</span> Element <span style=color:#ff79c6>|</span> Document <span style=color:#ff79c6>|</span> DocumentFragment,
+</span></span><span style=display:flex><span>  parentNamespace<span style=color:#ff79c6>:</span> string,
+</span></span><span style=display:flex><span>)<span style=color:#ff79c6>:</span> Element {
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>let</span> isCustomComponentTag;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// We create tags in the namespace of their parent container, except HTML
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// tags get no namespace.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> ownerDocument<span style=color:#ff79c6>:</span> Document <span style=color:#ff79c6>=</span> getOwnerDocumentFromRootContainer(
+</span></span><span style=display:flex><span>    rootContainerElement,
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>let</span> domElement<span style=color:#ff79c6>:</span> Element;
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>let</span> namespaceURI <span style=color:#ff79c6>=</span> parentNamespace;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (namespaceURI <span style=color:#ff79c6>===</span> HTML_NAMESPACE) {
+</span></span><span style=display:flex><span>    namespaceURI <span style=color:#ff79c6>=</span> getIntrinsicNamespace(type);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (namespaceURI <span style=color:#ff79c6>===</span> HTML_NAMESPACE) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (__DEV__) {
+</span></span><span style=display:flex><span>      isCustomComponentTag <span style=color:#ff79c6>=</span> isCustomComponent(type, props);
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// Should this check be gated by parent namespace? Not sure we want to
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// allow &lt;SVG&gt; or &lt;mATH&gt;.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span>isCustomComponentTag <span style=color:#ff79c6>&amp;&amp;</span> type <span style=color:#ff79c6>!==</span> type.toLowerCase()) {
+</span></span><span style=display:flex><span>        console.error(
+</span></span><span style=display:flex><span>          <span style=color:#f1fa8c>&#39;&lt;%s /&gt; is using incorrect casing. &#39;</span> <span style=color:#ff79c6>+</span>
+</span></span><span style=display:flex><span>            <span style=color:#f1fa8c>&#39;Use PascalCase for React components, &#39;</span> <span style=color:#ff79c6>+</span>
+</span></span><span style=display:flex><span>            <span style=color:#f1fa8c>&#39;or lowercase for HTML elements.&#39;</span>,
+</span></span><span style=display:flex><span>          type,
+</span></span><span style=display:flex><span>        );
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (type <span style=color:#ff79c6>===</span> <span style=color:#f1fa8c>&#39;script&#39;</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// Create the script via .innerHTML so its &#34;parser-inserted&#34; flag is
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// set to true and it does not execute
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#ff79c6>const</span> div <span style=color:#ff79c6>=</span> ownerDocument.createElement(<span style=color:#f1fa8c>&#39;div&#39;</span>);
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>if</span> (__DEV__) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (enableTrustedTypesIntegration <span style=color:#ff79c6>&amp;&amp;</span> <span style=color:#ff79c6>!</span>didWarnScriptTags) {
+</span></span><span style=display:flex><span>          console.error(
+</span></span><span style=display:flex><span>            <span style=color:#f1fa8c>&#39;Encountered a script tag while rendering React component. &#39;</span> <span style=color:#ff79c6>+</span>
+</span></span><span style=display:flex><span>              <span style=color:#f1fa8c>&#39;Scripts inside React components are never executed when rendering &#39;</span> <span style=color:#ff79c6>+</span>
+</span></span><span style=display:flex><span>              <span style=color:#f1fa8c>&#39;on the client. Consider using template tag instead &#39;</span> <span style=color:#ff79c6>+</span>
+</span></span><span style=display:flex><span>              <span style=color:#f1fa8c>&#39;(https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).&#39;</span>,
+</span></span><span style=display:flex><span>          );
+</span></span><span style=display:flex><span>          didWarnScriptTags <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>      div.innerHTML <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;&lt;script&gt;&lt;&#39;</span> <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#39;/script&gt;&#39;</span>; <span style=color:#6272a4>// eslint-disable-line
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// This is guaranteed to yield a script element.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#ff79c6>const</span> firstChild <span style=color:#ff79c6>=</span> ((div.firstChild<span style=color:#ff79c6>:</span> any)<span style=color:#ff79c6>:</span> HTMLScriptElement);
+</span></span><span style=display:flex><span>      domElement <span style=color:#ff79c6>=</span> div.removeChild(firstChild);
+</span></span><span style=display:flex><span>    } <span style=color:#ff79c6>else</span> <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>typeof</span> props.is <span style=color:#ff79c6>===</span> <span style=color:#f1fa8c>&#39;string&#39;</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// $FlowIssue `createElement` should be updated for Web Components
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      domElement <span style=color:#ff79c6>=</span> ownerDocument.createElement(type, {is<span style=color:#ff79c6>:</span> props.is});
+</span></span><span style=display:flex><span>    } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// Separate else branch instead of using `props.is || undefined` above because of a Firefox bug.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// See discussion in https://github.com/facebook/react/pull/6896
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// and discussion in https://bugzilla.mozilla.org/show_bug.cgi?id=1276240
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      domElement <span style=color:#ff79c6>=</span> ownerDocument.createElement(type);
+</span></span><span style=display:flex><span>      <span style=color:#6272a4>// Normally attributes are assigned in `setInitialDOMProperties`, however the `multiple` and `size`
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// attributes on `select`s needs to be added before `option`s are inserted.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// This prevents:
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// - a bug where the `select` does not scroll to the correct option because singular
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>//  `select` elements automatically pick the first item #13222
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// - a bug where the `select` set the first item as selected despite the `size` attribute #14239
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// See https://github.com/facebook/react/issues/13222
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#6272a4>// and https://github.com/facebook/react/issues/14239
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>      <span style=color:#ff79c6>if</span> (type <span style=color:#ff79c6>===</span> <span style=color:#f1fa8c>&#39;select&#39;</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> node <span style=color:#ff79c6>=</span> ((domElement<span style=color:#ff79c6>:</span> any)<span style=color:#ff79c6>:</span> HTMLSelectElement);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (props.multiple) {
+</span></span><span style=display:flex><span>          node.multiple <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>true</span>;
+</span></span><span style=display:flex><span>        } <span style=color:#ff79c6>else</span> <span style=color:#ff79c6>if</span> (props.size) {
+</span></span><span style=display:flex><span>          <span style=color:#6272a4>// Setting a size greater than 1 causes a select to behave like `multiple=true`, where
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>// it is possible that no option is selected.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>//
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>// This is only necessary when a select in &#34;single selection mode&#34;.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          node.size <span style=color:#ff79c6>=</span> props.size;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>    domElement <span style=color:#ff79c6>=</span> ownerDocument.createElementNS(namespaceURI, type);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> domElement;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>创建 <code>element</code> 元素</p><h3 id=总结>总结</h3><p>至此，完整的工作流可以概括为 <code>2</code> 大阶段：<code>beginWork</code> 阶段和 <code>completeWork</code> 阶段</p><p>Step1:</p><table><thead><tr><th>属性</th><th>Step1</th><th>Step2</th><th>Step3</th><th>Step 4</th></tr></thead><tbody><tr><td><code>elementType</code></td><td></td><td>Symbol(react.strict_mode)</td><td>f App()</td><td>div</td></tr><tr><td><code>type</code></td><td></td><td>Symbol(react.strict_mode)</td><td>f App()</td><td>div</td></tr><tr><td><code>tag</code></td><td>3</td><td>8</td><td>2</td><td>5</td></tr><tr><td><code>alternate</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>pendingProps</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>所处阶段</code></td><td>beginWork</td><td>beginWork</td><td>beginWork</td><td>beginWork</td></tr><tr><td><code>tag对应名</code></td><td>HostRoot</td><td>Mode</td><td>IndeterminateComponent</td><td>HostComponent</td></tr><tr><td><code>tag对应方法</code></td><td>updateHostRoot</td><td>updateMode</td><td>mountIndeterminateComponent</td><td>updateHostComponent</td></tr><tr><td></td><td>reconcileChildren</td><td>reconcileChildren</td><td>reconcileChildren</td><td>reconcileChildren</td></tr></tbody></table><table><thead><tr><th>属性</th><th>Step5</th><th>Step6</th><th>Step7 [img没有child]</th><th>Step8</th></tr></thead><tbody><tr><td><code>elementType</code></td><td>header</td><td>img</td><td>-</td><td>p</td></tr><tr><td><code>type</code></td><td>header</td><td>img</td><td>-</td><td>p</td></tr><tr><td><code>tag</code></td><td>5</td><td>5</td><td>-</td><td>5</td></tr><tr><td><code>alternate</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>pendingProps</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>所处阶段</code></td><td>beginWork</td><td>beginWork</td><td>completeWork</td><td>beginWork</td></tr><tr><td><code>tag对应名</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>tag对应方法</code></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td>reconcileChildren</td><td>reconcileChildren</td><td>createElement</td><td>reconcileChildren</td></tr></tbody></table><table><thead><tr><th>属性</th><th>Step9</th><th>Step10[Edit 没有child]</th><th>Step11</th><th>Step12</th></tr></thead><tbody><tr><td><code>elementType</code></td><td>null</td><td></td><td>code</td><td><code>code*</code></td></tr><tr><td><code>type</code></td><td>null</td><td></td><td>code</td><td><code>code*</code></td></tr><tr><td><code>tag</code></td><td>6</td><td></td><td>5</td><td>5</td></tr><tr><td><code>alternate</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>pendingProps</code></td><td>&ldquo;Edit "</td><td></td><td><code>{children: 'src/App.js'}</code></td><td></td></tr><tr><td><code>所处阶段</code></td><td>beginWork</td><td>completeWork</td><td>beginWork</td><td>completeWork</td></tr><tr><td><code>tag对应名</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>tag对应方法</code></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td>reconcileChildren</td><td></td><td></td><td>createElement</td></tr></tbody></table><table><thead><tr><th>属性</th><th>Step13</th><th>Step14</th><th>Step15</th><th>Step16</th></tr></thead><tbody><tr><td><code>elementType</code></td><td>null</td><td>null</td><td>p</td><td>a</td></tr><tr><td><code>type</code></td><td>null</td><td>null</td><td>p</td><td>a</td></tr><tr><td><code>tag</code></td><td>6</td><td>6</td><td>5</td><td>5</td></tr><tr><td><code>alternate</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>pendingProps</code></td><td>" and save to reload.&rdquo;</td><td>" and save to reload."</td><td></td><td></td></tr><tr><td><code>所处阶段</code></td><td>beginWork</td><td>completeWork</td><td>completeWork</td><td>beginWork</td></tr><tr><td><code>tag对应名</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>tag对应方法</code></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td>reconcileChildren</td><td></td><td>createElement</td><td>reconcileChildren</td></tr></tbody></table><table><thead><tr><th>属性</th><th>Step17</th><th>Step18</th><th>Step19</th><th>Step20</th></tr></thead><tbody><tr><td><code>elementType</code></td><td>a</td><td>header</td><td>div</td><td>f App()</td></tr><tr><td><code>type</code></td><td>a</td><td>header</td><td>div</td><td>f App()</td></tr><tr><td><code>tag</code></td><td>5</td><td>5</td><td>5</td><td>0</td></tr><tr><td><code>alternate</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>pendingProps</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>所处阶段</code></td><td>completeWork</td><td>completeWork</td><td>completeWork</td><td>completeWork</td></tr><tr><td><code>tag对应名</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>tag对应方法</code></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td>createElement</td><td>createElement</td><td>createElement</td><td></td></tr></tbody></table><table><thead><tr><th>属性</th><th>Step21</th><th>Step22</th><th>Step23</th><th>Step24</th></tr></thead><tbody><tr><td><code>elementType</code></td><td>Symbol(react.strict_mode)</td><td>null</td><td></td><td></td></tr><tr><td><code>type</code></td><td>Symbol(react.strict_mode)</td><td>null</td><td></td><td></td></tr><tr><td><code>tag</code></td><td>8</td><td>3</td><td></td><td></td></tr><tr><td><code>alternate</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>pendingProps</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>所处阶段</code></td><td>completeWork</td><td>completeWork</td><td></td><td></td></tr><tr><td><code>tag对应名</code></td><td></td><td></td><td></td><td></td></tr><tr><td><code>tag对应方法</code></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td>createElement</td><td>createElement</td><td></td><td></td></tr></tbody></table><blockquote><p>注：
+<code>code*</code> 虽然存在 <code>src/App.js</code>，但并不执行它的 <code>beginWork | completeWork</code> 方法。<code>React</code>对于单一文本子节点，会特殊处理。可以移步至本文 <code>【扩展阅读】beginWork｜updateHostComponent</code> 篇。</p></blockquote><h2 id=扩展阅读>扩展阅读</h2><h3 id=root是如何解析出来的>root是如何解析出来的</h3><p><em>TODO</em></p><h3 id=beginworkupdatehostroot-做了什么>beginWork｜updateHostRoot 做了什么</h3><p><em>TODO</em></p><p>在 <code>beginWork</code> 中，</p><p><em>TODO</em></p><h3 id=beginworkupdatemode-做了什么>beginWork｜updateMode 做了什么</h3><p><em>TODO</em></p><p>在 <code>beginWork</code> 中</p><h3 id=beginworkupdatehostcomponent>beginWork｜updateHostComponent</h3><p>在 <code>beginWork</code> 阶段，当 <code>workInProgress.tag = 5</code> 时，即本例中的</p><ul><li><code>div</code></li><li><code>header</code></li><li><code>img</code></li><li><code>p</code></li><li><code>code</code></li><li><code>a</code></li></ul><p>都会命中 🎯 本条件。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> updateHostComponent(
+</span></span><span style=display:flex><span>  current<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span>,
+</span></span><span style=display:flex><span>  workInProgress<span style=color:#ff79c6>:</span> Fiber,
+</span></span><span style=display:flex><span>  renderLanes<span style=color:#ff79c6>:</span> Lanes,
+</span></span><span style=display:flex><span>) {
+</span></span><span style=display:flex><span>  pushHostContext(workInProgress);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (current <span style=color:#ff79c6>===</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>    tryToClaimNextHydratableInstance(workInProgress);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> type <span style=color:#ff79c6>=</span> workInProgress.type;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> nextProps <span style=color:#ff79c6>=</span> workInProgress.pendingProps;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> prevProps <span style=color:#ff79c6>=</span> current <span style=color:#ff79c6>!==</span> <span style=color:#ff79c6>null</span> <span style=color:#ff79c6>?</span> current.memoizedProps <span style=color:#ff79c6>:</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>let</span> nextChildren <span style=color:#ff79c6>=</span> nextProps.children;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> isDirectTextChild <span style=color:#ff79c6>=</span> shouldSetTextContent(type, nextProps);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (isDirectTextChild) {
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// We special case a direct text child of a host node. This is a common
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// case. We won&#39;t handle it as a reified child. We will instead handle
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// this in the host environment that also has access to this prop. That
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// avoids allocating another HostText fiber and traversing it.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    nextChildren <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  } <span style=color:#ff79c6>else</span> <span style=color:#ff79c6>if</span> (prevProps <span style=color:#ff79c6>!==</span> <span style=color:#ff79c6>null</span> <span style=color:#ff79c6>&amp;&amp;</span> shouldSetTextContent(type, prevProps)) {
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// If we&#39;re switching from a direct text child to a normal child, or to
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// empty, we need to schedule the text content to be reset.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    workInProgress.flags <span style=color:#ff79c6>|=</span> ContentReset;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  markRef(current, workInProgress);
+</span></span><span style=display:flex><span>  reconcileChildren(current, workInProgress, nextChildren, renderLanes);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> workInProgress.child;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>TODO: 说明</p><p>其中的一段 <code>注释</code> 值得注意，大意是 <code>我们对节点下的文本做了特殊处理。这是一种常见的情况，我们不会把它作为具体的子元素处理，而是在能访问这个属性的宿主环境中处理。这样避免分配另一个 HostText Fiber。</code></p><blockquote><p>在本例中，这就解释了为什么 <code>code</code> 标签下还有 <code>src/App.js</code> 这个文本节点，但是却没有执行它的 <code>beginWork</code> 和 <code>completeWork</code> 方法。</p></blockquote><h3 id=childreconciler>ChildReconciler</h3><h3 id=completeworkhostcomponent-做了什么>completeWork｜HostComponent 做了什么</h3><p>在 <code>completeWork</code> 阶段，当 <code>workInProgress.tag = 5</code> 时，即本例中的</p><ul><li><code>div</code></li><li><code>header</code></li><li><code>img</code></li><li><code>p</code></li><li><code>code</code></li><li><code>a</code></li></ul><p>都会命中 🎯 本条件。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> completeWork(
+</span></span><span style=display:flex><span>  current<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span>,
+</span></span><span style=display:flex><span>  workInProgress<span style=color:#ff79c6>:</span> Fiber,
+</span></span><span style=display:flex><span>  renderLanes<span style=color:#ff79c6>:</span> Lanes,
+</span></span><span style=display:flex><span>)<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> newProps <span style=color:#ff79c6>=</span> workInProgress.pendingProps;
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>switch</span> (workInProgress.tag) {
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>case</span> HostComponent<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      ...
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>const</span> rootContainerInstance <span style=color:#ff79c6>=</span> getRootHostContainer();
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>const</span> type <span style=color:#ff79c6>=</span> workInProgress.type;
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>if</span> (current <span style=color:#ff79c6>!==</span> <span style=color:#ff79c6>null</span> <span style=color:#ff79c6>&amp;&amp;</span> workInProgress.stateNode <span style=color:#ff79c6>!=</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>        updateHostComponent(
+</span></span><span style=display:flex><span>          current,
+</span></span><span style=display:flex><span>          workInProgress,
+</span></span><span style=display:flex><span>          type,
+</span></span><span style=display:flex><span>          newProps,
+</span></span><span style=display:flex><span>          rootContainerInstance,
+</span></span><span style=display:flex><span>        );
+</span></span><span style=display:flex><span>        ...
+</span></span><span style=display:flex><span>      } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span>newProps) {
+</span></span><span style=display:flex><span>          <span style=color:#ff79c6>if</span> (workInProgress.stateNode <span style=color:#ff79c6>===</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>            ...
+</span></span><span style=display:flex><span>          }
+</span></span><span style=display:flex><span>          ...
+</span></span><span style=display:flex><span>          <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> currentHostContext <span style=color:#ff79c6>=</span> getHostContext();
+</span></span><span style=display:flex><span>        ...
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> wasHydrated <span style=color:#ff79c6>=</span> popHydrationState(workInProgress);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (wasHydrated) {
+</span></span><span style=display:flex><span>          ...
+</span></span><span style=display:flex><span>          <span style=color:#ff79c6>if</span> (
+</span></span><span style=display:flex><span>            prepareToHydrateHostInstance(
+</span></span><span style=display:flex><span>              workInProgress,
+</span></span><span style=display:flex><span>              rootContainerInstance,
+</span></span><span style=display:flex><span>              currentHostContext,
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>          ) {
+</span></span><span style=display:flex><span>            ...
+</span></span><span style=display:flex><span>            markUpdate(workInProgress);
+</span></span><span style=display:flex><span>          }
+</span></span><span style=display:flex><span>        } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>          <span style=color:#ff79c6>const</span> instance <span style=color:#ff79c6>=</span> createInstance(
+</span></span><span style=display:flex><span>            type,
+</span></span><span style=display:flex><span>            newProps,
+</span></span><span style=display:flex><span>            rootContainerInstance,
+</span></span><span style=display:flex><span>            currentHostContext,
+</span></span><span style=display:flex><span>            workInProgress,
+</span></span><span style=display:flex><span>          );
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>          appendAllChildren(instance, workInProgress, <span style=color:#ff79c6>false</span>, <span style=color:#ff79c6>false</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>          workInProgress.stateNode <span style=color:#ff79c6>=</span> instance;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>          <span style=color:#6272a4>// Certain renderers require commit-time effects for initial mount.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>// (eg DOM renderer supports auto-focus for certain elements).
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#6272a4>// Make sure such renderers get scheduled for later work.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>          <span style=color:#ff79c6>if</span> (
+</span></span><span style=display:flex><span>            finalizeInitialChildren(
+</span></span><span style=display:flex><span>              instance,
+</span></span><span style=display:flex><span>              type,
+</span></span><span style=display:flex><span>              newProps,
+</span></span><span style=display:flex><span>              rootContainerInstance,
+</span></span><span style=display:flex><span>              currentHostContext,
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>          ) {
+</span></span><span style=display:flex><span>            markUpdate(workInProgress);
+</span></span><span style=display:flex><span>          }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        ...
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>      ...
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>workInProgress.stateNode = instance;</code></p><h3 id=completeworkhosttext-做了什么>completeWork｜HostText 做了什么</h3><p>在 <code>completeWork</code> 阶段，当 <code>workInProgress.tag = 6</code> 时，即本例中的</p><ul><li><code>Edit</code></li><li><code>and save to reload</code></li><li><code>Learn React</code></li></ul><p>都会命中 🎯 本条件。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> completeWork(
+</span></span><span style=display:flex><span>  current<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span>,
+</span></span><span style=display:flex><span>  workInProgress<span style=color:#ff79c6>:</span> Fiber,
+</span></span><span style=display:flex><span>  renderLanes<span style=color:#ff79c6>:</span> Lanes,
+</span></span><span style=display:flex><span>)<span style=color:#ff79c6>:</span> Fiber <span style=color:#ff79c6>|</span> <span style=color:#ff79c6>null</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> newProps <span style=color:#ff79c6>=</span> workInProgress.pendingProps;
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>switch</span> (workInProgress.tag) {
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>case</span> HostText<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>const</span> newText <span style=color:#ff79c6>=</span> newProps;
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>if</span> (current <span style=color:#ff79c6>&amp;&amp;</span> workInProgress.stateNode <span style=color:#ff79c6>!=</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> oldText <span style=color:#ff79c6>=</span> current.memoizedProps;
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// If we have an alternate, that means this is an update and we need
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        <span style=color:#6272a4>// to schedule a side-effect to do the updates.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        updateHostText(current, workInProgress, oldText, newText);
+</span></span><span style=display:flex><span>      } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>typeof</span> newText <span style=color:#ff79c6>!==</span> <span style=color:#f1fa8c>&#39;string&#39;</span>) {
+</span></span><span style=display:flex><span>          <span style=color:#ff79c6>if</span> (workInProgress.stateNode <span style=color:#ff79c6>===</span> <span style=color:#ff79c6>null</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>throw</span> <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Error</span>(
+</span></span><span style=display:flex><span>              <span style=color:#f1fa8c>&#39;We must have new props for new mounts. This error is likely &#39;</span> <span style=color:#ff79c6>+</span>
+</span></span><span style=display:flex><span>                <span style=color:#f1fa8c>&#39;caused by a bug in React. Please file an issue.&#39;</span>,
+</span></span><span style=display:flex><span>            );
+</span></span><span style=display:flex><span>          }
+</span></span><span style=display:flex><span>          <span style=color:#6272a4>// This can happen when we abort work.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        }
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> rootContainerInstance <span style=color:#ff79c6>=</span> getRootHostContainer();
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> currentHostContext <span style=color:#ff79c6>=</span> getHostContext();
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> wasHydrated <span style=color:#ff79c6>=</span> popHydrationState(workInProgress);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> (wasHydrated) {
+</span></span><span style=display:flex><span>          <span style=color:#ff79c6>if</span> (prepareToHydrateHostTextInstance(workInProgress)) {
+</span></span><span style=display:flex><span>            markUpdate(workInProgress);
+</span></span><span style=display:flex><span>          }
+</span></span><span style=display:flex><span>        } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>          workInProgress.stateNode <span style=color:#ff79c6>=</span> createTextInstance(
+</span></span><span style=display:flex><span>            newText,
+</span></span><span style=display:flex><span>            rootContainerInstance,
+</span></span><span style=display:flex><span>            currentHostContext,
+</span></span><span style=display:flex><span>            workInProgress,
+</span></span><span style=display:flex><span>          );
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>      bubbleProperties(workInProgress);
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><hr><ul class=pager><li class=previous><a href=/post/react/fiber/ data-toggle=tooltip data-placement=top title="「React源码之四」【前置知识二】 Fiber">&larr;
+Previous Post</a></li><li class=next><a href=/post/base64-vlq/ data-toggle=tooltip data-placement=top title=sourcemap中的Base64VLQ>Next
+Post &rarr;</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a>
+<a href=/tags/ts title=ts>ts</a>
+<a href=/tags/%E8%AF%91%E6%96%87 title=译文>译文</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>

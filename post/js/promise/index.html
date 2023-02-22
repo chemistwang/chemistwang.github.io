@@ -1,0 +1,103 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="JS体系之三【Promise】"><meta property="og:title" content="JS体系之三【Promise】"><meta property="twitter:title" content="JS体系之三【Promise】"><meta name=description content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="og:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>JS体系之三【Promise】 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/js/promise/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/es6>es6</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags></div><h1>JS体系之三【Promise】</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Wednesday, August 31, 2022</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><p>参考资料：</p><p><a href=https://promisesaplus.com/>PromiseA+规范</a> 👈</p><h2 id=核心要点>核心要点</h2><h3 id=promise状态>Promise状态</h3><p>一个 <code>promise</code> 必须是 <code>3</code> 种状态之一：<code>pending</code>、<code>fulfilled</code>、<code>rejected</code></p><ul><li><code>pending</code> 状态，可以转化成 <code>fulfilled</code> <code>rejected</code> 状态</li><li><code>fulfilled</code> 状态，状态不可变，必须有值，该值不可变</li><li><code>rejected</code> 状态，状态不可变，必须有值，该值不可变</li></ul><h3 id=then方法>then方法</h3><p>一个 <code>promise</code> 必须提供 <code>then</code> 方法去获得当前值、<code>fulfilled</code> 或者 <code>rejected</code> 的值。</p><p><code>then</code> 方法接受 2 个参数：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span>promise.then(onFulfilled, onRejected)
+</span></span></code></pre></div><ol><li><p><code>onFulfilled</code>、 <code>onRejected</code> 均为 <code>可选</code> 参数</p><ul><li>若 <code>onFulfilled</code> 不是函数，必须忽略</li><li>若 <code>onRejected</code> 不是函数，必须忽略</li></ul></li><li><p>若 <code>onFulfilled</code> 是函数：</p><ul><li>promise <code>fulfilled</code> 状态之后必须调用，promise的值作为该函数第 <code>1</code> 个参数</li><li>promise <code>fulfilled</code> 状态之前禁止调用</li><li>只能调用一次</li></ul></li><li><p>若 <code>onRejected</code> 是函数：</p><ul><li>promise <code>rejected</code> 状态之后必须调用，promise的值作为该函数第 <code>1</code> 个参数</li><li>promise <code>rejected</code> 状态之前禁止调用</li><li>只能调用一次</li></ul></li><li><p>在执行上下文栈只包含平台代码之前，<code>onFulfilled</code> 或者 <code>onRejected</code> 不能被调用</p></li><li><p><code>onFulfilled</code> 和 <code>onRejected</code> 必须作为函数调用（不能有 <code>this</code>）</p></li><li><p>同一个 promise 可以调用多次 <code>then</code> 方法</p><ul><li>如果 promise <code>fulfilled</code> 状态，<code>onFulfilled</code> 回调必须按照 <code>then</code> 顺序执行</li><li>如果 promise <code>rejected</code> 状态，<code>onRejected</code> 回调必须按照 <code>then</code> 顺序执行</li></ul></li><li><p><code>then</code> 方法必须返回一个 <code>promise</code></p><ul><li>如果 <code>onFulfilled</code> 或者 <code>onRejected</code> 返回一个值为 x，执行 <code>[[Resolve]](promise2, x)</code></li><li>如果 <code>onFulfilled</code> 或者 <code>onRejected</code> 抛出错误 e，promise2 必须为 <code>rejected</code></li><li>如果 <code>onFulfilled</code> 不是函数，并且 promise1 <code>fulfilled</code> 状态，promise2 必须 <code>fulfilled</code>，并且带有和 promise1 一样的值</li><li>如果 <code>onRejected</code> 不是函数，并且 promise1 <code>rejected</code> 状态， promise2 必须 <code>rejected</code>，并且带有和 promise1 一样的错误信息</li></ul></li></ol><h2 id=方法>方法</h2><p>这 <code>2</code> 个方法接受一个 <code>iterable</code> 类型参数，即 <code>Array</code>，<code>Set</code>，<code>Map</code></p><p>不妨先定义 <code>4</code> 个 Promise</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>let</span> Promise1 <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>(<span style=color:#8be9fd;font-style:italic>function</span> (resolve, reject) {
+</span></span><span style=display:flex><span>    setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>        resolve(<span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>    }, <span style=color:#bd93f9>0</span>)
+</span></span><span style=display:flex><span>})
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>let</span> Promise2 <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>(<span style=color:#8be9fd;font-style:italic>function</span> (resolve, reject) {
+</span></span><span style=display:flex><span>    setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>        resolve(<span style=color:#bd93f9>2</span>)
+</span></span><span style=display:flex><span>    }, <span style=color:#bd93f9>1000</span>)
+</span></span><span style=display:flex><span>})
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>let</span> Promise3 <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>(<span style=color:#8be9fd;font-style:italic>function</span> (resolve, reject) {
+</span></span><span style=display:flex><span>    setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>        resolve(<span style=color:#bd93f9>3</span>)
+</span></span><span style=display:flex><span>    }, <span style=color:#bd93f9>3000</span>)
+</span></span><span style=display:flex><span>})
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>let</span> Promise4 <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> <span style=color:#8be9fd;font-style:italic>Promise</span>(<span style=color:#8be9fd;font-style:italic>function</span> (resolve, reject) {
+</span></span><span style=display:flex><span>    setTimeout(() =&gt; {
+</span></span><span style=display:flex><span>        reject(<span style=color:#bd93f9>4</span>)
+</span></span><span style=display:flex><span>    }, <span style=color:#bd93f9>1500</span>)
+</span></span><span style=display:flex><span>})
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> promise_set <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> Set();
+</span></span><span style=display:flex><span>promise_set.add(Promise1);
+</span></span><span style=display:flex><span>promise_set.add(Promise2);
+</span></span><span style=display:flex><span>promise_set.add(Promise3);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> iterable <span style=color:#ff79c6>=</span> [Promise1, Promise2, Promise3] <span style=color:#ff79c6>||</span> promise_set
+</span></span></code></pre></div><h3 id=promiseall>Promise.all</h3><ul><li>所有都返回执行回调</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>Promise</span>.all([Promise1, Promise2, Promise3])
+</span></span><span style=display:flex><span>.then((value) =&gt; {
+</span></span><span style=display:flex><span>    console.log(value) <span style=color:#6272a4>// [1,2,3] 3000ms后打印
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>}, (error) =&gt; {
+</span></span><span style=display:flex><span>    console.log(error)
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><ul><li>只要有一个 <code>reject</code> 执行立即抛出错误</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>Promise</span>.all([Promise1, Promise2, Promise4])
+</span></span><span style=display:flex><span>.then((value) =&gt; {
+</span></span><span style=display:flex><span>    console.log(value)
+</span></span><span style=display:flex><span>}, (error) =&gt; {
+</span></span><span style=display:flex><span>    console.log(error) <span style=color:#6272a4>// 4 1500ms后打印
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>})
+</span></span></code></pre></div><h3 id=promiserace>Promise.race</h3><p>那就是看谁跑的快了</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>Promise</span>.race([Promise1, Promise2])
+</span></span><span style=display:flex><span>.then((value) =&gt; {
+</span></span><span style=display:flex><span>   console.log(value) <span style=color:#6272a4>// 1
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>}, (error) =&gt; {
+</span></span><span style=display:flex><span>    console.log(error)
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>Promise</span>.race([Promise2, Promise4])
+</span></span><span style=display:flex><span>.then((value) =&gt; {
+</span></span><span style=display:flex><span>   console.log(value) <span style=color:#6272a4>// 2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>}, (error) =&gt; {
+</span></span><span style=display:flex><span>    console.log(error)
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>Promise</span>.race([Promise3, Promise4])
+</span></span><span style=display:flex><span>.then((value) =&gt; {
+</span></span><span style=display:flex><span>   console.log(value)
+</span></span><span style=display:flex><span>}, (error) =&gt; {
+</span></span><span style=display:flex><span>    console.log(error) <span style=color:#6272a4>// 4
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>})
+</span></span></code></pre></div><h2 id=手写promise>手写Promise</h2><h2 id=执行逻辑>执行逻辑</h2><p>推荐阅读：<a href=https://juejin.cn/post/7055202073511460895>V8 Promise源码全面解读</a> 👈</p><p>有时候对于多个 <code>then</code> 执行顺序，通过源码的指导会明确很多。</p><h2 id=练习>练习</h2><h3 id=练习1>练习1</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>Promise</span>.resolve()
+</span></span><span style=display:flex><span>    .then(() =&gt; {
+</span></span><span style=display:flex><span>        console.log(<span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#8be9fd;font-style:italic>Promise</span>.resolve(<span style=color:#bd93f9>4</span>)
+</span></span><span style=display:flex><span>    }).then(res =&gt; {
+</span></span><span style=display:flex><span>        console.log(res);
+</span></span><span style=display:flex><span>    })
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>Promise</span>.resolve().then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>1</span>);
+</span></span><span style=display:flex><span>}).then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>2</span>);
+</span></span><span style=display:flex><span>}).then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span>}).then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>5</span>);
+</span></span><span style=display:flex><span>}).then(() =&gt; {
+</span></span><span style=display:flex><span>    console.log(<span style=color:#bd93f9>6</span>);
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><hr><ul class=pager><li class=previous><a href=/post/js/object/ data-toggle=tooltip data-placement=top title=JS体系之二【Object】>&larr;
+Previous Post</a></li><li class=next><a href=/post/js/dom-event/ data-toggle=tooltip data-placement=top title=JS体系之六【DOM事件】>Next
+Post &rarr;</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a>
+<a href=/tags/ts title=ts>ts</a>
+<a href=/tags/%E8%AF%91%E6%96%87 title=译文>译文</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
