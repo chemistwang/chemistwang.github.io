@@ -7,6 +7,8 @@ author: "汪洋龙"
 categories: [React]
 image: "img/react-bg.jpg"
 description: "从零到一构建自己的React"
+tags: 
+    - "译文"
 ---
 
 > 参考资料:

@@ -439,3 +439,9 @@ function getRollupOutputOptions(
 大功告成！🎉
 
 > 但是这种方法有个缺点：直接在源文件中修改代码是无效的，因为最终生效的还是打包之后的文件
+
+
+## 参考阅读
+
+- [React技术揭秘 【魔术师卡颂】](https://react.iamkasong.com/)
+- [React 源码解析](https://react.jokcy.me/)
