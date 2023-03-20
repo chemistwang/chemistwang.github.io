@@ -1,0 +1,654 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta property="twitter:image" content="https://chemistwang.github.io//img/home-bg.jpg"><meta name=title content="ThreeJS实现3D中国地图"><meta property="og:title" content="ThreeJS实现3D中国地图"><meta property="twitter:title" content="ThreeJS实现3D中国地图"><meta name=description content="告别伪3D地图，升级视觉体验"><meta property="og:description" content="告别伪3D地图，升级视觉体验"><meta property="twitter:description" content="告别伪3D地图，升级视觉体验"><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>ThreeJS实现3D中国地图 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/threejs/3dmap/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/es6>es6</a></li><li><a href=/categories/react>react</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/categories/threejs>threejs</a></li><li><a href=/archive/>ARCHIVE</a></li><li><a href=/notes/>NOTES</a></li><li><a href=/about/>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/react title=react>react</a>
+<a class=tag href=/tags/threejs title=threejs>threejs</a></div><h1>ThreeJS实现3D中国地图</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Monday, February 27, 2023</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=实现-3d-中国地图>实现 3D 中国地图</h1><h2 id=1-示例>1. 示例</h2><p><img src=/post/threejs/images/3dmap.gif alt=3dmap></p><h2 id=2-构建基础模板>2. 构建基础模板</h2><h3 id=21-安装依赖项>2.1 安装依赖项</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i three d3 axios
+</span></span><span style=display:flex><span>npm i @types/three @types/d3 -D
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;name&#34;</span>: <span style=color:#f1fa8c>&#34;demo-threejs-chinamap&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;version&#34;</span>: <span style=color:#f1fa8c>&#34;0.1.0&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;private&#34;</span>: <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;dependencies&#34;</span>: {
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;axios&#34;</span>: <span style=color:#f1fa8c>&#34;^1.3.4&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;d3&#34;</span>: <span style=color:#f1fa8c>&#34;^7.8.2&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;three&#34;</span>: <span style=color:#f1fa8c>&#34;^0.150.1&#34;</span>,
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;devDependencies&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;@types/d3&#34;</span>: <span style=color:#f1fa8c>&#34;^7.4.0&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>&#34;@types/three&#34;</span>: <span style=color:#f1fa8c>&#34;^0.149.0&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=22-构建基础模板>2.2 构建基础模板</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#ff79c6>import</span> { useCallback, useEffect, useRef, useState } <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;react&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> <span style=color:#ff79c6>*</span> <span style=color:#ff79c6>as</span> THREE <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;three&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> { OrbitControls } <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;three/examples/jsm/controls/OrbitControls.js&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>function</span> Map3D() {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> mapRef <span style=color:#ff79c6>=</span> useRef&lt;<span style=color:#ff79c6>any</span>&gt;();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  useEffect(() <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> currentDom <span style=color:#ff79c6>=</span> mapRef.current;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     * 初始化场景
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> scene <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Scene();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     * 初始化摄像机
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> camera <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.PerspectiveCamera(
+</span></span><span style=display:flex><span>      <span style=color:#bd93f9>30</span>,
+</span></span><span style=display:flex><span>      currentDom.clientWidth <span style=color:#ff79c6>/</span> currentDom.clientHeight,
+</span></span><span style=display:flex><span>      <span style=color:#bd93f9>0.1</span>,
+</span></span><span style=display:flex><span>      <span style=color:#bd93f9>1000</span>
+</span></span><span style=display:flex><span>    );
+</span></span><span style=display:flex><span>    camera.position.<span style=color:#ff79c6>set</span>(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>10</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>90</span>, <span style=color:#bd93f9>130</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     * 初始化渲染器
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> renderer <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.WebGLRenderer({ antialias: <span style=color:#8be9fd>true</span> });
+</span></span><span style=display:flex><span>    renderer.setSize(currentDom.clientWidth, currentDom.clientHeight);
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 防止开发时重复渲染
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span>currentDom.hasChildNodes()) {
+</span></span><span style=display:flex><span>      currentDom.appendChild(renderer.domElement);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     * 初始化模型（地图模型绘制的逻辑将在这里替换）
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> geometry <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.BoxGeometry(<span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> material <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.MeshBasicMaterial({ color<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#fff&#34;</span> });
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> cube <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Mesh(geometry, material);
+</span></span><span style=display:flex><span>    scene.add(cube);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     * 初始化 CameraHelper
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> helper <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.CameraHelper(camera);
+</span></span><span style=display:flex><span>    scene.add(helper);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     * 初始化 AxesHelper
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> axesHelper <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.AxesHelper(<span style=color:#bd93f9>100</span>);
+</span></span><span style=display:flex><span>    scene.add(axesHelper);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     * 初始化控制器
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>new</span> OrbitControls(camera, renderer.domElement);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> animate <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>function</span> () {
+</span></span><span style=display:flex><span>      requestAnimationFrame(animate);
+</span></span><span style=display:flex><span>      renderer.render(scene, camera);
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>    animate();
+</span></span><span style=display:flex><span>  }, []);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> &lt;<span style=color:#ff79c6>div</span> <span style=color:#50fa7b>ref</span><span style=color:#ff79c6>=</span>{mapRef} <span style=color:#50fa7b>style</span><span style=color:#ff79c6>=</span>{{ width<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;100%&#34;</span>, height<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;100%&#34;</span> }}&gt;&lt;/<span style=color:#ff79c6>div</span>&gt;;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>default</span> Map3D;
+</span></span></code></pre></div><p>记得将所在的 DOM 元素撑开，这里在 <code>index.css</code> 中添加下面的代码，否则会报错 <code>THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values.</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-css data-lang=css><span style=display:flex><span><span style=color:#ff79c6>body</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>/* ... */</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>code</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>/* ... */</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>html</span><span style=color:#ff79c6>,</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>body</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>height</span>: <span style=color:#bd93f9>100</span><span style=color:#8be9fd>%</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>#root {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>height</span>: <span style=color:#bd93f9>100</span><span style=color:#8be9fd>%</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><img src=/post/threejs/images/step1.gif alt=step1></p><h3 id=23-解决-onresize-问题>2.3 解决 onresize 问题</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span>...
+</span></span><span style=display:flex><span>useEffect(() <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 防止开发时重复渲染
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// if (!currentDom.hasChildNodes()) {
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>//   currentDom.appendChild(renderer.domElement);
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// }
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// 这里修改为下面写法，否则 onresize 不生效
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>if</span> (currentDom.childNodes[<span style=color:#bd93f9>0</span>]) {
+</span></span><span style=display:flex><span>    currentDom.removeChild(currentDom.childNodes[<span style=color:#bd93f9>0</span>]);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  currentDom.appendChild(renderer.domElement);
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>window</span>.addEventListener(<span style=color:#f1fa8c>&#34;resize&#34;</span>, onResize, <span style=color:#ff79c6>false</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> () <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>window</span>.removeEventListener(<span style=color:#f1fa8c>&#34;resize&#34;</span>, onResize);
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}, [])
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p><img src=/post/threejs/images/step2.gif alt=step2></p><h2 id=3-绘制地图模型>3. 绘制地图模型</h2><p>通过 <a href=https://geojson.org/>GeoJson</a> 生成地图模型，这里通过 <a href=http://datav.aliyun.com/portal/school/atlas/area_selector>datav 地理小工具</a> 在线获取地图数据</p><h3 id=31-geojson-数据格式>3.1 <code>GeoJson</code> 数据格式</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;type&#34;</span>: <span style=color:#f1fa8c>&#34;FeatureCollection&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>&#34;features&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;type&#34;</span>: <span style=color:#f1fa8c>&#34;Feature&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;properties&#34;</span>: {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;adcode&#34;</span>: <span style=color:#bd93f9>110000</span>,
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;name&#34;</span>: <span style=color:#f1fa8c>&#34;北京市&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;center&#34;</span>: [<span style=color:#bd93f9>116.405285</span>, <span style=color:#bd93f9>39.904989</span>],
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;centroid&#34;</span>: [<span style=color:#bd93f9>116.41995</span>, <span style=color:#bd93f9>40.18994</span>],
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;childrenNum&#34;</span>: <span style=color:#bd93f9>16</span>,
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;level&#34;</span>: <span style=color:#f1fa8c>&#34;province&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;parent&#34;</span>: { <span style=color:#ff79c6>&#34;adcode&#34;</span>: <span style=color:#bd93f9>100000</span> },
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;subFeatureIndex&#34;</span>: <span style=color:#bd93f9>0</span>,
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;acroutes&#34;</span>: [<span style=color:#bd93f9>100000</span>]
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>&#34;geometry&#34;</span>: {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;type&#34;</span>: <span style=color:#f1fa8c>&#34;MultiPolygon&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>&#34;coordinates&#34;</span>: [[[[]]]]
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><ul><li><code>adcode</code>: 地图下钻的时候会根据 <code>adcode</code> 请求不同的数据</li><li><code>center</code>: 表示行政中心</li><li><code>centroid</code>: 表示形心</li><li><code>level</code>: 地图下钻的时候可以根据 <code>level</code> 实现对应视图的放大</li><li><code>geometry</code> 的 <code>coordinates</code>: 绘制地图的关键数据，会根据 <code>geometry</code> 的 <code>type</code> 表现出不同的多维数组</li></ul><p><img src=/post/threejs/images/geojsonbasic.jpg alt=geojsonbasic>
+<img src=/post/threejs/images/geojsonmulti.jpg alt=geojsonmulti></p><p>地图数据可能是 <code>MultiPolygon</code> 或者 <code>Polygon</code> 类型，所以它们是一个 <code>4</code> 维或者 <code>3</code> 维数组</p><h3 id=32-墨卡托投影转换>3.2 墨卡托投影转换</h3><p><code>GeoJson</code> 的坐标需要进行 <code>墨卡托投影</code> 转换才能转换成平面坐标，这里需要用到 <code>d3</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#6272a4>// typed.ts
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>import</span> <span style=color:#ff79c6>*</span> <span style=color:#ff79c6>as</span> d3 <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;d3&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 返回的是一个函数
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>const</span> projectionFn <span style=color:#ff79c6>=</span> d3
+</span></span><span style=display:flex><span>  .geoMercator()
+</span></span><span style=display:flex><span>  .center([<span style=color:#bd93f9>104.0</span>, <span style=color:#bd93f9>37.5</span>]) <span style=color:#6272a4>// 中国中心点坐标，
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  .scale(<span style=color:#bd93f9>80</span>) <span style=color:#6272a4>// 放大系数
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  .translate([<span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0</span>]);
+</span></span></code></pre></div><h3 id=33-解析-geojson通过-new-threeextrudegeometry-生成地图模型>3.3 解析 <code>GeoJSON</code>，通过 <code>new THREE.ExtrudeGeometry</code> 生成地图模型</h3><p>定义数据类型</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ts data-lang=ts><span style=display:flex><span><span style=color:#ff79c6>import</span> { Object3D } <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;three&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>interface</span> GeoJsonType {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>type</span><span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;FeatureCollection&#34;</span>;
+</span></span><span style=display:flex><span>  features: <span style=color:#8be9fd>GeoJsonFeature</span>[];
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>interface</span> GeoJsonFeature {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>type</span><span style=color:#ff79c6>:</span> <span style=color:#8be9fd>string</span>; <span style=color:#6272a4>// &#34;Feature&#34;
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  properties<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>    adcode: <span style=color:#8be9fd>number</span>; <span style=color:#6272a4>//110000
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    name: <span style=color:#8be9fd>string</span>; <span style=color:#6272a4>// 北京
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    center<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>]; <span style=color:#6272a4>//[116.405285, 39.904989],
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    centroid<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>]; <span style=color:#6272a4>//[116.419889, 40.189911]
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    childrenNum: <span style=color:#8be9fd>number</span>; <span style=color:#6272a4>//16,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    level: <span style=color:#8be9fd>Geolevel</span>; <span style=color:#6272a4>// province,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    parent<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      adcode: <span style=color:#8be9fd>number</span>; <span style=color:#6272a4>//100000
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    };
+</span></span><span style=display:flex><span>    subFeatureIndex: <span style=color:#8be9fd>number</span>; <span style=color:#6272a4>//0,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    acroutes: <span style=color:#8be9fd>number</span>[]; <span style=color:#6272a4>// [100000],
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    adchar: <span style=color:#8be9fd>null</span>;
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>  geometry<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>type</span><span style=color:#ff79c6>:</span> GeometryType; <span style=color:#6272a4>// &#34;MultiPolygon&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    coordinates: <span style=color:#8be9fd>GeometryCoordinates</span>&lt;<span style=color:#ff79c6>GeometryType</span>&gt;;
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>  vector3: <span style=color:#8be9fd>any</span>[][]; <span style=color:#6272a4>// 每个省份一个维度
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>type</span> Geolevel <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;province&#34;</span> <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#34;city&#34;</span> <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#34;district&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>type</span> GeometryType <span style=color:#ff79c6>=</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#34;Point&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#34;LineString&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#34;Polygon&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#34;MultiPoint&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#34;MultiLineString&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#34;MultiPolygon&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>|</span> <span style=color:#f1fa8c>&#34;GeometryCollection&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>type</span> GeometryCoordinates&lt;<span style=color:#ff79c6>T</span> <span style=color:#50fa7b>extends</span> <span style=color:#50fa7b>GeometryType</span>&gt; <span style=color:#ff79c6>=</span> T <span style=color:#ff79c6>extends</span> <span style=color:#f1fa8c>&#34;Point&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>?</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>]
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>:</span> T <span style=color:#ff79c6>extends</span> <span style=color:#f1fa8c>&#34;LineString&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>?</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][]
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>:</span> T <span style=color:#ff79c6>extends</span> <span style=color:#f1fa8c>&#34;Polygon&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>?</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][][]
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>:</span> T <span style=color:#ff79c6>extends</span> <span style=color:#f1fa8c>&#34;MultiPoint&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>?</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][]
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>:</span> T <span style=color:#ff79c6>extends</span> <span style=color:#f1fa8c>&#34;MultiLineString&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>?</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][][]
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>:</span> T <span style=color:#ff79c6>extends</span> <span style=color:#f1fa8c>&#34;MultiPolygon&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>?</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][][][]
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>:</span> T <span style=color:#ff79c6>extends</span> <span style=color:#f1fa8c>&#34;GeometryCollection&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>?</span> <span style=color:#8be9fd>any</span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>:</span> <span style=color:#8be9fd>never</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>interface</span> ExtendObject3D <span style=color:#ff79c6>extends</span> Object3D {
+</span></span><span style=display:flex><span>  customProperties: <span style=color:#8be9fd>any</span>; <span style=color:#6272a4>// 扩展的自定义属性
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>}
+</span></span></code></pre></div><p>绘制模型，这里用了 <code>Shader</code> 表示侧边材质的渐变</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#6272a4>// 绘制挤出的材质
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>export</span> <span style=color:#8be9fd;font-style:italic>function</span> drawExtrudeMesh(
+</span></span><span style=display:flex><span>  point<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][],
+</span></span><span style=display:flex><span>  projectionFn: <span style=color:#8be9fd>any</span>
+</span></span><span style=display:flex><span>)<span style=color:#ff79c6>:</span> <span style=color:#8be9fd>any</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> shape <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Shape();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>for</span> (<span style=color:#8be9fd;font-style:italic>let</span> i <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>; i <span style=color:#ff79c6>&lt;</span> point.length; i<span style=color:#ff79c6>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> [x, y]<span style=color:#ff79c6>:</span> <span style=color:#8be9fd>any</span> <span style=color:#ff79c6>=</span> projectionFn(point[i]); <span style=color:#6272a4>// 将每一个经纬度转化为坐标点
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>if</span> (i <span style=color:#ff79c6>===</span> <span style=color:#bd93f9>0</span>) {
+</span></span><span style=display:flex><span>      shape.moveTo(x, <span style=color:#ff79c6>-</span>y);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    shape.lineTo(x, <span style=color:#ff79c6>-</span>y);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> geometry <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.ExtrudeGeometry(shape, {
+</span></span><span style=display:flex><span>    depth: <span style=color:#8be9fd>2</span>, <span style=color:#6272a4>// 挤出的形状深度
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    bevelEnabled: <span style=color:#8be9fd>false</span>, <span style=color:#6272a4>// 对挤出的形状应用是否斜角
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> material <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.MeshBasicMaterial({
+</span></span><span style=display:flex><span>    color<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#06092A&#34;</span>,
+</span></span><span style=display:flex><span>    transparent: <span style=color:#8be9fd>true</span>,
+</span></span><span style=display:flex><span>    opacity: <span style=color:#8be9fd>0.9</span>,
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> materialSide <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.ShaderMaterial({
+</span></span><span style=display:flex><span>    uniforms<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      color1<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>        value: <span style=color:#8be9fd>new</span> THREE.Color(<span style=color:#f1fa8c>&#34;#3F9FF3&#34;</span>),
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>      color2<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>        value: <span style=color:#8be9fd>new</span> THREE.Color(<span style=color:#f1fa8c>&#34;#266BF0&#34;</span>),
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    vertexShader<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>`
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>        varying vec2 vUv;
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>        void main() {
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>          vUv = uv;
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>          gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>        }
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>      `</span>,
+</span></span><span style=display:flex><span>    fragmentShader<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>`
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>          uniform vec3 color1;
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>          uniform vec3 color2;
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>          varying vec2 vUv;
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>          void main() {
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>            gl_FragColor = vec4(mix(color1, color2, vUv.y), 1.0);
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>          }
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>        `</span>,
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>//   wireframe: true,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> mesh <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Mesh(geometry, [material, materialSide]);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> { mesh };
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 生成地图3D模型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>export</span> <span style=color:#8be9fd;font-style:italic>function</span> generateMapObject3D(
+</span></span><span style=display:flex><span>  mapdata: <span style=color:#8be9fd>GeoJsonType</span>,
+</span></span><span style=display:flex><span>  center<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>] <span style=color:#ff79c6>=</span> [<span style=color:#bd93f9>104.0</span>, <span style=color:#bd93f9>37.5</span>]
+</span></span><span style=display:flex><span>) {
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 地图对象
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> mapObject3D <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Object3D();
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 地图数据
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> { features: <span style=color:#8be9fd>basicFeatures</span> } <span style=color:#ff79c6>=</span> mapdata;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> projectionFn <span style=color:#ff79c6>=</span> d3
+</span></span><span style=display:flex><span>    .geoMercator()
+</span></span><span style=display:flex><span>    .center(center)
+</span></span><span style=display:flex><span>    .scale(<span style=color:#bd93f9>80</span>)
+</span></span><span style=display:flex><span>    .translate([<span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0</span>]);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 每个省的数据
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  basicFeatures.forEach((basicFeatureItem: <span style=color:#8be9fd>GeoJsonFeature</span>) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 每个省份的地图对象
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> provinceMapObject3D <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Object3D() <span style=color:#ff79c6>as</span> ExtendObject3D;
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 将地图数据挂在到模型数据上
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    provinceMapObject3D.customProperties <span style=color:#ff79c6>=</span> basicFeatureItem.properties;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 每个坐标类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> featureType <span style=color:#ff79c6>=</span> basicFeatureItem.geometry.<span style=color:#ff79c6>type</span>;
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 每个坐标数组
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> featureCoords: <span style=color:#8be9fd>GeometryCoordinates</span>&lt;<span style=color:#ff79c6>GeometryType</span>&gt; <span style=color:#ff79c6>=</span>
+</span></span><span style=display:flex><span>      basicFeatureItem.geometry.coordinates;
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 每个中心点位置
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> featureCenterCoord<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>] <span style=color:#ff79c6>=</span>
+</span></span><span style=display:flex><span>      basicFeatureItem.properties.center;
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 名字
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> featureName: <span style=color:#8be9fd>string</span> <span style=color:#ff79c6>=</span> basicFeatureItem.properties.name;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// MultiPolygon 类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>if</span> (featureType <span style=color:#ff79c6>===</span> <span style=color:#f1fa8c>&#34;MultiPolygon&#34;</span>) {
+</span></span><span style=display:flex><span>      featureCoords.forEach((multiPolygon<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][][]) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>        multiPolygon.forEach((polygon<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][]) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>          <span style=color:#ff79c6>const</span> { mesh } <span style=color:#ff79c6>=</span> drawExtrudeMesh(polygon, projectionFn);
+</span></span><span style=display:flex><span>          provinceMapObject3D.add(mesh);
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// Polygon 类型
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>if</span> (featureType <span style=color:#ff79c6>===</span> <span style=color:#f1fa8c>&#34;Polygon&#34;</span>) {
+</span></span><span style=display:flex><span>      featureCoords.forEach((polygon<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][]) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>const</span> { mesh } <span style=color:#ff79c6>=</span> drawExtrudeMesh(polygon, projectionFn);
+</span></span><span style=display:flex><span>        provinceMapObject3D.add(mesh);
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    mapObject3D.add(provinceMapObject3D);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> mapObject3D;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><img src=/post/threejs/images/step3.gif alt=step3></p><h3 id=34-解析-geojson绘制外线和内线>3.4 解析 <code>GeoJSON</code>，绘制外线和内线</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#6272a4>// 绘制挤出的材质
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#8be9fd;font-style:italic>function</span> drawExtrudeMesh(point<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>][], projectionFn: <span style=color:#8be9fd>any</span>)<span style=color:#ff79c6>:</span> <span style=color:#8be9fd>any</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> shape <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Shape();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> vArr: <span style=color:#8be9fd>any</span> <span style=color:#ff79c6>=</span> [];
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> vlineArr: <span style=color:#8be9fd>any</span> <span style=color:#ff79c6>=</span> [];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>for</span> (<span style=color:#8be9fd;font-style:italic>let</span> i <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>; i <span style=color:#ff79c6>&lt;</span> point.length; i<span style=color:#ff79c6>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> [x, y]<span style=color:#ff79c6>:</span> <span style=color:#8be9fd>any</span> <span style=color:#ff79c6>=</span> projectionFn(point[i]); <span style=color:#6272a4>// 将每一个经纬度转化为坐标点
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span><span style=color:#8be9fd;font-style:italic>isNaN</span>(x) <span style=color:#ff79c6>||</span> <span style=color:#ff79c6>!</span><span style=color:#8be9fd;font-style:italic>isNaN</span>(y)) {
+</span></span><span style=display:flex><span>      vArr.push(<span style=color:#ff79c6>new</span> THREE.Vector3(x, <span style=color:#ff79c6>-</span>y, <span style=color:#bd93f9>2</span>));
+</span></span><span style=display:flex><span>      vlineArr.push(<span style=color:#ff79c6>new</span> THREE.Vector3(x, <span style=color:#ff79c6>-</span>y, <span style=color:#bd93f9>3</span>));
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#ff79c6>if</span> (i <span style=color:#ff79c6>===</span> <span style=color:#bd93f9>0</span>) {
+</span></span><span style=display:flex><span>        shape.moveTo(x, <span style=color:#ff79c6>-</span>y);
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>      shape.lineTo(x, <span style=color:#ff79c6>-</span>y);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> lineMaterial <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.LineBasicMaterial({
+</span></span><span style=display:flex><span>    color<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#2977E7&#34;</span>,
+</span></span><span style=display:flex><span>    linewidth: <span style=color:#8be9fd>1000</span> <span style=color:#6272a4>// 会发现设置宽度无效
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  });
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> lineGeometry <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.BufferGeometry();
+</span></span><span style=display:flex><span>  lineGeometry.setFromPoints(vArr);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> mesh <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Mesh(geometry, [material, materialSide]);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> line <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Line(lineGeometry, lineMaterial);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> { mesh, line };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><strong>Q1 <code>LineBasicMaterial</code> 设置 <code>linewidth</code> 无效的解决方案</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#ff79c6>const</span> lineMaterial <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.LineBasicMaterial({
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// color: &#34;#fff&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  linewidth: <span style=color:#8be9fd>600</span>,
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// dashSize: 0.3,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#6272a4>// gapSize: 0.6,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>});
+</span></span></code></pre></div><p>原因：由于 OpenGL Core Profile 与 大多数平台上 WebGL 渲染器的限制，无论如何设置该值，线宽始终为 1。</p><p>解决方案：<code>Line2</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#ff79c6>import</span> { Line2 } <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;three/examples/jsm/lines/Line2&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> { LineGeometry } <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;three/examples/jsm/lines/LineGeometry&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> { LineMaterial } <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;three/examples/jsm/lines/LineMaterial&#34;</span>;
+</span></span></code></pre></div><p><strong>Q2 <code>THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values.</code></strong></p><p>解析 <code>x</code>, <code>y</code> 坐标的时候会出现 <code>NaN</code>，需要处理判断下</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#ff79c6>for</span> (<span style=color:#8be9fd;font-style:italic>let</span> i <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>; i <span style=color:#ff79c6>&lt;</span> point.length; i<span style=color:#ff79c6>++</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> [x, y]<span style=color:#ff79c6>:</span> <span style=color:#8be9fd>any</span> <span style=color:#ff79c6>=</span> projectionFn(point[i]); <span style=color:#6272a4>// 将每一个经纬度转化为坐标点
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span><span style=color:#8be9fd;font-style:italic>isNaN</span>(x) <span style=color:#ff79c6>||</span> <span style=color:#ff79c6>!</span><span style=color:#8be9fd;font-style:italic>isNaN</span>(y)) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (i <span style=color:#ff79c6>===</span> <span style=color:#bd93f9>0</span>) {
+</span></span><span style=display:flex><span>      shape.moveTo(x, <span style=color:#ff79c6>-</span>y);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    shape.lineTo(x, <span style=color:#ff79c6>-</span>y);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=4-鼠标移入移出修改板块颜色>4. 鼠标移入移出修改板块颜色</h2><p><code>webGL</code> 中获取鼠标交互物体的原理：通过三维空间中 <code>相机视点</code> 和 <code>鼠标在屏幕上的位置</code> 的连线，形成一条直线，捕获与此直线相交的空间中的物体，即为交互对象物体。在 <code>ThreeJS</code> 中通过 <code>Raycaster</code> 实现。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * 设置 raycaster
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> */</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> raycaster <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Raycaster();
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> pointer <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Vector2();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 鼠标移入事件
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>const</span> onMouseMoveEvent <span style=color:#ff79c6>=</span> (e: <span style=color:#8be9fd>MouseEvent</span>) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> intersects <span style=color:#ff79c6>=</span> raycaster.intersectObjects(scene.children);
+</span></span><span style=display:flex><span>  pointer.x <span style=color:#ff79c6>=</span> (e.clientX <span style=color:#ff79c6>/</span> currentDom.clientWidth) <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>-</span> <span style=color:#bd93f9>1</span>;
+</span></span><span style=display:flex><span>  pointer.y <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>-</span>(e.clientY <span style=color:#ff79c6>/</span> currentDom.clientHeight) <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 如果存在，则鼠标移出需要重置
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>if</span> (lastPick) {
+</span></span><span style=display:flex><span>    lastPick.<span style=color:#8be9fd>object</span>.material[<span style=color:#bd93f9>0</span>].color.<span style=color:#ff79c6>set</span>(<span style=color:#f1fa8c>&#34;#06092A&#34;</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  lastPick <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>null</span>;
+</span></span><span style=display:flex><span>  lastPick <span style=color:#ff79c6>=</span> intersects.find(
+</span></span><span style=display:flex><span>    (item: <span style=color:#8be9fd>any</span>) <span style=color:#ff79c6>=&gt;</span> item.<span style=color:#8be9fd>object</span>.material <span style=color:#ff79c6>&amp;&amp;</span> item.<span style=color:#8be9fd>object</span>.material.length <span style=color:#ff79c6>===</span> <span style=color:#bd93f9>2</span>
+</span></span><span style=display:flex><span>  ); <span style=color:#6272a4>// 因为每个板块的材质是由2种材质组成，所以这里可以通过 length === 2 来判断
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (lastPick) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (lastPick.<span style=color:#8be9fd>object</span>.material[<span style=color:#bd93f9>0</span>]) {
+</span></span><span style=display:flex><span>      lastPick.<span style=color:#8be9fd>object</span>.material[<span style=color:#bd93f9>0</span>].color.<span style=color:#ff79c6>set</span>(<span style=color:#f1fa8c>&#34;#3497F5&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>window</span>.addEventListener(<span style=color:#f1fa8c>&#34;mousemove&#34;</span>, onMouseMoveEvent, <span style=color:#ff79c6>false</span>);
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>window</span>.removeEventListener(<span style=color:#f1fa8c>&#34;mousemove&#34;</span>, onMouseMoveEvent);
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p><img src=/post/threejs/images/step4.gif alt=step4></p><p><strong>优化</strong>：你会发现用 <code>item.object.material.length === 2</code> 去判断并不具备普适性，具体的业务场景会很复杂并且会构建很多 <code>Mesh</code>，甚至不够优雅。这里我们可以用 <code>Object3D</code> 官方的自定义属性 <a href=https://threejs.org/docs/#api/en/core/Object3D.userData>userData</a> 进行改造。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ts data-lang=ts><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#8be9fd;font-style:italic>function</span> drawExtrudeMesh() {
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> mesh: <span style=color:#8be9fd>any</span> <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Mesh(geometry, [material, materialSide]);
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// userData 存储自定义属性
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  mesh.userData <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    isChangeColor: <span style=color:#8be9fd>true</span>,
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#6272a4>// lastPick = intersects.find(
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>//   (item: any) =&gt; item.object.material &amp;&amp; item.object.material.length === 2
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// );
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// 优化
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>lastPick <span style=color:#ff79c6>=</span> intersects.find((item: <span style=color:#8be9fd>any</span>) <span style=color:#ff79c6>=&gt;</span> item.<span style=color:#8be9fd>object</span>.userData.isChangeColor);
+</span></span></code></pre></div><h2 id=5-绘制-2d-tooltip>5. 绘制 2d Tooltip</h2><p>实现一个鼠标移动上去展示省份提示框信息的需求，这里绘制了一个固定的 <code>div</code> 用来展示，用 <code>visibility</code> 来控制显示和隐藏。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span>...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (lastPick) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> properties <span style=color:#ff79c6>=</span> lastPick.<span style=color:#8be9fd>object</span>.parent.customProperties;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (lastPick.<span style=color:#8be9fd>object</span>.material[<span style=color:#bd93f9>0</span>]) {
+</span></span><span style=display:flex><span>      lastPick.<span style=color:#8be9fd>object</span>.material[<span style=color:#bd93f9>0</span>].color.<span style=color:#ff79c6>set</span>(<span style=color:#f1fa8c>&#34;#3497F5&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (toolTipRef.current <span style=color:#ff79c6>&amp;&amp;</span> toolTipRef.current.style) {
+</span></span><span style=display:flex><span>      toolTipRef.current.style.left <span style=color:#ff79c6>=</span> e.clientX <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;px&#34;</span>;
+</span></span><span style=display:flex><span>      toolTipRef.current.style.top <span style=color:#ff79c6>=</span> e.clientY <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;px&#34;</span>;
+</span></span><span style=display:flex><span>      toolTipRef.current.style.visibility <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;visible&#34;</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    setToolTipData({
+</span></span><span style=display:flex><span>      text: <span style=color:#8be9fd>properties.name</span>,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>    toolTipRef.current.style.visibility <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;hidden&#34;</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span><span style=color:#ff79c6>return</span> (
+</span></span><span style=display:flex><span>  &lt;<span style=color:#ff79c6>div</span>
+</span></span><span style=display:flex><span>    <span style=color:#50fa7b>style</span><span style=color:#ff79c6>=</span>{{
+</span></span><span style=display:flex><span>      width<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;100%&#34;</span>,
+</span></span><span style=display:flex><span>      height<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;100%&#34;</span>,
+</span></span><span style=display:flex><span>      overflow<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;hidden&#34;</span>,
+</span></span><span style=display:flex><span>      position<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;relative&#34;</span>,
+</span></span><span style=display:flex><span>    }}
+</span></span><span style=display:flex><span>  &gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#ff79c6>div</span> <span style=color:#50fa7b>ref</span><span style=color:#ff79c6>=</span>{mapRef} <span style=color:#50fa7b>style</span><span style=color:#ff79c6>=</span>{{ width<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;100%&#34;</span>, height<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;100%&#34;</span> }}&gt;&lt;/<span style=color:#ff79c6>div</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#ff79c6>ToolTip</span> <span style=color:#50fa7b>innterRef</span><span style=color:#ff79c6>=</span>{toolTipRef} <span style=color:#50fa7b>data</span><span style=color:#ff79c6>=</span>{toolTipData}&gt;&lt;/<span style=color:#ff79c6>ToolTip</span>&gt;
+</span></span><span style=display:flex><span>  &lt;/<span style=color:#ff79c6>div</span>&gt;
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p><img src=/post/threejs/images/step5.gif alt=step5></p><h2 id=6-绘制-2d-renderer>6. 绘制 2d Renderer</h2><p>在地图中还需要有固定的省份信息展示，同时还要求与 3D 视角同步。这里用 <code>CSS2DRenderer</code> 绘制。</p><h3 id=61-引入-css2drenderer-包>6.1 引入 CSS2DRenderer 包</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#ff79c6>import</span> {
+</span></span><span style=display:flex><span>  CSS2DRenderer,
+</span></span><span style=display:flex><span>  CSS2DObject,
+</span></span><span style=display:flex><span>} <span style=color:#ff79c6>from</span> <span style=color:#f1fa8c>&#34;three/examples/jsm/renderers/CSS2DRenderer&#34;</span>; <span style=color:#6272a4>// 引入包
+</span></span></span></code></pre></div><h3 id=62-创建-css2-renderer-渲染器>6.2 创建 css2 Renderer 渲染器</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span>...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * 创建css2 Renderer 渲染器
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> */</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> labelRenderer <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> CSS2DRenderer();
+</span></span><span style=display:flex><span>labelRenderer.setSize(currentDom.clientWidth, currentDom.clientHeight);
+</span></span><span style=display:flex><span>labelRenderer.domElement.style.position <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;absolute&#34;</span>;
+</span></span><span style=display:flex><span>labelRenderer.domElement.style.top <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;0px&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> labelRendererDom <span style=color:#ff79c6>=</span> map2dRef.current;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>if</span> (labelRendererDom<span style=color:#ff79c6>?</span>.childNodes[<span style=color:#bd93f9>0</span>]) {
+</span></span><span style=display:flex><span>  labelRendererDom.removeChild(labelRendererDom.childNodes[<span style=color:#bd93f9>0</span>]);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>labelRendererDom.appendChild(labelRenderer.domElement);
+</span></span></code></pre></div><h3 id=63-通过数据绘制>6.3 通过数据绘制</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * 初始化模型（绘制3D模型）
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> */</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> { mapObject3D, label2dData } <span style=color:#ff79c6>=</span> generateMapObject3D(geoJson);
+</span></span><span style=display:flex><span>scene.add(mapObject3D);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * 绘制 2D 面板
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> */</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> labelObject2D <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Object3D();
+</span></span><span style=display:flex><span>label2dData.forEach((item: <span style=color:#8be9fd>any</span>) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> { featureCenterCoord, featureName } <span style=color:#ff79c6>=</span> item;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> labelObjectItem <span style=color:#ff79c6>=</span> draw2dLabel(featureCenterCoord, featureName);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (labelObjectItem) {
+</span></span><span style=display:flex><span>    labelObject2D.add(labelObjectItem);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>scene.add(labelObject2D);
+</span></span></code></pre></div><h3 id=64-修改轨道控制器>6.4 修改轨道控制器</h3><p><strong>在使用轨道控制器 OrbitControls 时，需要将原来绑定在 WebGLRenderer 的 DOM 改为绑定在 <code>CSS2DRenderer</code> 的 DOM 上，否则轨道控制器无法正常使用</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * 初始化控制器
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> */</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// new OrbitControls(camera, renderer.domElement);
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>new</span> OrbitControls(camera, labelRenderer.domElement);
+</span></span></code></pre></div><h3 id=65-渲染>6.5 渲染</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#ff79c6>const</span> animate <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>function</span> () {
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  labelRenderer.render(scene, camera);
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><h3 id=66-适配-onresize>6.6 适配 onresize</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#6272a4>// 视窗伸缩
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#8be9fd;font-style:italic>function</span> onResize() {
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>  labelRenderer.setSize(currentDom.clientWidth, currentDom.clientHeight);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><img src=/post/threejs/images/step6.gif alt=step6></p><h2 id=7-地图下钻>7. 地图下钻</h2><p>地图的下钻无非是数据的不同。这里通过 <code>dblclick</code> 事件获取对应的 <code>adcode</code> 请求不同的接口数据。有几个小点需要注意：</p><ul><li>保证地图在页面中心需要传入 <code>center</code> 更新对应的 <code>projectionFn</code></li><li>保证地图有合适的缩放比例需要传入 <code>scale</code> 更新对应的 <code>projectionFn</code></li></ul><p><img src=/post/threejs/images/step7.gif alt=step7></p><h2 id=8-地图下钻动画>8. 地图下钻动画</h2><p>上面的地图下钻未免太过生硬，加入动画效果会更好。这里用 <a href=https://greensock.com/docs/v3/GSAP>gsap 动画库</a> 实现。</p><h3 id=81-安装依赖>8.1 安装依赖</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm i gsap
+</span></span></code></pre></div><h3 id=82-添加动画>8.2 添加动画</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * 动画
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> */</span>
+</span></span><span style=display:flex><span>gsap.to(mapObject3D.scale, { x: <span style=color:#8be9fd>2</span>, y: <span style=color:#8be9fd>2</span>, z: <span style=color:#8be9fd>1</span>, duration: <span style=color:#8be9fd>1</span> });
+</span></span><span style=display:flex><span>gsap.to(labelObject2D.scale, { x: <span style=color:#8be9fd>2</span>, y: <span style=color:#8be9fd>2</span>, z: <span style=color:#8be9fd>1</span>, duration: <span style=color:#8be9fd>1</span> });
+</span></span></code></pre></div><p><img src=/post/threejs/images/step8.gif alt=step8></p><h2 id=9-绘制扩散点>9. 绘制扩散点</h2><p>地图上有扩散的点是一个很常见的需求，可以标注一些关键点位。</p><h3 id=91-绘制>9.1 绘制</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ts data-lang=ts><span style=display:flex><span><span style=color:#6272a4>// 绘制圆点
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> drawSpot <span style=color:#ff79c6>=</span> (coord<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>]) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>if</span> (coord <span style=color:#ff79c6>&amp;&amp;</span> coord.length) {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> POSITION_Z <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>2.1</span>;
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     * 绘制圆点
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> spotGeometry <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.CircleGeometry(<span style=color:#bd93f9>0.5</span>, <span style=color:#bd93f9>200</span>);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> spotMaterial <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.MeshBasicMaterial({
+</span></span><span style=display:flex><span>      color<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#3EC5FB&#34;</span>,
+</span></span><span style=display:flex><span>      side: <span style=color:#8be9fd>THREE.DoubleSide</span>,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> circle <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Mesh(spotGeometry, spotMaterial);
+</span></span><span style=display:flex><span>    circle.position.<span style=color:#ff79c6>set</span>(coord[<span style=color:#bd93f9>0</span>], <span style=color:#ff79c6>-</span>coord[<span style=color:#bd93f9>1</span>], POSITION_Z);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// 圆环
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>const</span> ringGeometry <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.RingGeometry(<span style=color:#bd93f9>0.5</span>, <span style=color:#bd93f9>0.7</span>, <span style=color:#bd93f9>50</span>);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> ringMaterial <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.MeshBasicMaterial({
+</span></span><span style=display:flex><span>      color<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#3FC5FB&#34;</span>,
+</span></span><span style=display:flex><span>      side: <span style=color:#8be9fd>THREE.DoubleSide</span>,
+</span></span><span style=display:flex><span>      transparent: <span style=color:#8be9fd>true</span>,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>const</span> ring <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Mesh(ringGeometry, ringMaterial);
+</span></span><span style=display:flex><span>    ring.position.<span style=color:#ff79c6>set</span>(coord[<span style=color:#bd93f9>0</span>], <span style=color:#ff79c6>-</span>coord[<span style=color:#bd93f9>1</span>], POSITION_Z);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> { circle, ring };
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><h3 id=92-在-animate-函数中添加扩散逻辑>9.2 在 animate 函数中添加扩散逻辑</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span><span style=color:#ff79c6>const</span> animate <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>function</span> () {
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 圆环
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  spotList.forEach((mesh: <span style=color:#8be9fd>any</span>) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>    mesh._s <span style=color:#ff79c6>+=</span> <span style=color:#bd93f9>0.01</span>;
+</span></span><span style=display:flex><span>    mesh.scale.<span style=color:#ff79c6>set</span>(<span style=color:#bd93f9>1</span> <span style=color:#ff79c6>*</span> mesh._s, <span style=color:#bd93f9>1</span> <span style=color:#ff79c6>*</span> mesh._s, <span style=color:#bd93f9>1</span> <span style=color:#ff79c6>*</span> mesh._s);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (mesh._s <span style=color:#ff79c6>&lt;=</span> <span style=color:#bd93f9>2</span>) {
+</span></span><span style=display:flex><span>      mesh.material.opacity <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>-</span> mesh._s;
+</span></span><span style=display:flex><span>    } <span style=color:#ff79c6>else</span> {
+</span></span><span style=display:flex><span>      mesh._s <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><p><img src=/post/threejs/images/step9.gif alt=step9></p><h2 id=10-扩散点之间的轨迹线>10. 扩散点之间的轨迹线</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ts data-lang=ts><span style=display:flex><span><span style=color:#6272a4>/**
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> * 线上移动物体
+</span></span></span><span style=display:flex><span><span style=color:#6272a4> */</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> drawflySpot <span style=color:#ff79c6>=</span> (curve: <span style=color:#8be9fd>any</span>) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> aGeo <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.SphereGeometry(<span style=color:#bd93f9>0.2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> aMater <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.MeshBasicMaterial({
+</span></span><span style=display:flex><span>    color<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#34;#77f077&#34;</span>,
+</span></span><span style=display:flex><span>    side: <span style=color:#8be9fd>THREE.DoubleSide</span>,
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> aMesh: <span style=color:#8be9fd>any</span> <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Mesh(aGeo, aMater);
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 保存曲线实例
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  aMesh.curve <span style=color:#ff79c6>=</span> curve;
+</span></span><span style=display:flex><span>  aMesh._s <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> aMesh;
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// 绘制两点链接飞线
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>export</span> <span style=color:#ff79c6>const</span> drawLineBetween2Spot <span style=color:#ff79c6>=</span> (
+</span></span><span style=display:flex><span>  coordStart<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>],
+</span></span><span style=display:flex><span>  coordEnd<span style=color:#ff79c6>:</span> [<span style=color:#8be9fd>number</span>, <span style=color:#8be9fd>number</span>]
+</span></span><span style=display:flex><span>) <span style=color:#ff79c6>=&gt;</span> {
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> [x0, y0, z0] <span style=color:#ff79c6>=</span> [...coordStart, POSITION_Z];
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> [x1, y1, z1] <span style=color:#ff79c6>=</span> [...coordEnd, POSITION_Z];
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 使用 QuadraticBezierCurve3 创建 三维二次贝塞尔曲线
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> curve <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.QuadraticBezierCurve3(
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>new</span> THREE.Vector3(x0, <span style=color:#ff79c6>-</span>y0, z0),
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>new</span> THREE.Vector3((x0 <span style=color:#ff79c6>+</span> x1) <span style=color:#ff79c6>/</span> <span style=color:#bd93f9>2</span>, <span style=color:#ff79c6>-</span>(y0 <span style=color:#ff79c6>+</span> y1) <span style=color:#ff79c6>/</span> <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>20</span>),
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>new</span> THREE.Vector3(x1, <span style=color:#ff79c6>-</span>y1, z1)
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> flySpot <span style=color:#ff79c6>=</span> drawflySpot(curve);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> lineGeometry <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.BufferGeometry();
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 获取曲线上50个点
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>const</span> points <span style=color:#ff79c6>=</span> curve.getPoints(<span style=color:#bd93f9>50</span>);
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> positions <span style=color:#ff79c6>=</span> [];
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> colors <span style=color:#ff79c6>=</span> [];
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> color <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Color();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 给每个顶点设置演示 实现渐变
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  <span style=color:#ff79c6>for</span> (<span style=color:#8be9fd;font-style:italic>let</span> j <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>; j <span style=color:#ff79c6>&lt;</span> points.length; j<span style=color:#ff79c6>++</span>) {
+</span></span><span style=display:flex><span>    color.setHSL(<span style=color:#bd93f9>0.21</span> <span style=color:#ff79c6>+</span> j, <span style=color:#bd93f9>0.77</span>, <span style=color:#bd93f9>0.55</span> <span style=color:#ff79c6>+</span> j <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>0.0025</span>); <span style=color:#6272a4>// 色
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    colors.push(color.r, color.g, color.b);
+</span></span><span style=display:flex><span>    positions.push(points[j].x, points[j].y, points[j].z);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>// 放入顶点 和 设置顶点颜色
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>  lineGeometry.setAttribute(
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;position&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>new</span> THREE.BufferAttribute(<span style=color:#ff79c6>new</span> Float32Array(positions), <span style=color:#bd93f9>3</span>, <span style=color:#ff79c6>true</span>)
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>  lineGeometry.setAttribute(
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;color&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>new</span> THREE.BufferAttribute(<span style=color:#ff79c6>new</span> Float32Array(colors), <span style=color:#bd93f9>3</span>, <span style=color:#ff79c6>true</span>)
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> material <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.LineBasicMaterial({
+</span></span><span style=display:flex><span>    vertexColors: <span style=color:#8be9fd>true</span>,
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// color: &#34;red&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    side: <span style=color:#8be9fd>THREE.DoubleSide</span>,
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>const</span> flyLine <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> THREE.Line(lineGeometry, material);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>return</span> { flyLine, flySpot };
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></div><p>记得别忘了</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-tsx data-lang=tsx><span style=display:flex><span>gsap.to(flyObject3D.scale, { x: <span style=color:#8be9fd>2</span>, y: <span style=color:#8be9fd>2</span>, z: <span style=color:#8be9fd>1</span>, duration: <span style=color:#8be9fd>1</span> });
+</span></span></code></pre></div><p><img src=/post/threejs/images/step10.gif alt=step10></p><h2 id=11-雷达扫描效果>11. 雷达扫描效果</h2><p>如果在地图背后加上雷达的扫描效果，是不是会很炫酷。</p><p><img src=/post/threejs/images/step11.gif alt=step11></p><h2 id=12-光照效果>12. 光照效果</h2><h2 id=性能优化>性能优化</h2><p>threejs 频繁绘制下钻会出现掉帧现象</p><h2 id=完整代码>完整代码</h2><p><a href=https://github.com/chemistwang/demo-threejs-chinamap>GitHub demo-threejs-chinamap</a></p><hr><ul class=pager><li class=previous><a href=/post/webrtc/ data-toggle=tooltip data-placement=top title=WebRTC（一）简介和基本原理>&larr;
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a>
+<a href=/tags/ts title=ts>ts</a>
+<a href=/tags/%E8%AF%91%E6%96%87 title=译文>译文</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
