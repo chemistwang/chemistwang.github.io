@@ -689,6 +689,12 @@ function onResize() {
 }
 ```
 
+**Q: CSS2DObject 上面 click 事件无效的解决方案**
+
+Try it with `pointerdown` instead of `click`.
+
+[参考链接：CSS2DObject click event didn’t work](https://discourse.threejs.org/t/css2dobject-click-event-didnt-work/40288)
+
 ![step6](/post/threejs/images/step6.gif)
 
 ## 7. 地图下钻
@@ -863,6 +869,35 @@ gsap.to(flyObject3D.scale, { x: 2, y: 2, z: 1, duration: 1 });
 ![step11](/post/threejs/images/step11.gif)
 
 ## 12. 光照效果
+
+准备添加一个地图上的光照效果，看起来更有视觉冲击力。
+
+```tsx
+/**
+ * 新增光源
+ */
+const light = new THREE.PointLight(0xffffff, 1);
+light.position.set(0, -5, 30);
+scene.add(light);
+
+// 光源辅助线
+const lightHelper = new THREE.PointLightHelper(light);
+scene.add(lightHelper);
+```
+
+记得把绘制地图的材质改了，这里把 `MeshBasicMaterial` 修改为 `MeshPhongMaterial`。
+
+```ts
+export function drawExtrudeMesh(){
+  ...
+  const material = new THREE.MeshPhongMaterial({
+    color: "#06092A",
+    transparent: true,
+    opacity: 0.9,
+  });
+  ...
+}
+```
 
 ## 性能优化
 
