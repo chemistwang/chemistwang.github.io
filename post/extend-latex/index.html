@@ -1,0 +1,88 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="img/coffee-bg.jpg"><meta property="twitter:image" content="img/coffee-bg.jpg"><meta name=title content="Hugo 主题添加 Latex 支持"><meta property="og:title" content="Hugo 主题添加 Latex 支持"><meta property="twitter:title" content="Hugo 主题添加 Latex 支持"><meta name=description content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="og:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>Hugo 主题添加 Latex 支持 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/extend-latex/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script>
+<script src=/js/lazysizes.min.js></script>
+<script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"]}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></head><style>code.has-jax{-webkit-font-smoothing:antialiased;background:inherit!important;border:none!important;font-size:100%}</style><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/es6/>es6</a></li><li><a href=/categories/react/>react</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/categories/threejs/>threejs</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/notes//>NOTES</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags></div><h1>Hugo 主题添加 Latex 支持</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Monday, March 27, 2023</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=hugo-主题添加-latex-支持>Hugo 主题添加 Latex 支持</h1><p>最近记录机器学习相关笔记时，需要用到很多数学公式，在现有的 <code>Hugo</code> 主题框架上扩展一下 <code>Latex</code> 的语法支持。</p><h2 id=1-添加脚本>1. 添加脚本</h2><p>在已有的主题文件夹下 <code>themes/hugo-theme-cleanwhite/layouts/partials</code> 创建 <code>mathjax_support.html</code>，添加如下代码。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span>&lt;<span style=color:#ff79c6>script</span>&gt;
+</span></span><span style=display:flex><span>  MathJax <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>    tex<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      inlineMath<span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#f1fa8c>&#34;$&#34;</span>, <span style=color:#f1fa8c>&#34;$&#34;</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#f1fa8c>&#34;\\(&#34;</span>, <span style=color:#f1fa8c>&#34;\\)&#34;</span>],
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      displayMath<span style=color:#ff79c6>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#f1fa8c>&#34;$$&#34;</span>, <span style=color:#f1fa8c>&#34;$$&#34;</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#f1fa8c>&#34;\\[&#34;</span>, <span style=color:#f1fa8c>&#34;\\]&#34;</span>],
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      processEscapes<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>      processEnvironments<span style=color:#ff79c6>:</span> <span style=color:#ff79c6>true</span>,
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    options<span style=color:#ff79c6>:</span> {
+</span></span><span style=display:flex><span>      skipHtmlTags<span style=color:#ff79c6>:</span> [<span style=color:#f1fa8c>&#34;script&#34;</span>, <span style=color:#f1fa8c>&#34;noscript&#34;</span>, <span style=color:#f1fa8c>&#34;style&#34;</span>, <span style=color:#f1fa8c>&#34;textarea&#34;</span>, <span style=color:#f1fa8c>&#34;pre&#34;</span>],
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#8be9fd;font-style:italic>window</span>.addEventListener(<span style=color:#f1fa8c>&#34;load&#34;</span>, (event) =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>document</span>.querySelectorAll(<span style=color:#f1fa8c>&#34;mjx-container&#34;</span>).forEach(<span style=color:#8be9fd;font-style:italic>function</span> (x) {
+</span></span><span style=display:flex><span>      x.parentElement.classList <span style=color:#ff79c6>+=</span> <span style=color:#f1fa8c>&#34;has-jax&#34;</span>;
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>&lt;/<span style=color:#ff79c6>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#ff79c6>script</span> <span style=color:#50fa7b>src</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;https://polyfill.io/v3/polyfill.min.js?features=es6&#34;</span>&gt;&lt;/<span style=color:#ff79c6>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#ff79c6>script</span>
+</span></span><span style=display:flex><span>  <span style=color:#50fa7b>type</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;text/javascript&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#50fa7b>id</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;MathJax-script&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#50fa7b>async</span>
+</span></span><span style=display:flex><span>  <span style=color:#50fa7b>src</span><span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&#34;</span>
+</span></span><span style=display:flex><span>&gt;&lt;/<span style=color:#ff79c6>script</span>&gt;
+</span></span></code></pre></div><h2 id=2-添加-hugo-渲染>2. 添加 Hugo 渲染</h2><p>在 <code>themes/hugo-theme-cleanwhite/layouts/partials/head.html</code> 中添加解析语法，注意解析语法要放在 <code>head</code> 标签之内。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span>&lt;<span style=color:#ff79c6>head</span>&gt;
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#6272a4>&lt;!-- LaTeX  MathJax 3 --&gt;</span>
+</span></span><span style=display:flex><span>  {{ if .Params.mathjax }}{{ partial &#34;mathjax_support.html&#34; . }}{{ end }}
+</span></span><span style=display:flex><span>&lt;/<span style=color:#ff79c6>head</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#ff79c6>style</span>&gt;
+</span></span><span style=display:flex><span>  <span style=color:#ff79c6>code</span>.<span style=color:#50fa7b>has-jax</span> {
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>-webkit-</span>font-smoothing: antialiased;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>background</span>: <span style=color:#ff79c6>inherit</span> <span style=color:#ff79c6>!important</span>;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>border</span>: <span style=color:#ff79c6>none</span> <span style=color:#ff79c6>!important</span>;
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>font-size</span>: <span style=color:#bd93f9>100</span><span style=color:#8be9fd>%</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>&lt;/<span style=color:#ff79c6>style</span>&gt;
+</span></span></code></pre></div><h2 id=3-在所在的-md-文件中添加-mathjax-true>3. 在所在的 md 文件中添加 <code>mathjax: true</code></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-md data-lang=md><span style=display:flex><span>---
+</span></span><span style=display:flex><span><span style=font-weight:700># layout: post
+</span></span></span><span style=display:flex><span><span style=font-weight:700></span>title: &#34;《PyTorch 深度学习实践》学习笔记&#34;
+</span></span><span style=display:flex><span>subtitle: &#34;&#34;
+</span></span><span style=display:flex><span>date: 2023-03-24
+</span></span><span style=display:flex><span>author: &#34;汪洋龙&#34;
+</span></span><span style=display:flex><span>categories: [Tech]
+</span></span><span style=display:flex><span>image: &#34;img/ai.jpg&#34;
+</span></span><span style=display:flex><span>description: &#34;&#34;
+</span></span><span style=display:flex><span>mathjax: true // 👈 添加
+</span></span><span style=display:flex><span>---
+</span></span></code></pre></div><h2 id=4-使用>4. 使用</h2><p>行内公式语法用单 <code>$</code> 括起来:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$<span style=color:#f1fa8c>\h</span>at<span style=color:#ff79c6>{</span>y<span style=color:#ff79c6>}</span> <span style=color:#ff79c6>=</span>x<span style=color:#f1fa8c>\ </span> <span style=color:#f1fa8c>\t</span>imes w<span style=color:#f1fa8c>\ </span> +<span style=color:#f1fa8c>\ </span> b$
+</span></span></code></pre></div><p><code>$\hat{y} =x\ \times w\ +\ b$</code></p><p>行间公式语法用双 <code>$</code> 括起来:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>$$</span><span style=color:#f1fa8c>\h</span>at<span style=color:#ff79c6>{</span>y<span style=color:#ff79c6>}</span> <span style=color:#ff79c6>=</span>x<span style=color:#f1fa8c>\ </span> <span style=color:#f1fa8c>\t</span>imes w<span style=color:#f1fa8c>\ </span> +<span style=color:#f1fa8c>\ </span> b<span style=color:#8be9fd;font-style:italic>$$</span>
+</span></span></code></pre></div><p><code>$$\hat{y} =x\ \times w\ +\ b$$</code></p><blockquote><p>MacOS 用户推荐 <code>App Store</code> 的 <code>XFormula</code> 编写并输出 <code>Latex</code></p></blockquote><h2 id=5-可以发布成自己的-hugo-主题>5. 可以发布成自己的 Hugo 主题</h2><p><a href=https://github.com/chemistwang/hugo-theme-cleanwhite-extend>Github hugo-theme-cleanwhite-extend</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git submodule add https://github.com/chemistwang/hugo-theme-cleanwhite-extend themes/hugo-theme-cleanwhite-extend
+</span></span></code></pre></div><hr><ul class=pager><li class=previous><a href=/post/threejs/3dmap/ data-toggle=tooltip data-placement=top title=ThreeJS实现3D中国地图>&larr;
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a>
+<a href=/tags/ts title=ts>ts</a>
+<a href=/tags/%E8%AF%91%E6%96%87 title=译文>译文</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
