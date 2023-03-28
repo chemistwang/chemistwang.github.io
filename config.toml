@@ -1,6 +1,6 @@
 baseurl = "https://chemistwang.github.io/"
 title = "Chemputer Blog"
-theme = "hugo-theme-cleanwhite"
+theme = "hugo-theme-cleanwhite-extend"
 languageCode = "en-us"
 # Enable comments by entering your Disqus shortname
 disqusShortname = ""
