@@ -1,0 +1,80 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="img/coffee-bg.jpg"><meta property="twitter:image" content="img/coffee-bg.jpg"><meta name=title content="npm常用命令和nrm管理工具"><meta property="og:title" content="npm常用命令和nrm管理工具"><meta property="twitter:title" content="npm常用命令和nrm管理工具"><meta name=description content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="og:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>npm常用命令和nrm管理工具 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/js/npm/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script>
+<script src=/js/lazysizes.min.js></script></head><style>code.has-jax{-webkit-font-smoothing:antialiased;background:inherit!important;border:none!important;font-size:100%}</style><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/es6/>es6</a></li><li><a href=/categories/react/>react</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/categories/threejs/>threejs</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/notes//>NOTES</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags></div><h1>npm常用命令和nrm管理工具</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Sunday, April 9, 2023</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=npm-常用命令和-nrm-管理工具>npm 常用命令和 nrm 管理工具</h1><h2 id=1-常用命令>1. 常用命令</h2><h3 id=查看-npm-全局包>查看 npm 全局包</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>~ npm list -g
+</span></span><span style=display:flex><span>/usr/local/lib
+</span></span><span style=display:flex><span>├── corepack@0.10.0
+</span></span><span style=display:flex><span>├── create-react-app@5.0.1
+</span></span><span style=display:flex><span>├── nodemon@2.0.20
+</span></span><span style=display:flex><span>├── npm@8.5.0
+</span></span><span style=display:flex><span>├── nrm@1.2.5
+</span></span><span style=display:flex><span>├── open@8.4.2
+</span></span><span style=display:flex><span>└── pm2@5.2.2
+</span></span></code></pre></div><h3 id=查看-npm-源>查看 npm 源</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>npm config get registry
+</span></span><span style=display:flex><span><span style=color:#6272a4># 或</span>
+</span></span><span style=display:flex><span>npm get registry
+</span></span></code></pre></div><h3 id=设置-npm-源>设置 npm 源</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#6272a4># 淘宝镜像源</span>
+</span></span><span style=display:flex><span>npm config <span style=color:#8be9fd;font-style:italic>set</span> registry http://registry.npm.taobao.org
+</span></span><span style=display:flex><span><span style=color:#6272a4># npm 官方源</span>
+</span></span><span style=display:flex><span>npm config <span style=color:#8be9fd;font-style:italic>set</span> registry https://registry.npmjs.org
+</span></span></code></pre></div><p>这样切换很不方便，用 <code>nrm</code> 做管理</p><h2 id=2-用-nrm-做源管理>2. 用 nrm 做源管理</h2><h3 id=21-安装>2.1 安装</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo npm install nrm -g
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#ff79c6>(</span>base<span style=color:#ff79c6>)</span> ➜  ~ nrm ls
+</span></span><span style=display:flex><span>/usr/local/lib/node_modules/nrm/cli.js:9
+</span></span><span style=display:flex><span>const <span style=color:#8be9fd;font-style:italic>open</span> <span style=color:#ff79c6>=</span> require<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#39;open&#39;</span><span style=color:#ff79c6>)</span>;
+</span></span><span style=display:flex><span>             ^
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Error <span style=color:#ff79c6>[</span>ERR_REQUIRE_ESM<span style=color:#ff79c6>]</span>: require<span style=color:#ff79c6>()</span> of ES Module /usr/local/lib/node_modules/nrm/node_modules/open/index.js from /usr/local/lib/node_modules/nrm/cli.js not supported.
+</span></span><span style=display:flex><span>Instead change the require of index.js in /usr/local/lib/node_modules/nrm/cli.js to a dynamic import<span style=color:#ff79c6>()</span> which is available in all CommonJS modules.
+</span></span><span style=display:flex><span>    at Object.&lt;anonymous&gt; <span style=color:#ff79c6>(</span>/usr/local/lib/node_modules/nrm/cli.js:9:14<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+</span></span><span style=display:flex><span>  code: <span style=color:#f1fa8c>&#39;ERR_REQUIRE_ESM&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>}</span>
+</span></span></code></pre></div><p>发现报错，原因是引用的 <code>open</code> 包在 <a href=https://www.npmjs.com/package/open/v/9.0.0>v9.x</a> 之后改成 <code>Native ESM</code>，不再支持 <code>require</code> 引入方式。</p><p><code>Warning: This package is native ESM and no longer provides a CommonJS export. If your project uses CommonJS, you will have to convert to ESM or use the dynamic import() function. Please don't open issues for questions regarding CommonJS / ESM.</code></p><p>解决方案：指定低版本</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo npm install nrm open@8.4.2 -g
+</span></span></code></pre></div><h3 id=22-使用>2.2 使用</h3><h4 id=1-查看源列表>1. 查看源列表</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#ff79c6>(</span>base<span style=color:#ff79c6>)</span> ➜  ~ nrm ls
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  npm ---------- https://registry.npmjs.org/
+</span></span><span style=display:flex><span>  yarn --------- https://registry.yarnpkg.com/
+</span></span><span style=display:flex><span>  tencent ------ https://mirrors.cloud.tencent.com/npm/
+</span></span><span style=display:flex><span>  cnpm --------- https://r.cnpmjs.org/
+</span></span><span style=display:flex><span>  taobao ------- https://registry.npmmirror.com/
+</span></span><span style=display:flex><span>  npmMirror ---- https://skimdb.npmjs.com/registry/
+</span></span></code></pre></div><h4 id=2-切换源>2. 切换源</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#ff79c6>(</span>base<span style=color:#ff79c6>)</span> ➜  ~ nrm use taobao
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   Registry has been <span style=color:#8be9fd;font-style:italic>set</span> to: https://registry.npmmirror.com/
+</span></span></code></pre></div><h4 id=3-添加一个源>3. 添加一个源</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#ff79c6>(</span>base<span style=color:#ff79c6>)</span> ➜  ~ nrm add person http://xxx:4873/
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    add registry person success
+</span></span></code></pre></div><h4 id=4-删除>4. 删除</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#ff79c6>(</span>base<span style=color:#ff79c6>)</span> ➜  ~ nrm del person
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    delete registry person success
+</span></span></code></pre></div><h4 id=5-测速>5. 测速</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#ff79c6>(</span>base<span style=color:#ff79c6>)</span> ➜  ~ nrm <span style=color:#8be9fd;font-style:italic>test</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>* npm ------ 778ms
+</span></span><span style=display:flex><span>  yarn ----- 842ms
+</span></span><span style=display:flex><span>  tencent -- 1455ms
+</span></span><span style=display:flex><span>  cnpm ----- 1101ms
+</span></span><span style=display:flex><span>  taobao --- 179ms
+</span></span><span style=display:flex><span>  npmMirror - 5451ms
+</span></span></code></pre></div><hr><ul class=pager><li class=previous><a href=/post/extend-latex/ data-toggle=tooltip data-placement=top title="Hugo 主题添加 Latex 支持">&larr;
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a>
+<a href=/tags/ts title=ts>ts</a>
+<a href=/tags/%E8%AF%91%E6%96%87 title=译文>译文</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
