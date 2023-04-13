@@ -7,6 +7,8 @@ author: "汪洋龙"
 categories: [Tech]
 image: "img/coffee-bg.jpg"
 description: ""
+tags:
+  - "infrastructure"
 ---
 
 [gitflow-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)

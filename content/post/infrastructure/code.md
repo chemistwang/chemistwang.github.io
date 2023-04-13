@@ -7,6 +7,8 @@ author: "汪洋龙"
 categories: [Tech]
 image: "img/coffee-bg.jpg"
 description: "Eslint Prettier Commitlint Husky"
+tags:
+  - "infrastructure"
 ---
 
 # 前端基建之（一）代码风格和提交规范配置

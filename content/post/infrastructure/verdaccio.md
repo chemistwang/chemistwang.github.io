@@ -6,7 +6,7 @@ date: 2023-04-10
 author: "汪洋龙"
 categories: [Tech]
 image: "img/coffee-bg.jpg"
-description: ""
+description: "npm也可以私有化部署"
 tags:
   - "infrastructure"
 ---

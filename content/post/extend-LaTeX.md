@@ -6,7 +6,7 @@ date: 2023-03-27
 author: "汪洋龙"
 categories: [Tech]
 image: "img/coffee-bg.jpg"
-description: ""
+description: "告别公式贴图"
 mathjax: true
 ---
 
@@ -107,8 +107,6 @@ $$\hat{y} =x\  \times w\  +\  b$$
 ```
 
 `$$\hat{y} =x\  \times w\  +\  b$$`
-
-> MacOS 用户推荐 `App Store` 的 `XFormula` 编写并输出 `Latex`
 
 ## 5. 可以发布成自己的 Hugo 主题
 

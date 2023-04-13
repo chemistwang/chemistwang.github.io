@@ -7,6 +7,8 @@ author: "汪洋龙"
 categories: [Tech]
 image: "img/coffee-bg.jpg"
 description: ""
+tags:
+  - "infrastructure"
 ---
 
 # 前端基建之（二）项目约定
