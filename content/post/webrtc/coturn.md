@@ -7,6 +7,8 @@ author: "汪洋龙"
 categories: [Tech]
 image: "img/coffee-bg.jpg"
 description: "coturn"
+tags:
+  - webrtc
 ---
 
 # 搭建 coturn 服务器

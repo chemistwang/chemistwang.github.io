@@ -113,8 +113,12 @@ home = ["HTML", "RSS", "Algolia"]
   title =  "NOTES"
   href =  "/notes/"
   [[params.addtional_menus]]
+  title = "PHOTOS"
+  href =  "/photos/"
+  [[params.addtional_menus]]
   title =  "ABOUT"
   href =  "/about/"
+  
 
 [outputFormats.Algolia]
 baseName = "algolia"
