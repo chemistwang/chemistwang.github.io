@@ -1,0 +1,23 @@
+{
+  "name": "chemistwang.github.io",
+  "version": "1.0.0",
+  "description": "My Hugo Blog",
+  "main": "index.js",
+  "dependencies": {
+    "atomic-algolia": "^0.3.19"
+  },
+  "scripts": {
+    "algolia": "atomic-algolia"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chemistwang/chemistwang.github.io.git"
+  },
+  "keywords": [],
+  "author": "Chemputer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chemistwang/chemistwang.github.io/issues"
+  },
+  "homepage": "https://github.com/chemistwang/chemistwang.github.io#readme"
+}

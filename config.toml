@@ -30,10 +30,10 @@ home = ["HTML", "RSS", "Algolia"]
 
   # algolia site search
   algolia_search = true
-  algolia_appId = ""
-  algolia_indexName = ""
-  algolia_apiKey = ""
-
+  algolia_appId = "NTA3WVMDR1"
+  algolia_indexName = "hugo_blog"
+  algolia_apiKey = "be5c8704bd32199e9b22af48ea848b80"
+  
   # Sidebar settings
   sidebar_about_description = "Software Developer, Love Chemistry, Love Coding"
   #sidebar_avatar = "img/avatar-zhaohuabing.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
