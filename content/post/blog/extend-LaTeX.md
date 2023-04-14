@@ -8,6 +8,8 @@ categories: [Tech]
 image: "img/coffee-bg.jpg"
 description: "告别公式贴图"
 mathjax: true
+tags:
+  - "blog"
 ---
 
 # Hugo 主题添加 Latex 支持
