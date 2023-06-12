@@ -1,6 +1,6 @@
 ---
 # layout: post
-title: "前端基建之（七）npm私服：Verdaccio"
+title: "前端基建之（八）npm私服：Verdaccio"
 subtitle: ""
 date: 2023-04-10
 author: "汪洋龙"
@@ -91,7 +91,7 @@ log: { type: stdout, format: pretty, level: http }
 
 #### 2. 创建文件夹存放 conf 文件
 
-服务器创建 `/root/verdaccio` 文件夹存放 `conf` `plugins ` `storage`
+服务器创建 `/root/verdaccio` 文件夹存放 `conf` `plugins ` `storage`，在 `conf` 文件夹下创建 `config.yaml`。
 
 ```bash
 drwxr-xr-x 2 root  root  4096 Apr 11 11:25 conf
