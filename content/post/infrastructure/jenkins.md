@@ -142,7 +142,7 @@ curl 127.0.0.1:10001
 
 ### 6. 设置环境变量
 
-```bash {6,7}
+```bash
 docker run \
 -d \
 -p 10003:8080 \
@@ -163,7 +163,7 @@ jenkinsci/blueocean
 
 ### 7. 修改 `nginx` 配置
 
-```bash {4,5}
+```bash
 server{
         listen 80;
         server_name tool.chemputer.top;
