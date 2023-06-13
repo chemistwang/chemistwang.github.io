@@ -4,7 +4,7 @@ title: "ThreeJS实现3D中国地图"
 subtitle: ""
 date: 2023-02-27 17:58:34
 author: "汪洋龙"
-categories: [threejs]
+categories: [Tech]
 image: "img/coffee-bg.jpg"
 description: "告别伪3D地图，升级视觉体验"
 tags:

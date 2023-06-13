@@ -39,5 +39,5 @@ tags:
 在根目录创建 `.env`，设置 `GENERATE_SOURCEMAP` 属性为 `false`。参考 [CRA 高级设置](https://create-react-app.dev/docs/advanced-configuration/)
 
 ```
-GENERATE_SOURCEMAP = true
+GENERATE_SOURCEMAP = false
 ```

@@ -8,8 +8,6 @@ layout: page
 
 [My React Project]()
 
-[My Vue Project]()
-
 [My Flutter Project]()
 
 [My Rust Project]()
