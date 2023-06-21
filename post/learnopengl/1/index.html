@@ -1,0 +1,242 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Chemputer Blog"><meta property="og:type" content="article"><meta property="og:image" content="img/coffee-bg.jpg"><meta property="twitter:image" content="img/coffee-bg.jpg"><meta name=title content="LearningOpenGL（一）macOS M1 环境搭建"><meta property="og:title" content="LearningOpenGL（一）macOS M1 环境搭建"><meta property="twitter:title" content="LearningOpenGL（一）macOS M1 环境搭建"><meta name=description content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="og:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:description" content="汪洋龙，程序员 ｜ 有机化学搬砖工 "><meta property="twitter:card" content="summary"><meta name=keyword content="汪洋龙, wangyanglong, Wangyanglong, 汪洋龙的博客, Wangyanglong Blog, 博客, 个人网站, 互联网, Web, Javascript, React"><link rel="shortcut icon" href=/img/favicon.ico><title>LearningOpenGL（一）macOS M1 环境搭建 | 汪洋龙的博客 | Wangyanglong Blog</title><link rel=canonical href=/post/learnopengl/1/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script>
+<script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-5E5ZJN0DQ4"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-5E5ZJN0DQ4",{anonymize_ip:!1})}</script><style>code.has-jax{-webkit-font-smoothing:antialiased;background:inherit!important;border:none!important;font-size:100%}</style><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=/>Chemputer Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/es6/>es6</a></li><li><a href=/categories/react/>react</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/notes//>NOTES</a></li><li><a href=/photos//>PHOTOS</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/coffee-bg.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags></div><h1>LearningOpenGL（一）macOS M1 环境搭建</h1><h2 class=subheading></h2><span class=meta>Posted by
+汪洋龙
+on
+Sunday, June 18, 2023</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h2 id=前言>前言</h2><p><strong>开发环境： macOS Ventura M1 Pro</strong></p><p><strong>开发工具：CLion</strong></p><p><strong>参考资料</strong></p><ul><li><a href=https://learnopengl.com/>learnopengl 英文原版：https://learnopengl.com/</a></li><li><a href=https://learnopengl-cn.github.io/>learnopengl 中文：https://learnopengl-cn.github.io/</a></li></ul><h2 id=1-安装-glfw-环境>1. 安装 GLFW 环境</h2><p>这边直接通过 <code>brew</code> 进行安装</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>brew install glfw
+</span></span></code></pre></div><p>通过 <code>brew list | grep glfw</code> 查看是否安装</p><h2 id=2-下载-glad>2. 下载 GLAD</h2><p>通过 <a href=https://glad.dav1d.de/>GLAD 在线服务</a> 下载</p><p>下拉框分别选择：</p><ul><li>Language: <code>C/C++</code></li><li>Specification: <code>OpenGL</code></li><li>API: <code>gl Version3.3</code></li><li>Profile: <code>Core</code></li></ul><p>点击下面的 <code>Generate</code> 进行下载，得到一个压缩包并解压，不需要编译，在项目中引用原文件即可。</p><h2 id=3-创建项目>3. 创建项目</h2><h3 id=31-使用-clion-创建项目>3.1 使用 clion 创建项目</h3><p>项目名为 <code>demo-cpp</code></p><h3 id=32-将刚才的-gladzip-解压之后导入项目中>3.2 将刚才的 glad.zip 解压之后导入项目中</h3><p><img src=/post/learnopengl/images/file-directory.jpg alt=项目目录></p><h3 id=33-修改-cmakeliststxt>3.3 修改 CMakeLists.txt</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>cmake_minimum_required<span style=color:#ff79c6>(</span>VERSION 3.25<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># demo_cpp 是项目名称</span>
+</span></span><span style=display:flex><span>project<span style=color:#ff79c6>(</span>demo_cpp<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>set<span style=color:#ff79c6>(</span>CMAKE_CXX_STANDARD 17<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 包含glad头文件</span>
+</span></span><span style=display:flex><span>include_directories<span style=color:#ff79c6>(</span>./glad/include<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 包含glfw头文件，可能版本不用路径会有所差异</span>
+</span></span><span style=display:flex><span>include_directories<span style=color:#ff79c6>(</span>/opt/homebrew/Cellar/glfw/3.3.8/include<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 链接glfw库，可能版本不用路径会有所差异</span>
+</span></span><span style=display:flex><span>link_directories<span style=color:#ff79c6>(</span>/opt/homebrew/Cellar/glfw/3.3.8/lib<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>add_executable<span style=color:#ff79c6>(</span>demo_cpp ./glad/src/glad.c main.cpp<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 目标链接库</span>
+</span></span><span style=display:flex><span>target_link_libraries<span style=color:#ff79c6>(</span>
+</span></span><span style=display:flex><span>        demo_cpp <span style=color:#6272a4># demo_cpp是项目名称</span>
+</span></span><span style=display:flex><span>        glfw
+</span></span><span style=display:flex><span><span style=color:#ff79c6>)</span>
+</span></span></code></pre></div><p>其中 <code>include_directories</code> 可以通过 <code>brew list glfw</code> 查看</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>➜  ~ brew list glfw
+</span></span><span style=display:flex><span>/opt/homebrew/Cellar/glfw/3.3.8/include/GLFW/ <span style=color:#ff79c6>(</span><span style=color:#bd93f9>2</span> files<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>/opt/homebrew/Cellar/glfw/3.3.8/lib/libglfw.3.3.dylib
+</span></span><span style=display:flex><span>/opt/homebrew/Cellar/glfw/3.3.8/lib/cmake/ <span style=color:#ff79c6>(</span><span style=color:#bd93f9>4</span> files<span style=color:#ff79c6>)</span>
+</span></span><span style=display:flex><span>/opt/homebrew/Cellar/glfw/3.3.8/lib/pkgconfig/glfw3.pc
+</span></span><span style=display:flex><span>/opt/homebrew/Cellar/glfw/3.3.8/lib/ <span style=color:#ff79c6>(</span><span style=color:#bd93f9>2</span> other files<span style=color:#ff79c6>)</span>
+</span></span></code></pre></div><h3 id=34-测试>3.4 测试</h3><p>粘贴下面代码或者访问 <a href=https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/2.1.hello_triangle/hello_triangle.cpp>GitHub LearnOpenGL hello_triangle</a> 粘贴对应代码</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c++ data-lang=c++><span style=display:flex><span><span style=color:#ff79c6>#include</span> <span style=color:#ff79c6>&lt;glad/glad.h&gt;</span><span style=color:#ff79c6>
+</span></span></span><span style=display:flex><span><span style=color:#ff79c6>#include</span> <span style=color:#ff79c6>&lt;GLFW/glfw3.h&gt;</span><span style=color:#ff79c6>
+</span></span></span><span style=display:flex><span><span style=color:#ff79c6></span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>#include</span> <span style=color:#ff79c6>&lt;iostream&gt;</span><span style=color:#ff79c6>
+</span></span></span><span style=display:flex><span><span style=color:#ff79c6></span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd>void</span> <span style=color:#50fa7b>framebuffer_size_callback</span>(GLFWwindow<span style=color:#ff79c6>*</span> window, <span style=color:#8be9fd>int</span> width, <span style=color:#8be9fd>int</span> height);
+</span></span><span style=display:flex><span><span style=color:#8be9fd>void</span> <span style=color:#50fa7b>processInput</span>(GLFWwindow <span style=color:#ff79c6>*</span>window);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// settings
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#ff79c6>const</span> <span style=color:#8be9fd>unsigned</span> <span style=color:#8be9fd>int</span> SCR_WIDTH <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>800</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> <span style=color:#8be9fd>unsigned</span> <span style=color:#8be9fd>int</span> SCR_HEIGHT <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>600</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> <span style=color:#8be9fd>char</span> <span style=color:#ff79c6>*</span>vertexShaderSource <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;#version 330 core</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                 <span style=color:#f1fa8c>&#34;layout (location = 0) in vec3 aPos;</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                 <span style=color:#f1fa8c>&#34;void main()</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                 <span style=color:#f1fa8c>&#34;{</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                 <span style=color:#f1fa8c>&#34;   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                 <span style=color:#f1fa8c>&#34;}</span><span style=color:#f1fa8c>\0</span><span style=color:#f1fa8c>&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#ff79c6>const</span> <span style=color:#8be9fd>char</span> <span style=color:#ff79c6>*</span>fragmentShaderSource <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;#version 330 core</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                   <span style=color:#f1fa8c>&#34;out vec4 FragColor;</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                   <span style=color:#f1fa8c>&#34;void main()</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                   <span style=color:#f1fa8c>&#34;{</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                   <span style=color:#f1fa8c>&#34;   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span>
+</span></span><span style=display:flex><span>                                   <span style=color:#f1fa8c>&#34;}</span><span style=color:#f1fa8c>\n\0</span><span style=color:#f1fa8c>&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd>int</span> <span style=color:#50fa7b>main</span>()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// glfw: initialize and configure
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// ------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    glfwInit();
+</span></span><span style=display:flex><span>    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, <span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span>    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, <span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span>    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>#ifdef __APPLE__
+</span></span></span><span style=display:flex><span><span style=color:#ff79c6></span>    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+</span></span><span style=display:flex><span><span style=color:#ff79c6>#endif
+</span></span></span><span style=display:flex><span><span style=color:#ff79c6></span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// glfw window creation
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// --------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    GLFWwindow<span style=color:#ff79c6>*</span> window <span style=color:#ff79c6>=</span> glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, <span style=color:#f1fa8c>&#34;LearnOpenGL&#34;</span>, <span style=color:#8be9fd;font-style:italic>NULL</span>, <span style=color:#8be9fd;font-style:italic>NULL</span>);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (window <span style=color:#ff79c6>==</span> <span style=color:#8be9fd;font-style:italic>NULL</span>)
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        std<span style=color:#ff79c6>::</span>cout <span style=color:#ff79c6>&lt;&lt;</span> <span style=color:#f1fa8c>&#34;Failed to create GLFW window&#34;</span> <span style=color:#ff79c6>&lt;&lt;</span> std<span style=color:#ff79c6>::</span>endl;
+</span></span><span style=display:flex><span>        glfwTerminate();
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    glfwMakeContextCurrent(window);
+</span></span><span style=display:flex><span>    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// glad: load all OpenGL function pointers
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// ---------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span>gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        std<span style=color:#ff79c6>::</span>cout <span style=color:#ff79c6>&lt;&lt;</span> <span style=color:#f1fa8c>&#34;Failed to initialize GLAD&#34;</span> <span style=color:#ff79c6>&lt;&lt;</span> std<span style=color:#ff79c6>::</span>endl;
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// build and compile our shader program
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// ------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// vertex shader
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#8be9fd>unsigned</span> <span style=color:#8be9fd>int</span> vertexShader <span style=color:#ff79c6>=</span> glCreateShader(GL_VERTEX_SHADER);
+</span></span><span style=display:flex><span>    glShaderSource(vertexShader, <span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>&amp;</span>vertexShaderSource, <span style=color:#8be9fd;font-style:italic>NULL</span>);
+</span></span><span style=display:flex><span>    glCompileShader(vertexShader);
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// check for shader compile errors
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#8be9fd>int</span> success;
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd>char</span> infoLog[<span style=color:#bd93f9>512</span>];
+</span></span><span style=display:flex><span>    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, <span style=color:#ff79c6>&amp;</span>success);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span>success)
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        glGetShaderInfoLog(vertexShader, <span style=color:#bd93f9>512</span>, <span style=color:#8be9fd;font-style:italic>NULL</span>, infoLog);
+</span></span><span style=display:flex><span>        std<span style=color:#ff79c6>::</span>cout <span style=color:#ff79c6>&lt;&lt;</span> <span style=color:#f1fa8c>&#34;ERROR::SHADER::VERTEX::COMPILATION_FAILED</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span> <span style=color:#ff79c6>&lt;&lt;</span> infoLog <span style=color:#ff79c6>&lt;&lt;</span> std<span style=color:#ff79c6>::</span>endl;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// fragment shader
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#8be9fd>unsigned</span> <span style=color:#8be9fd>int</span> fragmentShader <span style=color:#ff79c6>=</span> glCreateShader(GL_FRAGMENT_SHADER);
+</span></span><span style=display:flex><span>    glShaderSource(fragmentShader, <span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>&amp;</span>fragmentShaderSource, <span style=color:#8be9fd;font-style:italic>NULL</span>);
+</span></span><span style=display:flex><span>    glCompileShader(fragmentShader);
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// check for shader compile errors
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, <span style=color:#ff79c6>&amp;</span>success);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span>success)
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        glGetShaderInfoLog(fragmentShader, <span style=color:#bd93f9>512</span>, <span style=color:#8be9fd;font-style:italic>NULL</span>, infoLog);
+</span></span><span style=display:flex><span>        std<span style=color:#ff79c6>::</span>cout <span style=color:#ff79c6>&lt;&lt;</span> <span style=color:#f1fa8c>&#34;ERROR::SHADER::FRAGMENT::COMPILATION_FAILED</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span> <span style=color:#ff79c6>&lt;&lt;</span> infoLog <span style=color:#ff79c6>&lt;&lt;</span> std<span style=color:#ff79c6>::</span>endl;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// link shaders
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#8be9fd>unsigned</span> <span style=color:#8be9fd>int</span> shaderProgram <span style=color:#ff79c6>=</span> glCreateProgram();
+</span></span><span style=display:flex><span>    glAttachShader(shaderProgram, vertexShader);
+</span></span><span style=display:flex><span>    glAttachShader(shaderProgram, fragmentShader);
+</span></span><span style=display:flex><span>    glLinkProgram(shaderProgram);
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// check for linking errors
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    glGetProgramiv(shaderProgram, GL_LINK_STATUS, <span style=color:#ff79c6>&amp;</span>success);
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (<span style=color:#ff79c6>!</span>success) {
+</span></span><span style=display:flex><span>        glGetProgramInfoLog(shaderProgram, <span style=color:#bd93f9>512</span>, <span style=color:#8be9fd;font-style:italic>NULL</span>, infoLog);
+</span></span><span style=display:flex><span>        std<span style=color:#ff79c6>::</span>cout <span style=color:#ff79c6>&lt;&lt;</span> <span style=color:#f1fa8c>&#34;ERROR::SHADER::PROGRAM::LINKING_FAILED</span><span style=color:#f1fa8c>\n</span><span style=color:#f1fa8c>&#34;</span> <span style=color:#ff79c6>&lt;&lt;</span> infoLog <span style=color:#ff79c6>&lt;&lt;</span> std<span style=color:#ff79c6>::</span>endl;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    glDeleteShader(vertexShader);
+</span></span><span style=display:flex><span>    glDeleteShader(fragmentShader);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// set up vertex data (and buffer(s)) and configure vertex attributes
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// ------------------------------------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#8be9fd>float</span> vertices[] <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>-</span><span style=color:#bd93f9>0.5f</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>0.5f</span>, <span style=color:#bd93f9>0.0f</span>, <span style=color:#6272a4>// left
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>            <span style=color:#bd93f9>0.5f</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>0.5f</span>, <span style=color:#bd93f9>0.0f</span>, <span style=color:#6272a4>// right
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>            <span style=color:#bd93f9>0.0f</span>,  <span style=color:#bd93f9>0.5f</span>, <span style=color:#bd93f9>0.0f</span>  <span style=color:#6272a4>// top
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd>unsigned</span> <span style=color:#8be9fd>int</span> VBO, VAO;
+</span></span><span style=display:flex><span>    glGenVertexArrays(<span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>&amp;</span>VAO);
+</span></span><span style=display:flex><span>    glGenBuffers(<span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>&amp;</span>VBO);
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    glBindVertexArray(VAO);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+</span></span><span style=display:flex><span>    glBufferData(GL_ARRAY_BUFFER, <span style=color:#ff79c6>sizeof</span>(vertices), vertices, GL_STATIC_DRAW);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    glVertexAttribPointer(<span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>3</span>, GL_FLOAT, GL_FALSE, <span style=color:#bd93f9>3</span> <span style=color:#ff79c6>*</span> <span style=color:#ff79c6>sizeof</span>(<span style=color:#8be9fd>float</span>), (<span style=color:#8be9fd>void</span><span style=color:#ff79c6>*</span>)<span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span>    glEnableVertexAttribArray(<span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute&#39;s bound vertex buffer object so afterwards we can safely unbind
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    glBindBuffer(GL_ARRAY_BUFFER, <span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// You can unbind the VAO afterwards so other VAO calls won&#39;t accidentally modify this VAO, but this rarely happens. Modifying other
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// VAOs requires a call to glBindVertexArray anyways so we generally don&#39;t unbind VAOs (nor VBOs) when it&#39;s not directly necessary.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    glBindVertexArray(<span style=color:#bd93f9>0</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// uncomment this call to draw in wireframe polygons.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// render loop
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// -----------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#ff79c6>while</span> (<span style=color:#ff79c6>!</span>glfwWindowShouldClose(window))
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// input
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        <span style=color:#6272a4>// -----
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        processInput(window);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// render
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        <span style=color:#6272a4>// ------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        glClearColor(<span style=color:#bd93f9>0.2f</span>, <span style=color:#bd93f9>0.3f</span>, <span style=color:#bd93f9>0.3f</span>, <span style=color:#bd93f9>1.0f</span>);
+</span></span><span style=display:flex><span>        glClear(GL_COLOR_BUFFER_BIT);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// draw our first triangle
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        glUseProgram(shaderProgram);
+</span></span><span style=display:flex><span>        glBindVertexArray(VAO); <span style=color:#6272a4>// seeing as we only have a single VAO there&#39;s no need to bind it every time, but we&#39;ll do so to keep things a bit more organized
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        glDrawArrays(GL_TRIANGLES, <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>3</span>);
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// glBindVertexArray(0); // no need to unbind it every time
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4>// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        <span style=color:#6272a4>// -------------------------------------------------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>        glfwSwapBuffers(window);
+</span></span><span style=display:flex><span>        glfwPollEvents();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// optional: de-allocate all resources once they&#39;ve outlived their purpose:
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// ------------------------------------------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    glDeleteVertexArrays(<span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>&amp;</span>VAO);
+</span></span><span style=display:flex><span>    glDeleteBuffers(<span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>&amp;</span>VBO);
+</span></span><span style=display:flex><span>    glDeleteProgram(shaderProgram);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// glfw: terminate, clearing all previously allocated GLFW resources.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// ------------------------------------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    glfwTerminate();
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> <span style=color:#bd93f9>0</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// ---------------------------------------------------------------------------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#8be9fd>void</span> <span style=color:#50fa7b>processInput</span>(GLFWwindow <span style=color:#ff79c6>*</span>window)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (glfwGetKey(window, GLFW_KEY_ESCAPE) <span style=color:#ff79c6>==</span> GLFW_PRESS)
+</span></span><span style=display:flex><span>        glfwSetWindowShouldClose(window, <span style=color:#8be9fd;font-style:italic>true</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4>// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+</span></span></span><span style=display:flex><span><span style=color:#6272a4>// ---------------------------------------------------------------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span><span style=color:#8be9fd>void</span> <span style=color:#50fa7b>framebuffer_size_callback</span>(GLFWwindow<span style=color:#ff79c6>*</span> window, <span style=color:#8be9fd>int</span> width, <span style=color:#8be9fd>int</span> height)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#6272a4>// make sure the viewport matches the new window dimensions; note that width and
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    <span style=color:#6272a4>// height will be significantly larger than specified on retina displays.
+</span></span></span><span style=display:flex><span><span style=color:#6272a4></span>    glViewport(<span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0</span>, width, height);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>运行配置成功！ 🎉🎉🎉</p><p><img src=/post/learnopengl/images/demo.jpg alt=demo运行></p><hr><ul class=pager><li class=previous><a href=/post/speech/7/ data-toggle=tooltip data-placement=top title=早期创业者在法律方面容易踩的“坑”>&larr;
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/blog title=blog>blog</a>
+<a href=/tags/infrastructure title=infrastructure>infrastructure</a>
+<a href=/tags/qiankun title=qiankun>qiankun</a>
+<a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a>
+<a href=/tags/react title=react>react</a>
+<a href=/tags/ts title=ts>ts</a>
+<a href=/tags/%E5%88%86%E4%BA%AB%E4%BC%9A title=分享会>分享会</a>
+<a href=/tags/%E5%A5%87%E7%BB%A9%E5%88%9B%E5%9D%9B title=奇绩创坛>奇绩创坛</a>
+<a href=/tags/%E8%AF%91%E6%96%87 title=译文>译文</a></div></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a target=_blank href=https://github.com/chemistwang><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Chemputer Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Chemputer Blog 2023<br><a href=https://themes.gohugo.io/hugo-theme-cleanwhite>CleanWhite Hugo Theme</a> by <a href=https://zhaohuabing.com>Huabing</a> |
+<iframe style=margin-left:2px;margin-bottom:-5px frameborder=0 scrolling=0 width=100px height=20px src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true"></iframe></p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){t=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),n=$(this).text(),i=$('<a href="'+o+'" rel="nofollow">'+n+"</a>"),s=$('<li class="'+t+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
