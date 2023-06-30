@@ -44,11 +44,11 @@ macOS 开发环境
 
 ### 1.4 插件
 
-通过 `Edit` ➡️ `Preferences` ➡️ `Add-ons` 搜索安装`Node`：
-
-- Node Arrange
-- Node Presets
-- Node Wrangler
+- Node：通过 `Edit` ➡️ `Preferences` ➡️ `Add-ons` 搜索安装`Node`
+  - Node Arrange
+  - Node Presets
+  - Node Wrangler
+- [Screencast Keys 按键捕获](https://github.com/nutti/Screencast-Keys)
 
 ## 2. 实战小板凳
 
@@ -190,3 +190,17 @@ macOS 开发环境
 ### 3.8 渲染
 
 ![咖啡杯](/post/blender/images/coffee-step2.jpg)
+
+## 4. 知识点
+
+通道贴图
+
+- Diffuse/Albedo/Basecolor 漫反射
+- Reflection/Specular 反射
+- Metalness 金属度
+- Glossiness 光泽度
+- Roughness 粗糙度
+- Normal 法线
+- Displacement/Height 置换
+- Bump 凹凸
+- Ambient Occlusion 环境光遮蔽
