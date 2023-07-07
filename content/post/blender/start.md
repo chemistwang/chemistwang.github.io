@@ -6,7 +6,7 @@ date: 2023-06-27
 author: "汪洋龙"
 categories: [Tech]
 image: "img/coffee-bg.jpg"
-description: ""
+description: "一开始很想在ThreeJS中有一个属于自己的模型"
 tags:
   - "Blender"
 ---

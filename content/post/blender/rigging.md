@@ -6,7 +6,7 @@ date: 2023-06-28
 author: "汪洋龙"
 categories: [Tech]
 image: "img/coffee-bg.jpg"
-description: ""
+description: "有了它和动画帧，模型就可以动起来了"
 tags:
   - "Blender"
 ---
