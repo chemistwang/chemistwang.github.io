@@ -14,8 +14,7 @@ Wednesday, July 5, 2023</span></div></div></div></div></header><article><div cla
 col-md-10 col-md-offset-1
 post-container"><h2 id=1-是什么>1. 是什么</h2><p>3D 物体的 2D 展示</p><blockquote><p><code>XYZ</code> 已经用于三维空间的坐标轴，<code>UV</code> 则用来表示纹理贴图上的坐标轴</p></blockquote><h2 id=2-应用场景>2. 应用场景</h2><p>建模时不可避免的对物体进行各种形变和拉伸，贴图之后会很奇怪。这是用 <code>uvchecker</code> 贴图之后的效果，需要处理之后让棋盘格显示为正方形。</p><p><img src=/post/blender/images/uvchecker.jpg alt=uvchecker></p><h2 id=3-处理步骤>3. 处理步骤</h2><h3 id=31-进入-uv-编辑>3.1 进入 UV 编辑</h3><ul><li>上方的 <code>布局</code> 和 <code>UV编辑</code> 是相互独立的，所以在其中一个的设定在另一个并不生效</li><li>在 <code>物体模式</code> 中选中，进入 <code>编辑模式</code>，按 <code>A</code> 键全选，左侧就有相应的映射</li></ul><p><img src=/post/blender/images/uvedit.jpg alt=uvedit></p><h3 id=32-处理-uv>3.2 处理 UV</h3><ul><li>有多个面的 UV 可以通过 <code>UV</code> 的 <code>拼排孤岛</code> 分开</li><li>再通过 <code>选择</code> 的 <code>选择相连元素</code> 进行调整</li></ul><p><img src=/post/blender/images/uvlink.jpg alt=uvlink>
 <img src=/post/blender/images/uvisland.jpg alt=uvisland></p><h3 id=33-着色网络>3.3 着色网络</h3><ul><li>进入上方的 <code>着色</code> 面板，关注下方的 <code>着色编辑器</code>，即对应 <code>Texture</code> + <code>Shader</code> = <code>Material</code></li></ul><p><img src=/post/blender/images/shader.jpg alt=shader></p><ul><li>映射节点需要与 UV 交互</li></ul><hr><ul class=pager><li class=previous><a href=/post/blender/rigging/ data-toggle=tooltip data-placement=top title=Blender（二）骨骼绑定>&larr;
-Previous Post</a></li><li class=next><a href=/post/threejs/tj-basics/ data-toggle=tooltip data-placement=top title="ThreeJs Journey（一）Basics">Next
-Post &rarr;</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
+Previous Post</a></li></ul></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
 sidebar-container
 catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
@@ -27,8 +26,6 @@ sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>F
 <a href=/tags/qiankun title=qiankun>qiankun</a>
 <a href=/tags/raspberrypi title=raspberrypi>raspberrypi</a>
 <a href=/tags/react title=react>react</a>
-<a href=/tags/threejs title=threejs>threejs</a>
-<a href=/tags/threejs-journey title=threejs-journey>threejs-journey</a>
 <a href=/tags/ts title=ts>ts</a>
 <a href=/tags/%E5%88%86%E4%BA%AB%E4%BC%9A title=分享会>分享会</a>
 <a href=/tags/%E5%A5%87%E7%BB%A9%E5%88%9B%E5%9D%9B title=奇绩创坛>奇绩创坛</a>
