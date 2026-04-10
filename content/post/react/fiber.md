@@ -7,6 +7,8 @@ author: "汪洋龙"
 categories: [React]
 image: "img/react-bg.jpg"
 description: "面试官：请简单介绍下Fiber"
+tags:
+  - "react"
 ---
 
 [Fiber vs Stack Demo](https://claudiopro.github.io/react-fiber-vs-stack-demo/) 👈
@@ -15,12 +17,12 @@ description: "面试官：请简单介绍下Fiber"
 
 > 源码位置： `react/packages/react-reconciler/src/ReactFiber.old.js` 👈
 
-``` js
+```js
 function FiberNode(
   tag: WorkTag,
   pendingProps: mixed,
   key: null | string,
-  mode: TypeOfMode,
+  mode: TypeOfMode
 ) {
   // Instance
   this.tag = tag;
@@ -56,7 +58,6 @@ function FiberNode(
   this.alternate = null;
 }
 ```
-
 
 ## WorkTag
 

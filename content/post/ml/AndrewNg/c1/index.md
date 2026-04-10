@@ -1,18 +1,18 @@
 ---
 # layout: post
-title: "《Machine Learning》学习笔记"
+title: "《Machine Learning - Andrew Ng》学习笔记（一）"
 subtitle: ""
 date: 2023-03-23
 author: "汪洋龙"
 categories: [Tech]
 image: "img/ai.jpg"
-description: "By Andrew Ng “Donot worry about it”"
+description: "监督机器学习：回归和分类（Supervised Machine Learning: Regression and Classification）"
 mathjax: true
 tags:
   - ai
 ---
 
-# 机器学习
+# 监督机器学习：回归和分类
 
 > [BiliBili《2022 吴恩达机器学习》](https://www.bilibili.com/video/BV1Pa411X76s)
 
@@ -78,7 +78,7 @@ jupyter-lab
 
 拥有`$w$` 和 `$b$`两个参数的 `$J$` 函数是一个三维的碗状图
 
-![可视化代价函数](/post/ml/AndrewNg/images/3d-plot.jpg)
+![可视化代价函数](/post/ml/AndrewNg/images/c1-3d-plot.jpg)
 
 ## 3. 梯度下降（Gradient Descent）
 
@@ -102,7 +102,7 @@ jupyter-lab
 
 斜率为正数时，`$w$` 减小向左移；斜率为负数时，`$w$` 增加向右移。
 
-![理解梯度下降](/post/ml/AndrewNg/images/gd.jpg)
+![理解梯度下降](/post/ml/AndrewNg/images/c1-gd.jpg)
 
 ### 3.3 学习率
 
@@ -168,7 +168,7 @@ f = np.dot(w,x) + b
 
 目的提高效率。
 
-![特征缩放](/post/ml/AndrewNg/images/feature-scale.jpg)
+![特征缩放](/post/ml/AndrewNg/images/c1-feature-scale.jpg)
 
 用图更直观的表示：当存在不同特征值时，取值范围不同，会导致梯度下降缓慢。但重新缩放不同特征，让它们处在可比较的范围内，速度和梯度的更新会显著提升。
 
@@ -185,7 +185,7 @@ f = np.dot(w,x) + b
 
 过小的学习率会让迭代成本增加；过大则可能会导致发散。`Andrew Ng` 的习惯是用 `3x` 的策略去寻找并绘制合适的学习曲线。
 
-![选择合适的学习率](/post/ml/AndrewNg/images/choose-alpha.jpg)
+![选择合适的学习率](/post/ml/AndrewNg/images/c1-choose-alpha.jpg)
 
 ### 4.7 特征工程（Feature engineering）
 
@@ -205,7 +205,7 @@ f = np.dot(w,x) + b
 
 ### 5.1 模型定义
 
-![逻辑回归](/post/ml/AndrewNg/images/lr.jpg)
+![逻辑回归](/post/ml/AndrewNg/images/c1-lr.jpg)
 
 ### 5.2 决策边界
 
@@ -214,31 +214,31 @@ f = np.dot(w,x) + b
 
 ### 5.3 逻辑回归中的代价函数
 
-![逻辑回归中的代价函数](/post/ml/AndrewNg/images/lr-costfn1.jpg)
+![逻辑回归中的代价函数](/post/ml/AndrewNg/images/c1-lr-costfn1.jpg)
 
 如果用线形回归的代价函数，套用到逻辑回归的代价函数中，会得到一个非凸函数，这样不适用于梯度下降。
 
-![逻辑回归中的代价函数](/post/ml/AndrewNg/images/lr-costfn2.jpg)
+![逻辑回归中的代价函数](/post/ml/AndrewNg/images/c1-lr-costfn2.jpg)
 
 ### 5.4 简化逻辑回归代价函数
 
-![简化逻辑回归代价函数](/post/ml/AndrewNg/images/lr-costfn3.jpg)
+![简化逻辑回归代价函数](/post/ml/AndrewNg/images/c1-lr-costfn3.jpg)
 
 ### 5.5 实现梯度下降
 
-![实现梯度下降](/post/ml/AndrewNg/images/lr-gd1.jpg)
+![实现梯度下降](/post/ml/AndrewNg/images/c1-lr-gd1.jpg)
 
-![实现梯度下降](/post/ml/AndrewNg/images/lr-gd2.jpg)
+![实现梯度下降](/post/ml/AndrewNg/images/c1-lr-gd2.jpg)
 
 ## 6. 过拟合问题
 
 线形回归过拟合
 
-![过拟合问题](/post/ml/AndrewNg/images/overfit1.jpg)
+![过拟合问题](/post/ml/AndrewNg/images/c1-overfit1.jpg)
 
 分类过拟合
 
-![过拟合问题](/post/ml/AndrewNg/images/overfit2.jpg)
+![过拟合问题](/post/ml/AndrewNg/images/c1-overfit2.jpg)
 
 **过于贴合训练集的数据，导致不能很好的泛化。**
 
@@ -250,6 +250,14 @@ f = np.dot(w,x) + b
 
 ### 6.2 正则化
 
+![正则化](/post/ml/AndrewNg/images/c1-reg.jpg)
+
 ### 6.3 用于线性回归的正则化
+
+![线性回归正则化](/post/ml/AndrewNg/images/c1-reg-lr1.jpg)
+
+![线性回归正则化](/post/ml/AndrewNg/images/c1-reg-lr2.jpg)
+
+在计算梯度下降时，会发现实际上在每次迭代中，将参数缩小一点点 🤏
 
 ### 6.4 用于逻辑回归的正则化

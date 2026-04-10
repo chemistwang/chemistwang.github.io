@@ -6,6 +6,8 @@ date: 2022-08-04
 author: "汪洋龙"
 categories: [React]
 image: "img/react-bg.jpg"
+tags:
+  - "react"
 ---
 
 > 1. 对于源码的阅读一开始一定要不求甚解
@@ -29,14 +31,13 @@ image: "img/react-bg.jpg"
 
 既然是重大更新，对于源码的学习自然绕不开。后续会对 `Fiber`、`Hooks`、`Concurrent` 模式都会有介绍。
 
-
 ## 整体架构
 
 `React16` 之后的架构分为下面 `3` 层。
 
 - Scheduler （调度器）
 - Reconciler （协调器）
-- Renderer  （渲染器）
+- Renderer （渲染器）
 
 `Reconciler` 上承 `Scheduler`，下接 `Renderer`，并且包含灵魂核心的 `Fiber`，所以需要优先介绍。
 
@@ -50,5 +51,3 @@ image: "img/react-bg.jpg"
 - Reconciler
 - Renderer
 - Scheduler
-
-

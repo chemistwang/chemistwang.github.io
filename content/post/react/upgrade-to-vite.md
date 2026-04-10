@@ -6,6 +6,8 @@ date: 2022-08-23
 author: "汪洋龙"
 categories: [React]
 image: "img/react-bg.jpg"
+tags:
+  - "react"
 ---
 
 截止当前，`46.6k` 的 🌟 直逼 `webpack`。
@@ -17,7 +19,7 @@ image: "img/react-bg.jpg"
 
 我用的是新版本的 `Vite3`，同时使用 `Vite3` 需要 `Node.js` 版本 `14.18+`，`16+`。官方说明： [搭建第一个 Vite 项目](https://cn.vitejs.dev/guide/#scaffolding-your-first-vite-project) 👈
 
-## 设置node版本
+## 设置 node 版本
 
 ```bash
 nvm alias default v14.18
@@ -27,7 +29,7 @@ nvm alias default v14.18
 
 ```bash
 npm i vite -D
-npm i @vitejs/plugin-react -D  
+npm i @vitejs/plugin-react -D
 ```
 
 ```json
@@ -55,43 +57,43 @@ npm i @vitejs/plugin-react -D
 ...
 ```
 
-## 根目录下创建 vite.config.js 
+## 根目录下创建 vite.config.js
 
 ```js
 import { defineConfig } from "vite";
-import react from '@vitejs/plugin-react'
-const { resolve } = require('path') //必须要引入resolve 
+import react from "@vitejs/plugin-react";
+const { resolve } = require("path"); //必须要引入resolve
 
 export default ({ mode }) => {
-    return defineConfig({
-        plugins: [react()],
-        define: {
-            "process.env.NODE_ENV": `"${mode}"`
+  return defineConfig({
+    plugins: [react()],
+    define: {
+      "process.env.NODE_ENV": `"${mode}"`,
+    },
+    resolve: {
+      alias: {
+        "@api": resolve(__dirname, "/src/api"),
+        "@assets": resolve(__dirname, "/src/assets"),
+        "@hooks": resolve(__dirname, "/src/hooks"),
+        "@common": resolve(__dirname, "/src/common"),
+        "@store": resolve(__dirname, "/src/store"),
+        "@utils": resolve(__dirname, "/src/utils"),
+      },
+    },
+    server: {
+      port: 6666,
+      strictPort: true,
+      open: true,
+      proxy: {
+        "/api": {
+          target: "http://192.168.0.224:7777",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/\/api/, ""),
         },
-        resolve: {
-            alias: {
-                "@api": resolve(__dirname, "/src/api"),
-                "@assets": resolve(__dirname, "/src/assets"),
-                "@hooks": resolve(__dirname, "/src/hooks"),
-                "@common": resolve(__dirname, "/src/common"),
-                "@store": resolve(__dirname, "/src/store"),
-                "@utils": resolve(__dirname, "/src/utils")
-            }
-        },
-        server: {
-            port: 6666,
-            strictPort: true,
-            open: true,
-            proxy: {
-                '/api': {
-                    target: 'http://192.168.0.224:7777',
-                    changeOrigin: true,
-                    rewrite: (path) => path.replace(/\/api/, '')
-                }
-            }
-        },
-    })
-}
+      },
+    },
+  });
+};
 ```
 
 [vite 配置项](https://cn.vitejs.dev/config/) 👈
